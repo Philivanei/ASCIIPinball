@@ -1,3 +1,5 @@
+package asciipinball;
+
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
@@ -16,24 +18,30 @@ import java.util.concurrent.LinkedBlockingQueue;
  * <br>
  *
  * @author Andreas Berl
- * @version 3.03 (26.03.2019) // Windowsize
+ * @version 3.05 (10.04.2019) // Splashscreen fixed
  */
 public class GameView {
 
+    /**
+     * Kleine Festergr��e
+     */
+    public static final int WINDOWSIZE_SMALL = 0;
+    /**
+     * Normale Festergr��e (Standard)
+     */
+    public static final int WINDOWSIZE_NORMAL = 1;
+    /**
+     * Gro�e Festergr��e
+     */
+    public static final int WINDOWSIZE_LARGE = 2;
+    /**
+     * Fester maximiert
+     */
+    public static final int WINDOWSIZE_MAXIMIZED = 3;
     final static String STANDARDTITEL = "GameView III";
     private final static String STATUSRECHTS = "GameView III (2019) - Prof. Dr. Andreas Berl - TH Deggendorf ";
     private final static String SPLASH = "\n       ASCII-\n\n" + " GameView III (2019) \n";
     private final static char STANDARDNONTRANSPARENTSPACE = ';';
-
-    /** Kleine Festergr��e */
-    public static final int WINDOWSIZE_SMALL = 0;
-    /** Normale Festergr��e (Standard) */
-    public static final int WINDOWSIZE_NORMAL = 1;
-    /** Gro�e Festergr��e */
-    public static final int WINDOWSIZE_LARGE = 2;
-    /** Fester maximiert */
-    public static final int WINDOWSIZE_MAXIMIZED = 3;
-
     private static GameView gameView;
 
     private LinkedBlockingQueue<KeyEvent> keyboardEvents;
@@ -219,6 +227,7 @@ public class GameView {
      * k�nnen Aufl�sungen ausgew�hlt werden, z.B.:
      * <code>Resolution.R04_064_x_036</code> erzeugt ein Fenster mit 36 Zeilen und
      * 64 Spalten.
+     *
      * @param lines Die gew�hlte Aufl�sung (Zeilen von mindestens 9 bis h�chstens 135).
      * @param rows  Die gew�hlte Aufl�sung (Spalten von mindestens 16 bis h�chstens 240).
      */
@@ -316,7 +325,7 @@ public class GameView {
         frame.setCursor(createCursor(im));
     }
 
-    private Cursor createCursor(Image im){
+    private Cursor createCursor(Image im) {
         Toolkit toolkit = frame.getToolkit();
         Point cursorHotSpot = new Point(15, 15);
         Cursor imageCursor = toolkit.createCustomCursor(im, cursorHotSpot, "Cross");
@@ -715,7 +724,7 @@ public class GameView {
             Thread.sleep(1200);
         } catch (InterruptedException e) {
         }
-        changeResolution(zeilen, spalten);
+        changeResolution(lines, rows);
         isSplashFinished = true;
     }
 
@@ -727,7 +736,7 @@ public class GameView {
     }
 
     private void setResolution(int lines, int rows) {
-        if (lines < 9 || lines > 135 || rows < 16 || rows >240) {
+        if (lines < 9 || lines > 135 || rows < 16 || rows > 240) {
             System.err.println("Fenster hat falsche Gr��e: Zeilen von 9 bis 135, Spalten von 16 bis 240");
             System.exit(1);
         }
