@@ -1,3 +1,5 @@
+package asciipinball;
+
 import asciipinball.GameTable;
 
 public class Program {
