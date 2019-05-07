@@ -71,9 +71,9 @@ public class Ball {
     }
 
 
-    public void drawToCanvas(GameView gameView,int gameTableHight){
+    public void drawToCanvas(GameView gameView,int offset,int gameTableHight){
 
-        gameView.addToCanvas("O", gameTableHight - Math.round(positionY) - 1, Math.round(positionX));
+        gameView.addToCanvas("O", gameTableHight - Math.round(positionY) - 1, Math.round(positionX) + offset);
 
     }
 

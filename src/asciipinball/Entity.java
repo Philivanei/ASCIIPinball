@@ -5,6 +5,6 @@ public abstract class Entity {
     protected int positionY;
 
     public abstract void interactWithBall(Ball ball);
-    public abstract void drawToCanvas(GameView gameView, int gameTableHight);
+    public abstract void drawToCanvas(GameView gameView, int offset , int gameTableHight);
 
 }

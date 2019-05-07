@@ -20,7 +20,7 @@ public class Bumper extends VelocityManipulatingEntity {
     }
 
     @Override
-    public void drawToCanvas(GameView gameView, int gameTableHight) {
+    public void drawToCanvas(GameView gameView, int offset,int gameTableHight) {
         gameView.addToCanvas(asciiString, gameTableHight - (positionY + radius) - 1, (positionX - radius));
     }
 
