@@ -132,8 +132,6 @@ public class Ball {
      */
     public void calculateFuture(float gravitationPerTick){
 
-        //TODO VORSICHT ES IST WAHRSCHEINLICH NÖTIG ALLES AUF DAS NEUE KOORDINATEN SYSTEM ANZUPASSEN!
-
         float xSpeed = getXSpeed();
         float ySpeed = getYSpeed();
         System.out.println("XSpeed: " + xSpeed + " YSpeed: " + ySpeed);
