@@ -1,4 +1,4 @@
-package asciipinball;
+package indianajones;
 
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
@@ -7,31 +7,39 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.font.TextAttribute;
+import java.awt.geom.Rectangle2D;
 import java.io.File;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Timer;
-import java.util.*;
+import java.util.TimerTask;
 import java.util.concurrent.LinkedBlockingQueue;
 
 /**
  * Ein Fenster, dass die Anzeige von ASCI-Spielen erlaubt, Ton ausgibt und
- * Tastendrï¿½cke und MausKlicks als Events zurï¿½ckliefert.<br>
+ * Tastendrücke und MausKlicks als Events zurückliefert.<br>
  * <br>
  *
  * @author Andreas Berl
- * @version 3.05 (10.04.2019) // Splashscreen fixed
+ * @version 3.08 (02.05.2019)
+ *
+ * Updates:
+ * fillCanvas(char c)
+ * Textbox skaliert mit Windows
+ *
  */
 public class GameView {
 
     /**
-     * Kleine Festergrï¿½ï¿½e
+     * Kleine Festergröße
      */
     public static final int WINDOWSIZE_SMALL = 0;
     /**
-     * Normale Festergrï¿½ï¿½e (Standard)
+     * Normale Festergröße (Standard)
      */
     public static final int WINDOWSIZE_NORMAL = 1;
     /**
-     * Groï¿½e Festergrï¿½ï¿½e
+     * Große Festergröße
      */
     public static final int WINDOWSIZE_LARGE = 2;
     /**
@@ -73,12 +81,12 @@ public class GameView {
     /**
      * Erzeugt ein Fenster zur Anzeige von ASCII-Spielen, mit Sound, Tastatur- und
      * Maus-Eingaben. Es wird ein Fenster mit <code>lines</code> Zeilen und <code>rows</code> Spalten erzeugt. Bitte initialisieren Sie
-     * das Fenster mit der Auflï¿½sung, die am hï¿½ufigsten benï¿½tigt wird, da die Form des Fensters davon abhï¿½ngt. Sie kï¿½nnen
-     * die Auflï¿½sung spï¿½ter mit der Methode <code>changeResolution(int lines, int rows)</code> ï¿½ndern.
+     * das Fenster mit der Auflösung, die am häufigsten benötigt wird, da die Form des Fensters davon abhängt. Sie können
+     * die Auflösung später mit der Methode <code>changeResolution(int lines, int rows)</code> ändern.
      *
-     * @param lines Die gewï¿½hlte Auflï¿½sung (Zeilen von mindestens 9 bis hï¿½chstens 135).
-     * @param rows  Die gewï¿½hlte Auflï¿½sung (Spalten von mindestens 16 bis hï¿½chstens 240).
-     * @param title Der Titel fï¿½r die Titelzeile des Fensters.
+     * @param lines Die gewählte Auflösung (Zeilen von mindestens 9 bis höchstens 135).
+     * @param rows  Die gewählte Auflösung (Spalten von mindestens 16 bis höchstens 240).
+     * @param title Der Titel für die Titelzeile des Fensters.
      */
     public GameView(int lines, int rows, String title) {
         // Check parameters
@@ -127,8 +135,8 @@ public class GameView {
     }
 
     /**
-     * Wandelt einen String in ein rechteckiges char[][] um. Lï¿½cken werden mit
-     * Leerzeichen aufgefï¿½llt.
+     * Wandelt einen String in ein rechteckiges char[][] um. Lücken werden mit
+     * Leerzeichen aufgefüllt.
      *
      * @param string Der String der umgewandelt werden soll.
      * @return Der umgewandelte String als Rechteck.
@@ -159,7 +167,7 @@ public class GameView {
     }
 
     /**
-     * Legt ein Symbol fï¿½r die Titelleiste fest. Das Symbolfile* muss in einem
+     * Legt ein Symbol für die Titelleiste fest. Das Symbolfile* muss in einem
      * Verzeichnis"src/resources" liegen.Bitte den* Namen des Files ohne
      * Verzeichnisnamen angeben, z.B.*"Symbol.png". Diese Methode muss aufgerufen
      * werden, bevor das Fenster sichtbar gemacht wird.
@@ -192,11 +200,11 @@ public class GameView {
     }
 
     /**
-     * Die Grï¿½ï¿½e des Fensters kann festgelegt werden. Es gibt WINDOWSIZE_SMALL, WINDOWSIZE_NORMAL, WINDOWSIZE_LARGE und
+     * Die Größe des Fensters kann festgelegt werden. Es gibt WINDOWSIZE_SMALL, WINDOWSIZE_NORMAL, WINDOWSIZE_LARGE und
      * WINDOWSIZE_MAXIMIZED. Diese Methode muss aufgerufen werden, bevor das Fenster
      * sichtbar gemacht wird.
      *
-     * @param windowSize Grï¿½ï¿½e des Fensters.
+     * @param windowSize Größe des Fensters.
      */
     public void setWindowsSize(int windowSize) {
         checkConfigurationMethods("setWindowsSize()");
@@ -223,13 +231,13 @@ public class GameView {
     }
 
     /**
-     * ï¿½ndert die Auflï¿½sung im Fenster. Die Fenstergrï¿½ï¿½e wird dabei beibehalten. Es
-     * kï¿½nnen Auflï¿½sungen ausgewï¿½hlt werden, z.B.:
+     * Ändert die Auflösung im Fenster. Die Fenstergröße wird dabei beibehalten. Es
+     * können Auflösungen ausgewählt werden, z.B.:
      * <code>Resolution.R04_064_x_036</code> erzeugt ein Fenster mit 36 Zeilen und
      * 64 Spalten.
      *
-     * @param lines Die gewï¿½hlte Auflï¿½sung (Zeilen von mindestens 9 bis hï¿½chstens 135).
-     * @param rows  Die gewï¿½hlte Auflï¿½sung (Spalten von mindestens 16 bis hï¿½chstens 240).
+     * @param lines Die gewählte Auflösung (Zeilen von mindestens 9 bis höchstens 135).
+     * @param rows  Die gewählte Auflösung (Spalten von mindestens 16 bis höchstens 240).
      */
     public void changeResolution(int lines, int rows) {
         setResolution(lines, rows);
@@ -238,7 +246,7 @@ public class GameView {
     }
 
     /**
-     * Gibt die aktuelle Zeilenanzahl zurï¿½ck;
+     * Gibt die aktuelle Zeilenanzahl zurück;
      *
      * @return Aktuelle Zeilenanzahl
      */
@@ -247,7 +255,7 @@ public class GameView {
     }
 
     /**
-     * Gibt die aktuelle Spaltenanzahl zurï¿½ck;
+     * Gibt die aktuelle Spaltenanzahl zurück;
      *
      * @return Aktuelle Spaltenanzahl
      */
@@ -257,9 +265,9 @@ public class GameView {
 
     /**
      * Legt fest, ob die Maus im Fenster benutzt werden soll. Falls sie nicht
-     * benutzt wird, wird der Cursor der Maus auf den Default-Ansicht zurï¿½ckgesetzt
+     * benutzt wird, wird der Cursor der Maus auf den Default-Ansicht zurückgesetzt
      * und die Maus wird ausgeblendet. Falls sie benutzt wird, werden Maus-Events
-     * erzeugt, die verwendet werden kï¿½nnen. Die Standardeinstellung ist
+     * erzeugt, die verwendet werden können. Die Standardeinstellung ist
      * <code>false</code>.
      *
      * @param useMouse Legt fest, ob die Maus im Fenster benutzt werden soll.
@@ -296,7 +304,7 @@ public class GameView {
     }
 
     /**
-     * Legt ein neues Symbol fï¿½r den Maus-Cursor fest. Das Bildfile muss in einem
+     * Legt ein neues Symbol für den Maus-Cursor fest. Das Bildfile muss in einem
      * Verzeichnis "src/resources" liegen. Bitte den Namen des Files ohne
      * Verzeichnisnamen angeben, z.B. "Cursor.png".
      *
@@ -333,15 +341,15 @@ public class GameView {
     }
 
     /**
-     * Der Maus-Cursor wird auf das Standard-Icon zurï¿½ckgesetzt.
+     * Der Maus-Cursor wird auf das Standard-Icon zurückgesetzt.
      */
     public void setStandardMouseCursor() {
         frame.setCursor(Cursor.getDefaultCursor());
     }
 
     /**
-     * Gibt den ï¿½bergebenen <code>String</code> im Fenster aus. Diese Methode sollte
-     * hï¿½chstens alle 16 ms aufgerufen werden (60 Frames pro Sekunde).
+     * Gibt den übergebenen <code>String</code> im Fenster aus. Diese Methode sollte
+     * höchstens alle 16 ms aufgerufen werden (60 Frames pro Sekunde).
      *
      * @param string Der anzuzeigende String.
      */
@@ -351,8 +359,8 @@ public class GameView {
     }
 
     /**
-     * Das ï¿½bergebene <code>char[][]</code> (mit Zeilen, Spalten) wird im Fenster
-     * ausgegeben. Diese Methode sollte hï¿½chstens alle 16 ms aufgerufen werden (60
+     * Das übergebene <code>char[][]</code> (mit Zeilen, Spalten) wird im Fenster
+     * ausgegeben. Diese Methode sollte höchstens alle 16 ms aufgerufen werden (60
      * Frames pro Sekunde).
      *
      * @param chars Das anzuzeigende <code>char[][]</code>.
@@ -364,7 +372,7 @@ public class GameView {
     }
 
     /**
-     * Lï¿½scht alle Inhalte auf dem Canvas.
+     * Löscht alle Inhalte auf dem Canvas.
      */
     public void clearCanvas() {
         for (int i = 0; i < zeilen; i++) {
@@ -375,10 +383,10 @@ public class GameView {
     }
 
     /**
-     * Schreibt den ï¿½bergebenen <code>String</code> zentriert auf das Canvas, ohne
-     * die bisherigen Inhalte zu lï¿½schen. Achtung: In dieser Methode ist das
+     * Schreibt den übergebenen <code>String</code> zentriert auf das Canvas, ohne
+     * die bisherigen Inhalte zu löschen. Achtung: In dieser Methode ist das
      * Leerzeichen durchsichtig (der Hintergrund ist zu sehen). Falls ein
-     * undurchsichtiges Leerzeichen benï¿½tigt wird, bitte statt dessen das Semikolon
+     * undurchsichtiges Leerzeichen benötigt wird, bitte statt dessen das Semikolon
      * ";" verwenden. Das undurchsichtige Leerzeichen kann mit der Methode
      * <code>setNonTransparentSpace(char c)</code> auf ein anderes Zeichen gesetzt
      * werden.
@@ -391,10 +399,10 @@ public class GameView {
     }
 
     /**
-     * Schreibt das ï¿½bergebene <code>char[][]</code> (mit Zeilen, Spalten) zentriert
-     * auf das Canvas, ohne die bisherigen Inhalte zu lï¿½schen. Achtung: In dieser
+     * Schreibt das übergebene <code>char[][]</code> (mit Zeilen, Spalten) zentriert
+     * auf das Canvas, ohne die bisherigen Inhalte zu löschen. Achtung: In dieser
      * Methode ist das Leerzeichen durchsichtig (der Hintergrund ist zu sehen).
-     * Falls ein undurchsichtiges Leerzeichen benï¿½tigt wird, bitte statt dessen das
+     * Falls ein undurchsichtiges Leerzeichen benötigt wird, bitte statt dessen das
      * Semikolon ";" verwenden. Das undurchsichtige Leerzeichen kann mit der Methode
      * <code>setNonTransparentSpace(char c)</code> auf ein anderes Zeichen gesetzt
      * werden.
@@ -406,12 +414,12 @@ public class GameView {
     }
 
     /**
-     * Schreibt den ï¿½bergebenen <code>String</code> auf das Canvas, ohne die
-     * bisherigen Inhalte zu lï¿½schen. Zusï¿½tzlich werden Koordinaten ausgewertet: (0,
-     * 0) ist oben links. Negative Koordinaten kï¿½nnen verwendet werden um Objekte
+     * Schreibt den übergebenen <code>String</code> auf das Canvas, ohne die
+     * bisherigen Inhalte zu löschen. Zusätzlich werden Koordinaten ausgewertet: (0,
+     * 0) ist oben links. Negative Koordinaten können verwendet werden um Objekte
      * teilweise anzuzeigen. Achtung: In dieser Methode ist das Leerzeichen
      * durchsichtig (der Hintergrund ist zu sehen). Falls ein undurchsichtiges
-     * Leerzeichen benï¿½tigt wird, bitte statt dessen das Semikolon ";" verwenden.
+     * Leerzeichen benötigt wird, bitte statt dessen das Semikolon ";" verwenden.
      * Das undurchsichtige Leerzeichen kann mit der Methode
      * <code>setNonTransparentSpace(char c)</code> auf ein anderes Zeichen gesetzt
      * werden.
@@ -428,12 +436,12 @@ public class GameView {
     }
 
     /**
-     * Schreibt das ï¿½bergebene <code>char[][]</code> (mit Zeilen, Spalten) auf das
-     * Canvas, ohne die bisherigen Inhalte zu lï¿½schen. Zusï¿½tzlich werden Koordinaten
-     * ausgewertet: (0, 0) ist oben links. Negative Koordinaten kï¿½nnen verwendet
+     * Schreibt das übergebene <code>char[][]</code> (mit Zeilen, Spalten) auf das
+     * Canvas, ohne die bisherigen Inhalte zu löschen. Zusätzlich werden Koordinaten
+     * ausgewertet: (0, 0) ist oben links. Negative Koordinaten können verwendet
      * werden um Objekte teilweise anzuzeigen. Achtung: In dieser Methode ist das
      * Leerzeichen durchsichtig (der Hintergrund ist zu sehen). Falls ein
-     * undurchsichtiges Leerzeichen benï¿½tigt wird, bitte statt dessen das Semikolon
+     * undurchsichtiges Leerzeichen benötigt wird, bitte statt dessen das Semikolon
      * ";" verwenden. Das undurchsichtige Leerzeichen kann mit der Methode
      * <code>setNonTransparentSpace(char c)</code> auf ein anderes Zeichen gesetzt
      * werden.
@@ -446,7 +454,7 @@ public class GameView {
     public void addToCanvas(char[][] chars, int row, int column) {
         for (int i = 0; i < zeilen; i++) {
             for (int j = 0; j < spalten; j++) {
-                if (i >= row && j >= column // nur schreiben, wenn Koorinaten erfï¿½llt sind.
+                if (i >= row && j >= column // nur schreiben, wenn Koorinaten erfüllt sind.
                         && i - row < chars.length && j - column < chars[i - row].length // nur wenn char vorhanden
                         && chars[i - row][j - column] != ' ') { // transparent
                     if (chars[i - row][j - column] == nonTransparentSpace) {
@@ -460,8 +468,21 @@ public class GameView {
     }
 
     /**
+     * Füllt alle Stellen des Canvas mit dem gegebenen Zeichen. Vorhandene Inhalte werden überschrieben.
+     *
+     * @param c Zeichen, das auf den Canvas geschrieben werden soll.
+     */
+    public void fillCanvas(char c) {
+        for (int i = 0; i < zeilen; i++) {
+            for (int j = 0; j < spalten; j++) {
+                canvas[i][j] = c;
+            }
+        }
+    }
+
+    /**
      * Zeigt den aktuellen Inhalt des Canvas im Fenster an. Diese Methode sollte
-     * hï¿½chstens alle 16 ms aufgerufen werden (60 Frames pro Sekunde).
+     * höchstens alle 16 ms aufgerufen werden (60 Frames pro Sekunde).
      */
     public void printCanvas() {
         countPrints++;
@@ -492,7 +513,7 @@ public class GameView {
     }
 
     /**
-     * Gibt den aktuellen Inhalt des Canvas zurï¿½ck.
+     * Gibt den aktuellen Inhalt des Canvas zurück.
      *
      * @return Aktueller Canvas.
      */
@@ -504,9 +525,9 @@ public class GameView {
      * Das undurchsichtige Leerzeichen kann mit dieser Methode auf ein anderes
      * Zeichen gesetzt werden. In den Methoden <code>addToCanvas(...)</code> ist das
      * normale Leerzeichen durchsichtig (der Hintergrund ist zu sehen). Falls ein
-     * undurchsichtiges Leerzeichen benï¿½tigt wird, kann statt dessen das Semikolon
-     * ";" verwendet werden. Diese Methode erlaubt es, die Voreinstellung zu ï¿½ndern
-     * und ein anderes Zeichen zu wï¿½hlen.
+     * undurchsichtiges Leerzeichen benötigt wird, kann statt dessen das Semikolon
+     * ";" verwendet werden. Diese Methode erlaubt es, die Voreinstellung zu ändern
+     * und ein anderes Zeichen zu wählen.
      *
      * @param c Das neue undurchsichtige Leerzeichen.
      */
@@ -515,28 +536,26 @@ public class GameView {
     }
 
     /**
-     * Liefert alle Tastendrï¿½cke die seit dem letzten Aufruf dieser Methode
-     * aufgelaufen sind als Liste zurï¿½ck. Es werden maximal die neuesten 25
-     * Ereignisse zurï¿½ckgegeben, alte Ereignisse werden gelï¿½scht.
+     * Liefert alle Tastendrücke die seit dem letzten Aufruf dieser Methode
+     * aufgelaufen sind als Array zurück. Es werden maximal die neuesten 25
+     * Ereignisse zurückgegeben, alte Ereignisse werden gelöscht.
      * <p>
-     * Die Liste enthï¿½lt Ereignisse vom Typ <code>java.awt.event.KeyEvent;</code>.
-     * Der Typ des Events ist entweder <code>KeyEvent.KEY_PRESSED</code> (fï¿½r nicht
-     * sichtbare Zeichen), <code>KeyEvent.KEY_RELEASED</code> (fï¿½r nicht sichtbare
-     * Zeichen) oder <code>KeyEvent.KEY_TYPED</code>(fï¿½r sichtbare Zeichen).
+     * Das Array enthält Ereignisse vom Typ <code>java.awt.event.KeyEvent;</code>.
+     * Der Typ des Events ist entweder <code>KeyEvent.KEY_PRESSED</code> (für nicht
+     * sichtbare Zeichen), <code>KeyEvent.KEY_RELEASED</code> (für nicht sichtbare
+     * Zeichen) oder <code>KeyEvent.KEY_TYPED</code>(für sichtbare Zeichen).
      * Sichtbare Zeichen lassen sich mit der Methode <code>getKeyChar()</code>
      * auswerten.
      *
      * <pre>
      * <code>
-     * if (keyEvent != null) {
      *   if (keyEvent.getID() == KeyEvent.KEY_PRESSED) {
      *     if (keyEvent.getKeyCode() == KeyEvent.VK_ENTER) {
      *       System.out.println("Eingabetaste");
      *     }
      *   } else if (keyEvent.getID() == KeyEvent.KEY_TYPED) {
      * 		 System.out.println(keyEvent.getKeyChar());
-     *     }
-     * }
+     *   }
      * </code>
      * </pre>
      *
@@ -545,24 +564,24 @@ public class GameView {
      * @return Alle <code>KeyEvent</code> Ereignisse seit dem letzten Aufruf dieser
      * Methode.
      */
-    public LinkedList<KeyEvent> getKeyEvents() {
-        int size = keyboardEvents.size();
-        LinkedList<KeyEvent> keyEvents = new LinkedList<>();
-        for (int i = 0; i < size; i++) {
-            keyEvents.add(keyboardEvents.remove());
+    public KeyEvent[] getKeyEvents() {
+        KeyEvent[] keyEvents = new KeyEvent[keyboardEvents.size()];
+        for (int i = 0; i < keyEvents.length; i++) {
+            keyEvents[i] = keyboardEvents.remove();
         }
         return keyEvents;
+
     }
 
     /**
      * Liefert alle Mausereignisse, seit dem letzten Aufruf dieser Methode
-     * aufgelaufen sind als Liste zurï¿½ck. Es werden maximal die neuesten 25
-     * Ereignisse zurï¿½ckgegeben, alte Ereignisse werden gelï¿½scht.
+     * aufgelaufen sind als Array zurück. Es werden maximal die neuesten 25
+     * Ereignisse zurückgegeben, alte Ereignisse werden gelöscht.
      * <p>
-     * Die Liste enthï¿½lt Ereignisse vom Typ <code>java.awt.event.MouseEvent;</code>
-     * Das <code>MouseEvent</code> enthï¿½lt Koordinaten(des Fensters) und die
-     * Information ob die Maus gedrï¿½ckt, losgelassen, gecklickt oder nur bewegt
-     * wurde. Um festzustellen, wie die Maus betï¿½tigt wurde, kann der Typ des
+     * Das Array enthält Ereignisse vom Typ <code>java.awt.event.MouseEvent;</code>
+     * Das <code>MouseEvent</code> enthält Koordinaten(des Fensters) und die
+     * Information ob die Maus gedrückt, losgelassen, gecklickt oder nur bewegt
+     * wurde. Um festzustellen, wie die Maus betätigt wurde, kann der Typ des
      * <code>MouseEvent</code> abgefragt werden. Folgende <code>MouseEvent</code>
      * werden weitergeleitet: <br>
      * <code>MouseEvent.MOUSE_PRESSED</code> <br>
@@ -570,7 +589,7 @@ public class GameView {
      * <code>MouseEvent.MOUSE_CLICKED</code> <br>
      * <code>MouseEvent.MOUSE_MOVED</code> <br>
      * <br>
-     * Die Fensterkoordinaten kï¿½nnen mit den Methoden<br>
+     * Die Fensterkoordinaten können mit den Methoden<br>
      * <code>getX()</code> = Spalten<br>
      * <code>getY()</code> = Zeilen<br>
      * abgerufen werden, um Zeile und Spalte des Events zu bestimmen.<br>
@@ -579,22 +598,19 @@ public class GameView {
      *
      * <pre>
      * <code>
-     * if (mouseEvent != null) {
      *   if (mouseEvent.getID() == MouseEvent.MOUSE_CLICKED) {
      *     System.out.println("Geklickt in Spalte: " + mouseEvent.getX());
      *   }
-     * }
      * </code>
      * </pre>
      *
      * @return Alle <code>MouseEvent</code> Ereignisse seit dem letzten Aufruf
      * dieser Methode.
      */
-    public LinkedList<MouseEvent> getMouseEvents() {
-        int size = mousePointerEvents.size();
-        LinkedList<MouseEvent> mouseEvents = new LinkedList<>();
-        for (int i = 0; i < size; i++) {
-            mouseEvents.add(mousePointerEvents.remove());
+    public MouseEvent[] getMouseEvents() {
+        MouseEvent[] mouseEvents = new MouseEvent[mousePointerEvents.size()];
+        for (int i = 0; i < mouseEvents.length; i++) {
+            mouseEvents[i] = mousePointerEvents.remove();
         }
         return mouseEvents;
     }
@@ -603,12 +619,12 @@ public class GameView {
      * Spielt einen Sound ab (wav.-Datai). Das Soundfile muss in einem Verzeichnis
      * "src/resources" liegen. Bitte den Namen des Files ohne Verzeichnisnamen
      * angeben, z.B. "Sound.wav". Um den Sound sofort abzuspielen, bitte als
-     * Verzï¿½gerung 0 angeben.
+     * Verzögerung 0 angeben.
      *
      * @param sound Name des Soundfiles. Das Soundfile muss in einem Verzeichnis
      *              "src/resources" liegen. Bitte den Namen des Files ohne
      *              Verzeichnisnamen angeben, z.B. "Sound.wav".
-     * @param delay Verzï¿½gerung bis zum Zeitpunkt des Abspielens in Millisekunden.
+     * @param delay Verzögerung bis zum Zeitpunkt des Abspielens in Millisekunden.
      *              Bei 0 wird der Sound sofort abgespielt.
      */
     public void playSound(String sound, int delay) {
@@ -737,7 +753,7 @@ public class GameView {
 
     private void setResolution(int lines, int rows) {
         if (lines < 9 || lines > 135 || rows < 16 || rows > 240) {
-            System.err.println("Fenster hat falsche Grï¿½ï¿½e: Zeilen von 9 bis 135, Spalten von 16 bis 240");
+            System.err.println("Fenster hat falsche Größe: Zeilen von 9 bis 135, Spalten von 16 bis 240");
             System.exit(1);
         }
         this.zeilen = lines;
@@ -870,6 +886,7 @@ public class GameView {
         private Map<TextAttribute, Object> fontMap;
         private Box box;
         private Font font;
+        private Rectangle2D bounds;
 
         public TextPanel(String text, Box box) {
             this.drawMe = text.split("\n");
@@ -888,7 +905,6 @@ public class GameView {
             for (int i = 0; i < drawMe.length; i++) {
                 g.drawString(drawMe[i], 0, (i + 1) * lineHeight);
             }
-
         }
 
         public void setText(String text) {
@@ -914,9 +930,10 @@ public class GameView {
         private void calculateDimensionsForFont(int fontsize) {
             fontMap.put(TextAttribute.SIZE, fontsize);
             font = new Font(fontMap);
-            this.lineHeight = (int) Math.round(getFontMetrics(font).getHeight() * 0.6);
+            bounds = getFontMetrics(font).getStringBounds(drawMe[0], 0, drawMe[0].length(), getGraphics());
+            this.lineHeight = (int) (bounds.getHeight() * 0.6);
             this.height = 2 + drawMe.length * lineHeight;
-            this.width = 2 + drawMe[0].length() * getFontMetrics(font).getWidths()[100];
+            this.width = 2 + (int) bounds.getWidth();
         }
 
         public void setFontsizeThatFitsWindow() {

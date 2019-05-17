@@ -1,4 +1,6 @@
-package asciipinball;
+package asciipinball.logic;
+
+import asciipinball.GameView;
 
 /**
  * This class creates a ball and simulates gravitation physics
@@ -71,7 +73,7 @@ public class Ball {
     }
 
 
-    public void drawToCanvas(GameView gameView,int offset,int gameTableHight){
+    public void drawToCanvas(GameView gameView, int offset, int gameTableHight){
 
         gameView.addToCanvas("O", gameTableHight - Math.round(positionY) - 1, Math.round(positionX) + offset);
 

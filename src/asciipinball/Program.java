@@ -1,5 +1,7 @@
 package asciipinball;
 
+import asciipinball.logic.PinballGame;
+
 public class Program {
     public static void main (String[] args){
 

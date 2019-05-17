@@ -1,4 +1,6 @@
-package asciipinball;
+package asciipinball.frontend;
+
+import asciipinball.GameView;
 
 import java.awt.event.KeyEvent;
 import java.util.LinkedList;
