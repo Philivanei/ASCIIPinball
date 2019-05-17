@@ -120,8 +120,8 @@ public class Ball {
 
     private void calculateFuturePosition(float xSpeed, float ySpeed){
 
-        futurePositionX += xSpeed;
-        futurePositionY += ySpeed;
+        futurePositionX = positionX + xSpeed;
+        futurePositionY = positionY + ySpeed;
 
     }
 
@@ -131,6 +131,8 @@ public class Ball {
      * @param gravitationPerTick
      */
     public void calculateFuture(float gravitationPerTick){
+
+        //TODO VORSICHT ES IST WAHRSCHEINLICH NÖTIG ALLES AUF DAS NEUE KOORDINATEN SYSTEM ANZUPASSEN!
 
         float xSpeed = getXSpeed();
         float ySpeed = getYSpeed();
