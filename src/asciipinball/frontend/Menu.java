@@ -35,16 +35,13 @@ public class Menu {
 
         drawing(gameView);
 
-
+        KeyEvent[] keyEvent;
         while (playerNumber == 0) {
-            KeyEvent[] keyEvent = gameView.getKeyEvents();
-
-           /* LinkedList<KeyEvent> keyEvent = gameView.getKeyEvents();
-
+            keyEvent = gameView.getKeyEvents();
             try {
-                if (!(keyEvent.isEmpty())) {
+                if (keyEvent.length != 0) {
                     //moving "->" down
-                    if ((keyEvent.getLast().getKeyCode() == KeyEvent.VK_DOWN) && (keyEvent.getLast().getID() == KeyEvent.KEY_PRESSED)) {
+                    if ((keyEvent[0].getKeyCode() == KeyEvent.VK_DOWN) && (keyEvent[0].getID() == KeyEvent.KEY_PRESSED)) {
                         row[2] += 2;
                         if (row[2] > 10) {
                             row[2] = 4;
@@ -54,7 +51,7 @@ public class Menu {
                     }
 
                     //moving "->" up
-                    if ((keyEvent.getLast().getKeyCode() == KeyEvent.VK_UP) && (keyEvent.getLast().getID() == KeyEvent.KEY_PRESSED)) {
+                    if ((keyEvent[0].getKeyCode() == KeyEvent.VK_UP) && (keyEvent[0].getID() == KeyEvent.KEY_PRESSED)) {
                         row[2] -= 2;
                         if (row[2] < 4) {
                             row[2] = 10;
@@ -62,7 +59,7 @@ public class Menu {
                         drawing(gameView);
                         playerCount = (int) (0.5 * row[2] - 1);
                     }
-                    if ((keyEvent.getLast().getKeyCode() == KeyEvent.VK_ENTER) && (keyEvent.getLast().getID() == KeyEvent.KEY_PRESSED)) {
+                    if ((keyEvent[0].getKeyCode() == KeyEvent.VK_ENTER) && (keyEvent[0].getID() == KeyEvent.KEY_PRESSED)) {
                         if (playerCount == 1) {
                             System.out.println("player 1");
                             //playerNumber = 1;
@@ -90,7 +87,6 @@ public class Menu {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            */
         }
 
         return 3;
