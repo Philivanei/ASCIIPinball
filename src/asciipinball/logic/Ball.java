@@ -120,8 +120,8 @@ public class Ball {
 
     private void calculateFuturePosition(float xSpeed, float ySpeed){
 
-        futurePositionX += xSpeed;
-        futurePositionY += ySpeed;
+        futurePositionX = positionX + xSpeed;
+        futurePositionY = positionY + ySpeed;
 
     }
 
