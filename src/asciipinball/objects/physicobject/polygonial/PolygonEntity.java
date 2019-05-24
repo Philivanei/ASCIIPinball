@@ -20,24 +20,39 @@ public abstract class PolygonEntity extends PhysicEntity {
         float minDistance = Float.MAX_VALUE;
 
         for(int i = 0; i< lines.length; i++){
+            float distanceToBall;
+            float distanceToA;
+            float distanceToB;
+            float x;
+            float y;
 
             float mLine = lines[i].getM();
-            float bLine = lines[i].getB();
-            float mVertical = -1/mLine;
-            float bVertical = ball.getPositionY() - mVertical * ball.getPositionX();
+            if(Float.isFinite(mLine)){ //If The line isn't 90° straight
+                float bLine = lines[i].getB();
+                float mVertical = -1/mLine;
+                float bVertical = ball.getPositionY() - mVertical * ball.getPositionX();
 
-            float x = (bLine - bVertical) / (bVertical - mLine);
-            float y = mVertical * x + bVertical;
+                x = (bLine - bVertical) / (bVertical - mLine);
+                y = mVertical * x + bVertical;
 
-            //calc distance Ball to lotfußpunkt
-            float distanceToBall = (float) Math.sqrt((x-ball.getPositionX()) * (x-ball.getPositionX()) + (y-ball.getPositionY()) * (y-ball.getPositionY()));
+                //calc distance Ball to lotfußpunkt
+                distanceToBall = (float) Math.sqrt((x-ball.getPositionX()) * (x-ball.getPositionX()) + (y-ball.getPositionY()) * (y-ball.getPositionY()));
+            }else{ // If the line is 90° straight (up)
+
+                x = lines[i].getX1();
+                y = ball.getPositionY();
+
+                distanceToBall = Math.abs(ball.getPositionX() - lines[i].getX1());
+            }
+
+            distanceToA = (float) (Math.sqrt(Math.pow((x - lines[i].getX1()),2) +
+                    Math.pow((y - lines[i].getY1()),2)));
+            distanceToB = (float) (Math.sqrt(Math.pow((x - lines[i].getX2()),2) +
+                    Math.pow((y - lines[i].getY2()),2)));
+
+
 
             if(distanceToBall < ball.getRadius()) {
-
-                float distanceToA = (float) (Math.sqrt(Math.pow((x - lines[i].getX1()),2) +
-                        Math.pow((y - lines[i].getY1()),2)));
-                float distanceToB = (float) (Math.sqrt(Math.pow((x - lines[i].getX2()),2) +
-                        Math.pow((y - lines[i].getY2()),2)));
 
                 if(distanceToA > lines[i].getLength() || distanceToB > lines[i].getLength()){
 
