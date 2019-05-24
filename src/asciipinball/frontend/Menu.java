@@ -7,80 +7,96 @@ import java.util.LinkedList;
 
 public class Menu {
     private boolean isMenuActive;
+    int playerNumber = 0;
+    //initialize menu position
+    int menuRow = 1, menuColumn = 2;
+    int playerCount = 1;
+    char[][] menuChars = {{'M', 'e', 'n', 'ü'}};
+    char[][] player = {{'1', ' ', 'P', 'l', 'a', 'y', 'e', 'r'},
+            {},
+            {'2', ' ', 'P', 'l', 'a', 'y', 'e', 'r'},
+            {},
+            {'3', ' ', 'P', 'l', 'a', 'y', 'e', 'r'},
+            {},
+            {'4', ' ', 'P', 'l', 'a', 'y', 'e', 'r'}};
+    char[][] arrow = {{'-', '>'}};
+    int[] row = {1, 4, 4};
+    int[] column = {2, 4, 1};
 
-    public Menu() {
+    public Menu(GameView gameView) {
         isMenuActive = true;
         //GameView Setting
-        GameView gameView = new GameView(15, 25, "Menu");
         gameView.setWindowsSize(GameView.WINDOWSIZE_LARGE);
         gameView.show();
-        //GameView Setting end
         mainMenu(gameView);
-        //playAnzahl = menu.start(gameView);
     }
 
     public int mainMenu(GameView gameView) {
 
-        int playerNumber = 0;
-        int[] row = {1, 4, 6, 8, 10, 4};
-        int[] column = {2, 4, 4, 4, 4, 1};
+        drawing(gameView);
 
-        gameView.addToCanvas("Menu", row[0], column[0]);
-        gameView.addToCanvas("1 Player", row[1], column[1]);
-        gameView.addToCanvas("2 Player", row[2], column[2]);
-        gameView.addToCanvas("3 Player", row[3], column[3]);
-        gameView.addToCanvas("4 Player", row[4], column[4]);
-        gameView.addToCanvas("->", row[5], column[5]);
-        gameView.printCanvas();
-
-
+        KeyEvent[] keyEvent;
         while (playerNumber == 0) {
-            LinkedList<KeyEvent> keyEvent = gameView.getKeyEvents();
+            keyEvent = gameView.getKeyEvents();
             try {
-                System.out.println(keyEvent.getLast().getKeyCode());
-                System.out.println(KeyEvent.KEY_PRESSED);
-                System.out.println(keyEvent.getLast().getID());
-                //moving "->" down
-                if ((keyEvent.getLast().getKeyCode() == KeyEvent.VK_DOWN) && (keyEvent.getLast().getID() == KeyEvent.KEY_PRESSED)) {
-                    gameView.clearCanvas();
-                    gameView.addToCanvas("Menu", row[0], column[0]);
-                    gameView.addToCanvas("1 Player", row[1], column[1]);
-                    gameView.addToCanvas("2 Player", row[2], column[2]);
-                    gameView.addToCanvas("3 Player", row[3], column[3]);
-                    gameView.addToCanvas("4 Player", row[4], column[4]);
-                    row[5] = row[5] + 2;
-                    if (row[5] > 10) {
-                        row[5] = 4;
+                if (keyEvent.length != 0) {
+                    //moving "->" down
+                    if ((keyEvent[0].getKeyCode() == KeyEvent.VK_DOWN) && (keyEvent[0].getID() == KeyEvent.KEY_PRESSED)) {
+                        row[2] += 2;
+                        if (row[2] > 10) {
+                            row[2] = 4;
+                        }
+                        drawing(gameView);
+                        playerCount = (int) (0.5 * row[2] - 1);
                     }
-                    gameView.addToCanvas("->", row[5], column[5]);
-                    gameView.printCanvas();
 
-                }
-                //moving "->" up
-                if ((keyEvent.getLast().getKeyCode() == KeyEvent.VK_UP) && (keyEvent.getLast().getID() == KeyEvent.KEY_PRESSED)) {
-                    gameView.clearCanvas();
-                    gameView.addToCanvas("Menu", row[0], column[0]);
-                    gameView.addToCanvas("1 Player", row[1], column[1]);
-                    gameView.addToCanvas("2 Player", row[2], column[2]);
-                    gameView.addToCanvas("3 Player", row[3], column[3]);
-                    gameView.addToCanvas("4 Player", row[4], column[4]);
-                    row[5] = row[5] - 2;
-                    if (row[5] < 4) {
-                        row[5] = 10;
+                    //moving "->" up
+                    if ((keyEvent[0].getKeyCode() == KeyEvent.VK_UP) && (keyEvent[0].getID() == KeyEvent.KEY_PRESSED)) {
+                        row[2] -= 2;
+                        if (row[2] < 4) {
+                            row[2] = 10;
+                        }
+                        drawing(gameView);
+                        playerCount = (int) (0.5 * row[2] - 1);
                     }
-                    gameView.addToCanvas("->", row[5], column[5]);
-                    gameView.printCanvas();
+                    if ((keyEvent[0].getKeyCode() == KeyEvent.VK_ENTER) && (keyEvent[0].getID() == KeyEvent.KEY_PRESSED)) {
+                        if (playerCount == 1) {
+                            System.out.println("player 1");
+                            //playerNumber = 1;
+                            //return 1;
+                        }
+                        if (playerCount == 2) {
+                            System.out.println("player 2");
+                            //playerNumber = 2;
+                            //return 2;
+                        }
+                        if (playerCount == 3) {
+                            System.out.println("player 3");
+                            //playerNumber = 3;
+                            //return 3;
+                        }
+                        if (playerCount == 4) {
+                            System.out.println("player 4");
+                            //playerNumber = 4;
+                            //return 4;
+                        }
+                    }
 
+                    Thread.sleep(20);
                 }
-
-
-                Thread.sleep(20);
-
-
             } catch (Exception e) {
+                e.printStackTrace();
             }
         }
 
         return 3;
+    }
+
+    public void drawing(GameView gameView) {
+        gameView.clearCanvas();
+        gameView.addToCanvas(menuChars, menuRow, menuColumn);
+        gameView.addToCanvas(player, row[1], column[1]);
+        gameView.addToCanvas(arrow, row[2], column[2]);
+        gameView.printCanvas();
     }
 }
