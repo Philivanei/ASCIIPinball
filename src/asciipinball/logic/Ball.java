@@ -25,7 +25,7 @@ public class Ball {
         velocity = 0;
     }
 
-    public Ball(int x, int y, float direction, float velocity){
+    public Ball(int x, int y, float direction, float velocity) {
         positionX = x;
         positionY = y;
         this.direction = convertDirection(direction);
@@ -69,34 +69,32 @@ public class Ball {
         return velocity;
     }
 
-    private float getXSpeed(){
+    private float getXSpeed() {
 
         return (float) Math.cos(Math.toRadians(direction)) * velocity;
 
     }
 
-    private float getYSpeed(){
+    private float getYSpeed() {
 
         return (float) Math.sin(Math.toRadians(direction)) * velocity;
 
     }
 
-    private float convertDirection(float direction){
+    private float convertDirection(float direction) {
         float result = direction;
 
-        if(direction > -180 && direction <= 180){
+        if (direction > -180 && direction <= 180) {
             result = direction;
-        }
-        else{
+        } else {
 
             float clippedDirection = 0;
 
             clippedDirection = direction % 360;
 
-            if(clippedDirection > 180){
+            if (clippedDirection > 180) {
                 result = clippedDirection - 360;
-            }
-            else{
+            } else {
                 result = clippedDirection;
             }
         }
@@ -104,26 +102,26 @@ public class Ball {
     }
 
 
-    private void calculateFutureDirection(float xSpeed, float ySpeed){
+    private void calculateFutureDirection(float xSpeed, float ySpeed) {
 
-        if(xSpeed >= 0){
-            futureDirection = convertDirection((float) Math.toDegrees(Math.atan(ySpeed/xSpeed)));
-        }else if(xSpeed < 0 && ySpeed >= 0){
-            futureDirection = convertDirection((float) (180 - Math.abs(Math.toDegrees(Math.atan(ySpeed/xSpeed)))));
-        }else if(xSpeed < 0 && ySpeed < 0){
-            futureDirection = convertDirection((float) (Math.abs(Math.toDegrees(Math.atan(ySpeed/xSpeed)))) - 180 );
+        if (xSpeed >= 0) {
+            futureDirection = convertDirection((float) Math.toDegrees(Math.atan(ySpeed / xSpeed)));
+        } else if (xSpeed < 0 && ySpeed >= 0) {
+            futureDirection = convertDirection((float) (180 - Math.abs(Math.toDegrees(Math.atan(ySpeed / xSpeed)))));
+        } else if (xSpeed < 0 && ySpeed < 0) {
+            futureDirection = convertDirection((float) (Math.abs(Math.toDegrees(Math.atan(ySpeed / xSpeed)))) - 180);
         }
 
 
     }
 
-    private void calculateFutureVelocity(float xSpeed, float ySpeed){
+    private void calculateFutureVelocity(float xSpeed, float ySpeed) {
 
         futureVelocity = (float) Math.sqrt(xSpeed * xSpeed + ySpeed * ySpeed);
 
     }
 
-    private void calculateFuturePosition(float xSpeed, float ySpeed){
+    private void calculateFuturePosition(float xSpeed, float ySpeed) {
 
         futurePositionX = positionX + xSpeed;
         futurePositionY = positionY + ySpeed;
@@ -133,38 +131,42 @@ public class Ball {
 
     /**
      * simulateTick takes a float gravitation value and simulates the behaviour of the ball per tick(call).
+     *
      * @param gravitationPerTick
      */
-    public void calculateFuture(float gravitationPerTick){
+    public void calculateFuture(float gravitationPerTick) {
 
         float xSpeed = getXSpeed();
         float ySpeed = getYSpeed();
         System.out.println("XSpeed: " + xSpeed + " YSpeed: " + ySpeed);
 
-        calculateFuturePosition(xSpeed,ySpeed);
+        calculateFuturePosition(xSpeed, ySpeed);
 
         //Simulate gravitation
         ySpeed -= gravitationPerTick;
 
-        calculateFutureDirection(xSpeed,ySpeed);
-        calculateFutureVelocity(xSpeed,ySpeed);
+        calculateFutureDirection(xSpeed, ySpeed);
+        calculateFutureVelocity(xSpeed, ySpeed);
 
     }
 
-    public void updateBall(){
+    public void updateBall() {
         positionX = futurePositionX;
         positionY = futurePositionY;
     }
 
-    public void updateBall(Ball ball){
+    public void updateBall(Ball ball) {
         this.positionX = ball.getPositionX();
         this.positionY = ball.getPositionY();
         this.direction = ball.getDirection();
         this.velocity = ball.getVelocity();
     }
 
-    public void updateBall(Ball ball1, Ball ball2){
-        //TODO
+    public void updateBall(Ball ball1, Ball ball2) {
+        // calculate average if a ball hits a top or a corner
+        // Philivanei was here
+        float twoBallsDirection;
+        twoBallsDirection = ((((ball1.getDirection() + 360) % 360) + ((ball2.getDirection() + 360) % 360)) / 2);
     }
 
 
