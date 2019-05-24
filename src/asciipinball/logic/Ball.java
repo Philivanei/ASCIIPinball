@@ -16,6 +16,7 @@ public class Ball {
     private float futureVelocity;
     private float direction;
     private float velocity;
+    private float radius;
 
     public Ball(int x, int y) {
         positionX = x;
@@ -31,6 +32,10 @@ public class Ball {
         this.velocity = velocity;
     }
 
+
+    public float getRadius() {
+        return radius;
+    }
 
     public float getPositionX() {
         return positionX;
