@@ -80,9 +80,13 @@ public abstract class PolygonEntity extends PhysicEntity {
 
     @Override
     protected Ball interactWitBall(Ball ball) {
-        //TODO
-        float angleToLine = (float) Math.atan(1/collisionLine.getM());
-        float finalAngle = -(ball.convertDirection(ball.getDirection() + 90 - angleToLine));
+        float angleToLine;
+        if(Float.isFinite(collisionLine.getM())){
+            angleToLine = (float) Math.atan(1/collisionLine.getM());
+        }else{
+            angleToLine = 90;
+        }
+        float finalAngle = ball.convertDirection(-ball.convertDirection((ball.getDirection() + 90 - angleToLine))); //double conversion is necessary if -ball.convertDirection results in -180°
         return new Ball(ball.getPositionX(),ball.getPositionY(),finalAngle,ball.getVelocity());
     }
 }
