@@ -22,5 +22,9 @@ public class Line {
         return y2;
     }
 
-    public float getLength() { return (float) Math.sqrt((x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1)); }
+    public float getLength() {return (float) Math.sqrt((x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1));}
+
+    public float getM(){ return ((y2 - y1) / (x2 - x1)); }
+
+    public float getB(){return (y1 - getM() * x1);}
 }

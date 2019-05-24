@@ -20,8 +20,8 @@ public abstract class PolygonEntity extends PhysicEntity {
 
         for(int i = 0; i< lines.length; i++){
 
-            float mLine = (lines[i].getY2() - lines[i].getY1()) / (lines[i].getX2() - lines[i].getX1());
-            float bLine = lines[i].getY1() - mLine * lines[i].getX1();
+            float mLine = lines[i].getM();
+            float bLine = lines[i].getB();
             float mVertical = -1/mLine;
             float bVertical = ball.getPositionY() - mVertical * ball.getPositionX();
 
@@ -43,7 +43,7 @@ public abstract class PolygonEntity extends PhysicEntity {
                     if(distanceToA < ball.getRadius()){
                         distanceToBall = distanceToA;
                     }else if(distanceToB < ball.getRadius()){
-                        distanceToBall = distanceToB
+                        distanceToBall = distanceToB;
                     }else{ //In this case the lot point isn't hitting the line Segment
                         continue;
                     }
