@@ -28,14 +28,27 @@ public abstract class PolygonEntity extends PhysicEntity {
             float x = (bLine - bVertical) / (bVertical - mLine);
             float y = mVertical * x + bVertical;
 
-            //TODO evaluierung ob Lot fußpunkt auf strecke ist oder nicht Wenn nicht - abstand zu Strecken Außenpunkten berechnen
-
             //calc distance Ball to lotfußpunkt
             float distanceToBall = (float) Math.sqrt((x-ball.getPositionX()) * (x-ball.getPositionX()) + (y-ball.getPositionY()) * (y-ball.getPositionY()));
 
-
-
             if(distanceToBall < ball.getRadius()) {
+
+                float distanceToA = (float) (Math.sqrt(Math.pow((x - lines[i].getX1()),2) +
+                        Math.pow((y - lines[i].getY1()),2)));
+                float distanceToB = (float) (Math.sqrt(Math.pow((x - lines[i].getX2()),2) +
+                        Math.pow((y - lines[i].getY2()),2)));
+
+                if(distanceToA > lines[i].getLength() || distanceToB > lines[i].getLength()){
+
+                    if(distanceToA < ball.getRadius()){
+                        distanceToBall = distanceToA;
+                    }else if(distanceToB < ball.getRadius()){
+                        distanceToBall = distanceToB
+                    }else{ //In this case the lot point isn't hitting the line Segment
+                        continue;
+                    }
+                }
+
                 collisionDetected = true;
                 if(distanceToBall < minDistance){
                     minDistance = distanceToBall;
