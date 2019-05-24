@@ -11,7 +11,6 @@ public abstract class CircleEntity extends PhysicEntity {
 
     @Override
     protected boolean isCollided(Ball ball) {
-        //TODO
         float closestCollision = Float.MAX_VALUE;
 
         boolean collisionDetected = false;
