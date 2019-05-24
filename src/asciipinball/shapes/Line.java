@@ -29,7 +29,13 @@ public class Line {
 
     public float getLength() {return (float) Math.sqrt((x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1));}
 
-    public float getM(){ return ((y2 - y1) / (x2 - x1)); }
+    // y = m*x+b -> y = getM()*x+getB()
+    public float getM(){
+        if(x2 == x1){
+            return Float.POSITIVE_INFINITY;
+        }
+        return ((y2 - y1) / (x2 - x1));
+    } //Slope
 
-    public float getB(){return (y1 - getM() * x1);}
+    public float getB(){return (y1 - getM() * x1);} //Shift
 }

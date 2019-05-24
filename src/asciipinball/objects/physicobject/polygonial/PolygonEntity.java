@@ -9,6 +9,7 @@ import java.awt.geom.Line2D;
 public abstract class PolygonEntity extends PhysicEntity {
 
     protected Line[] lines;
+    private Line collisionLine;
 
 
     @Override
@@ -54,6 +55,7 @@ public abstract class PolygonEntity extends PhysicEntity {
                     minDistance = distanceToBall;
                     collisionPositionX = x;
                     collisionPositionY = y;
+                    collisionLine = lines[i];
                 }
             }
         }
@@ -64,6 +66,8 @@ public abstract class PolygonEntity extends PhysicEntity {
     @Override
     protected Ball interactWitBall(Ball ball) {
         //TODO
-        return null;
+        float angleToLine = (float) Math.atan(1/collisionLine.getM());
+        float finalAngle = -(ball.convertDirection(ball.getDirection() + 90 - angleToLine));
+        return new Ball(ball.getPositionX(),ball.getPositionY(),finalAngle,ball.getVelocity());
     }
 }
