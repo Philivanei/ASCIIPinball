@@ -18,14 +18,14 @@ public class Ball {
     private float velocity;
     private float radius;
 
-    public Ball(int x, int y) {
+    public Ball(float x, float y) {
         positionX = x;
         positionY = y;
         direction = 0; //0° = right -> 90° = up -> 180° = left -> -90°/270° = down
         velocity = 0;
     }
 
-    public Ball(int x, int y, float direction, float velocity) {
+    public Ball(float x, float y, float direction, float velocity) {
         positionX = x;
         positionY = y;
         this.direction = convertDirection(direction);
@@ -81,7 +81,7 @@ public class Ball {
 
     }
 
-    private float convertDirection(float direction) {
+    public float convertDirection(float direction) {
         float result = direction;
 
         if (direction > -180 && direction <= 180) {
