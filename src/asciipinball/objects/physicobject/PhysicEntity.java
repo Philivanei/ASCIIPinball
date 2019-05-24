@@ -18,6 +18,7 @@ public abstract class PhysicEntity {
     }
 
     protected abstract boolean isCollided(Ball ball);
+    //TODO BIDDE MACHAS DES WIT ZU AM WITH WEIL SUNST HAM MA DRECK AM STECKN!!!!!!!!!!!!
     protected abstract Ball interactWitBall(Ball ball);
 
 }

@@ -10,6 +10,10 @@ public abstract class PolygonEntity extends PhysicEntity {
 
     protected Line[] lines;
 
+    @Override
+    public Ball updateEntity(Ball ball) {
+        return super.updateEntity(ball);
+    }
 
     @Override
     protected boolean isCollided(Ball ball) {
