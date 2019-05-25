@@ -8,9 +8,11 @@ import java.awt.event.KeyEvent;
 
 public class FlipperFinger extends PolygonEntity {
 
-    private boolean isFlipperFingeractive;
+    //flipperFingerDirection is true when moving up and false when moving down
+    private boolean flipperFingerDirection;
     //import right class because java already has a library called Line
     private Line lines[];
+    //how fast the flipperfingers should move in ms
     private final int timeForStopAngle = 250;
     private float stopAngle;
     private float startAngle;
@@ -53,6 +55,7 @@ public class FlipperFinger extends PolygonEntity {
         float result = -(stopAngle - startAngle) / timeForStopAngle * timeSinceStop + stopAngle;
         if (result < startAngle) {
             result = startAngle;
+            return result;
         }
         return result;
     }
@@ -63,36 +66,46 @@ public class FlipperFinger extends PolygonEntity {
             keyEvent = gameView.getKeyEvents();
             if (keyEvent.length != 0) {
                 //moving the left flipperfinger with 'a' or 'left'
-                //TODO don't forget to set is flipperfingeractive to false
                 if (((keyEvent[0].getKeyCode() == KeyEvent.VK_LEFT) || (keyEvent[0].getKeyCode() == KeyEvent.VK_A))
                         && (keyEvent[0].getID() == KeyEvent.KEY_PRESSED)) {
-                    isFlipperFingeractive = true;
+                    flipperFingerDirection = true;
                     startTime = System.currentTimeMillis();
                     abortTimeStop = System.currentTimeMillis() - stopTime;
 
-                }
-                else if(((keyEvent[0].getKeyCode() == KeyEvent.VK_LEFT) || (keyEvent[0].getKeyCode() == KeyEvent.VK_A))
-                        && (keyEvent[0].getID() == KeyEvent.KEY_RELEASED)){
-                    isFlipperFingeractive = false;
+                } else if (((keyEvent[0].getKeyCode() == KeyEvent.VK_LEFT) || (keyEvent[0].getKeyCode() == KeyEvent.VK_A))
+                        && (keyEvent[0].getID() == KeyEvent.KEY_RELEASED)) {
+                    flipperFingerDirection = false;
                     stopTime = System.currentTimeMillis();
                     abortTimeStart = System.currentTimeMillis() - startTime;
                 }
             }
             //moving the right flipperfinger with 'd' or 'right
-            //TODO don't forget to set is flipperfingeractive to false
             if (((keyEvent[0].getKeyCode() == KeyEvent.VK_RIGHT) || (keyEvent[0].getKeyCode() == KeyEvent.VK_D))
                     && (keyEvent[0].getID() == KeyEvent.KEY_PRESSED)) {
+                flipperFingerDirection = true;
+                startTime = System.currentTimeMillis();
+                abortTimeStop = System.currentTimeMillis() - stopTime;
+
+            } else if (((keyEvent[0].getKeyCode() == KeyEvent.VK_RIGHT) || (keyEvent[0].getKeyCode() == KeyEvent.VK_D))
+                    && (keyEvent[0].getID() == KeyEvent.KEY_RELEASED)) {
+                flipperFingerDirection = false;
+                stopTime = System.currentTimeMillis();
+                abortTimeStart = System.currentTimeMillis() - startTime;
             }
+
             float angle;
-            if(isFlipperFingeractive){
-                angle = calculateAngleUp((timeForStopAngle - abortTimeStop + System.currentTimeMillis()));
-            }else{
-                angle = calculateAngleUp((timeForStopAngle - abortTimeStart + System.currentTimeMillis()));
+            if (flipperFingerDirection) {
+                angle = calculateAngleUp((timeForStopAngle - abortTimeStop + System.currentTimeMillis() - startTime));
+            } else if (((keyEvent[0].getKeyCode() == KeyEvent.VK_RIGHT) || (keyEvent[0].getKeyCode() == KeyEvent.VK_D))
+                    && (keyEvent[0].getID() == KeyEvent.KEY_RELEASED)) {
+                flipperFingerDirection = false;
+                stopTime = System.currentTimeMillis();
+                abortTimeStart = System.currentTimeMillis() - startTime;
             }
+            angle = calculateAngleUp((timeForStopAngle - abortTimeStart + (System.currentTimeMillis()-stopTime)));
 
         } catch (Exception e) {
             e.printStackTrace();
-
         }
     }
 }
