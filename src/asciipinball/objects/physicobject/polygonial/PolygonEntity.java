@@ -86,7 +86,7 @@ public abstract class PolygonEntity extends PhysicEntity {
         }else{
             angleToLine = 90;
         }
-        float finalAngle = ball.convertDirection(-ball.convertDirection((ball.getDirection() + 90 - angleToLine))); //double conversion is necessary if -ball.convertDirection results in -180°
+        float finalAngle = ball.convertDirection((-ball.convertDirection((ball.getDirection() + 90 - angleToLine)))  - (90 - angleToLine)); //double conversion is necessary if -ball.convertDirection results in -180°
         return new Ball(ball.getPositionX(),ball.getPositionY(),finalAngle,ball.getVelocity());
     }
 }

@@ -4,7 +4,7 @@ import asciipinball.GameView;
 
 public class PinballGame {
     public static final float GRAVITATION = (float) 0.3;
-    public static final int OFFSET = 0;
+    public static final float OFFSET = 0;
 
     private int width;
     private int hight;
