@@ -52,12 +52,11 @@ public class Line implements Drawable {
 
     @Override
     public void addToCanvas(GameView gameView) {
+
         char canvasSegment[][];
 
         int deltaX = Math.round(Math.abs(x2-x1));
         int deltaY = Math.round(Math.abs(y2-y1));
-        int canvasRow;
-        int canvasColumn;
 
         canvasSegment = new char[deltaY>0 ? deltaY : 1][deltaX>0 ? deltaX : 1]; //[ROW][COLUMN]
 
@@ -88,12 +87,11 @@ public class Line implements Drawable {
                 }else{
                     canvasSegment[row][column] = 'B';
                 }
-
             }
         }
 
-        canvasColumn = Math.round(x1 < x2 ? x1 : x2) + PinballGame.OFFSET; //Column = X
-        canvasRow = Math.abs(Math.round((y1 > y2 ? y1 : y2) - (PinballGame.HEIGHT)));
+        int canvasColumn = Math.round(x1 < x2 ? x1 : x2) + PinballGame.OFFSET; //Column = X
+        int canvasRow = Math.abs(Math.round((y1 > y2 ? y1 : y2) - (PinballGame.HEIGHT)));
         gameView.addToCanvas(canvasSegment,canvasRow,canvasColumn);
     }
 }
