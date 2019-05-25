@@ -1,6 +1,10 @@
 package asciipinball.shapes;
 
-public class Line {
+import asciipinball.GameView;
+import asciipinball.interfaces.Drawable;
+import asciipinball.logic.PinballGame;
+
+public class Line implements Drawable {
     private float x1;
     private float y1;
     private float x2;
@@ -45,4 +49,51 @@ public class Line {
     } //Slope
 
     public float getB(){return (y1 - getM() * x1);} //Shift
+
+    @Override
+    public void addToCanvas(GameView gameView) {
+        char canvasSegment[][];
+
+        int deltaX = Math.round(Math.abs(x2-x1));
+        int deltaY = Math.round(Math.abs(y2-y1));
+        int canvasRow;
+        int canvasColumn;
+
+        canvasSegment = new char[deltaY>0 ? deltaY : 1][deltaX>0 ? deltaX : 1]; //[ROW][COLUMN]
+
+        for (int  column = 0; column < canvasSegment[0].length; column++){
+            for (int row = 0; row < canvasSegment.length; row++){
+                if(Float.isFinite(getM())){
+                    if(getM() > 0){
+                        if(Math.abs(((canvasSegment.length - 1) - row) - (getM() * column)) < ((Math.abs(getM()) <= 1) ? 1 : (Math.abs(getM()) / 2))){
+                            canvasSegment[row][column] = 'B';
+                        }else{
+                            canvasSegment[row][column] = ' ';
+                        }
+                    }else{
+                        if(Math.abs(-row - (getM() * column)) < ((Math.abs(getM()) <= 1) ? 1 : (Math.abs(getM()) / 2))){
+                            canvasSegment[row][column] = 'B';
+                        }
+                        else{
+                            canvasSegment[row][column] = ' ';
+                        }
+                    }
+                    /*if(Math.abs(((getM() > 0) ? ((canvasSegment.length - 1) - row) : -row) - (getM() * column)) < ((Math.abs(getM()) <= 1) ? 1 : (Math.abs(getM()) / 2))){
+
+                        canvasSegment[row][column] = 'B';
+                    }
+                    else{
+                        canvasSegment[row][column] = ' ';
+                    }*/
+                }else{
+                    canvasSegment[row][column] = 'B';
+                }
+
+            }
+        }
+
+        canvasColumn = Math.round(x1 < x2 ? x1 : x2) + PinballGame.OFFSET; //Column = X
+        canvasRow = Math.abs(Math.round((y1 > y2 ? y1 : y2) - (PinballGame.HEIGHT)));
+        gameView.addToCanvas(canvasSegment,canvasRow,canvasColumn);
+    }
 }
