@@ -1,18 +1,12 @@
 package asciipinball.shapes;
 
-public class Circle {
-    private float radius;
+public class Coordinate {
     private float x;
     private float y;
 
-    public Circle(float radius, float x, float y) {
-        this.radius = radius;
+    public Coordinate(float x, float y){
         this.x = x;
         this.y = y;
-    }
-
-    public float getRadius() {
-        return radius;
     }
 
     public float getX() {
