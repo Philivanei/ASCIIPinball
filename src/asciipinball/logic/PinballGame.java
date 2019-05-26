@@ -51,7 +51,6 @@ public class PinballGame {
             ball.updateBall();
         }
 
-        printAll();
     }
 
     public Ball updateAll(){

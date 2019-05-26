@@ -3,22 +3,28 @@ package asciipinball;
 import asciipinball.frontend.Menu;
 import asciipinball.logic.PinballGame;
 
+import java.util.concurrent.locks.LockSupport;
+
 public class Program {
     public static void main (String[] args){
 
         PinballGame pinballGame = new PinballGame();
-        long millis = System.currentTimeMillis();
+        long startTime = System.currentTimeMillis();
         pinballGame.printAll();
+        long calculationIterator = 0;
+        long maxCalculation = 80;
 
-        while (true){
+        while (true) {
 
-            if((System.currentTimeMillis() - millis) > 17){
-                millis = System.currentTimeMillis();
+            if ((System.currentTimeMillis() - startTime) > 17) {
+                startTime = System.currentTimeMillis();
                 pinballGame.printAll();
+                calculationIterator = 0;
             }
-            pinballGame.simulateTick();
+            if(calculationIterator < maxCalculation){
+                pinballGame.simulateTick();
+                calculationIterator++;
+            }
         }
-
-
     }
 }
