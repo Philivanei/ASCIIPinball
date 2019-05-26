@@ -2,6 +2,7 @@ package asciipinball.objects.physicobject;
 
 import asciipinball.interfaces.Drawable;
 import asciipinball.logic.Ball;
+import asciipinball.logic.Player;
 
 public abstract class PhysicEntity implements Drawable {
 
@@ -9,7 +10,7 @@ public abstract class PhysicEntity implements Drawable {
     protected float positionY;
     protected float collisionPositionX;
     protected float collisionPositionY;
-    protected int score;
+    protected int score = 0;
 
     public Ball updateEntity(Ball ball){
         if(isCollided(ball)){
@@ -22,8 +23,10 @@ public abstract class PhysicEntity implements Drawable {
 
     protected abstract boolean isCollided(Ball ball);
     protected abstract Ball interactWitBall(Ball ball);
-    public int getScore(){
-        return score;
+    public void setScore(Player player){
+        if(score != 0){
+            player.addToScore(score);
+        }
     }
 
 }
