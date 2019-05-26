@@ -9,6 +9,7 @@ public abstract class PhysicEntity implements Drawable {
     protected float positionY;
     protected float collisionPositionX;
     protected float collisionPositionY;
+    protected int score;
 
     public Ball updateEntity(Ball ball){
         if(isCollided(ball)){
@@ -21,5 +22,8 @@ public abstract class PhysicEntity implements Drawable {
 
     protected abstract boolean isCollided(Ball ball);
     protected abstract Ball interactWitBall(Ball ball);
+    public int getScore(){
+        return score;
+    }
 
 }
