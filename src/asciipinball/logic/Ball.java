@@ -1,11 +1,12 @@
 package asciipinball.logic;
 
 import asciipinball.GameView;
+import asciipinball.interfaces.Drawable;
 
 /**
  * This class creates a ball and simulates gravitation physics
  */
-public class Ball {
+public class Ball implements Drawable {
 
     //This coordinate system has it's origin in the bottom left - it gets converted for the printing to canvas process in addToCanvas()
     private float positionX;
@@ -18,16 +19,18 @@ public class Ball {
     private float velocity;
     private float radius;
 
-    public Ball(float x, float y) {
+    public Ball(float x, float y, float radius) {
         positionX = x;
         positionY = y;
+        this.radius = radius;
         direction = 0; //0° = right -> 90° = up -> 180° = left -> -90°/270° = down
         velocity = 0;
     }
 
-    public Ball(float x, float y, float direction, float velocity) {
+    public Ball(float x, float y, float radius, float direction, float velocity) {
         positionX = x;
         positionY = y;
+        this.radius = radius;
         this.direction = convertDirection(direction);
         this.velocity = velocity;
     }
@@ -130,7 +133,7 @@ public class Ball {
 
 
     /**
-     * simulateTick takes a float gravitation value and simulates the behaviour of the ball per tick(call).
+     * calculate Future takes a float gravitation value and simulates the behaviour of the ball per tick(call).
      *
      * @param gravitationPerTick
      */
@@ -138,12 +141,13 @@ public class Ball {
 
         float xSpeed = getXSpeed();
         float ySpeed = getYSpeed();
-        System.out.println("XSpeed: " + xSpeed + " YSpeed: " + ySpeed);
+
 
         calculateFuturePosition(xSpeed, ySpeed);
 
         //Simulate gravitation
         ySpeed -= gravitationPerTick;
+        //System.out.println("XSpeed: " + xSpeed + " YSpeed: " + ySpeed);
 
         calculateFutureDirection(xSpeed, ySpeed);
         calculateFutureVelocity(xSpeed, ySpeed);
@@ -153,6 +157,8 @@ public class Ball {
     public void updateBall() {
         positionX = futurePositionX;
         positionY = futurePositionY;
+        velocity = futureVelocity;
+        direction = futureDirection;
     }
 
     public void updateBall(Ball ball) {
@@ -165,9 +171,36 @@ public class Ball {
     public void updateBall(Ball ball1, Ball ball2) {
         // calculate average if a ball hits a top or a corner
         // Philivanei was here
+        //TODO
         float twoBallsDirection;
         twoBallsDirection = ((((ball1.getDirection() + 360) % 360) + ((ball2.getDirection() + 360) % 360)) / 2);
     }
 
 
+    @Override
+    public void addToCanvas(GameView gameView) {
+
+        int diameter = Math.round(radius * 2);
+
+        char[][] canvasSegment = new char[diameter][diameter];
+
+        for(int column = 0; column < canvasSegment[0].length; column++){
+            for(int row = 0; row < canvasSegment.length; row++) {
+                float distanceCanvasMiddle = (float) Math.sqrt(Math.pow(((radius - 0.5) - column),2) + Math.pow(((radius - 0.5) - row),2));
+                //canvasSegment[row][column] = (distanceCanvasMiddle < radius) ? 'B' : ' ';
+                if(distanceCanvasMiddle <= radius){
+                    canvasSegment[row][column] = 'B';
+                }
+                else{
+                    canvasSegment[row][column] = ' ';
+                }
+            }
+        }
+
+        int canvasRow = PinballGame.HEIGHT - Math.round(positionY + radius);
+        int canvasColumn = Math.round(positionX - radius) + PinballGame.OFFSET;
+
+        gameView.addToCanvas(canvasSegment,canvasRow,canvasColumn);
+
+    }
 }
