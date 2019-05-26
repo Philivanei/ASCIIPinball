@@ -1,15 +1,14 @@
 package asciipinball.logic;
 
 import asciipinball.GameView;
+import asciipinball.Settings;
 import asciipinball.objects.physicobject.PhysicEntity;
 import asciipinball.objects.physicobject.polygonial.LineWall;
 import asciipinball.shapes.Line;
 
+import java.util.Set;
+
 public class PinballGame {
-    public static final float GRAVITATION = 0.00001f;
-    public static final int OFFSET = 10;
-    public static final int WIDTH = 200;
-    public static final int HEIGHT = 135;
 
     public GameView gameView;
 
@@ -24,16 +23,16 @@ public class PinballGame {
     public PinballGame() {
 
         /** Init asciipinball.asciipinball.asciipinball.GameView **/
-        gameView = new GameView(HEIGHT, 240, "Pinball");
+        gameView = new GameView(Settings.HEIGHT, 240, "Pinball");
         gameView.setWindowsSize(GameView.WINDOWSIZE_LARGE);
         gameView.show();
 
 
         /**Init Arrays and Values**/
-        ball = new Ball(40f,70f,2.5f,0,0.0f);
+        ball = new Ball(40f,70f,2.5f,90,0.03f);
         players = new Player[4];
         physicEntities = new PhysicEntity[300];
-        table = new Table(WIDTH, HEIGHT);
+        table = new Table(Settings.WIDTH, Settings.HEIGHT);
 
         //TODO
         //DEBUG STUFF REMOVE BEFORE RELEASE!
@@ -42,7 +41,7 @@ public class PinballGame {
     }
 
     public void simulateTick(){
-        ball.calculateFuture(PinballGame.GRAVITATION);
+        ball.calculateFuture(Settings.GRAVITATION);
         Ball newBall = updateAll();
 
         if(newBall != null){
@@ -51,7 +50,6 @@ public class PinballGame {
             ball.updateBall();
         }
 
-        printAll();
     }
 
     public Ball updateAll(){
