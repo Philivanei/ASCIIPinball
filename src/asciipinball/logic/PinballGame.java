@@ -27,26 +27,26 @@ public class PinballGame {
 
         /** Init asciipinball.asciipinball.asciipinball.GameView **/
         gameView = new GameView(HEIGHT, 240, "Pinball");
-        gameView.setWindowsSize(GameView.WINDOWSIZE_LARGE);
+        gameView.setWindowsSize(GameView.WINDOWSIZE_MAXIMIZED);
         gameView.show();
 
 
         /**Init Arrays and Values**/
-        ball = new Ball(40f,70f,2.5f,0,0.0f);
+        ball = new Ball(40f, 70f, 2.5f, 0, 0.0f);
         players = new Player[4];
         physicEntities = new PhysicEntity[300];
         table = new Table(WIDTH, HEIGHT);
 
         //TODO
         //DEBUG STUFF REMOVE BEFORE RELEASE!
-        physicEntities[0] = new LineWall(30, 30,50,0);
-        leftFlipperFinger = new LeftFlipperFinger(20,20,(float) Math.toRadians(45),(float) Math.toRadians(135), 4);
-        rightFlipperFinger = new RightFlipperFinger(40,20,(float) Math.toRadians(45),(float) Math.toRadians(135),4);
+        physicEntities[0] = new LineWall(30, 30, 50, 0);
+        leftFlipperFinger = new LeftFlipperFinger(20, 20, 45, 135, 4);
+        rightFlipperFinger = new RightFlipperFinger(40, 20, 45, 135, 4);
 
 
     }
 
-    public void simulateTick(){
+    public void simulateTick() {
 
         ball.calculateFuture(PinballGame.GRAVITATION);
 
@@ -55,54 +55,54 @@ public class PinballGame {
 
         Ball newBall = updateAll();
 
-        if(newBall != null){
+        if (newBall != null) {
             ball.updateBall(newBall);
-        }else{
+        } else {
             ball.updateBall();
         }
 
         printAll();
     }
 
-    public Ball updateAll(){
+    public Ball updateAll() {
 
         Ball resultBall = null;
 
         for (PhysicEntity physicEntity : physicEntities) {
-            if(physicEntity != null){
+            if (physicEntity != null) {
                 Ball physicEntityBall = physicEntity.updateEntity(ball);
-                if(physicEntityBall != null){
+                if (physicEntityBall != null) {
                     resultBall = physicEntityBall;
                 }
             }
         }
 
         Ball rightFlipperfingerBall = rightFlipperFinger.updateEntity(ball);
-        if(rightFlipperfingerBall != null){
+        if (rightFlipperfingerBall != null) {
             resultBall = rightFlipperfingerBall;
         }
         Ball leftFlipperfingerBall = leftFlipperFinger.updateEntity(ball);
 
-        if(leftFlipperfingerBall != null){
+        if (leftFlipperfingerBall != null) {
             resultBall = leftFlipperfingerBall;
         }
 
         Ball tableBall = table.updateEntity(ball);
-        if(tableBall != null){
+        if (tableBall != null) {
             resultBall = tableBall;
         }
 
-        return  resultBall;
+        return resultBall;
     }
 
-    public void printAll(){
+    public void printAll() {
 
         gameView.clearCanvas();
 
         table.addToCanvas(gameView);
 
         for (PhysicEntity physicEntity : physicEntities) {
-            if(physicEntity != null) {
+            if (physicEntity != null) {
                 physicEntity.addToCanvas(gameView);
             }
         }

@@ -11,16 +11,17 @@ public class LeftFlipperFinger extends FlipperFinger {
         super(x, y, startAngle, stopAngle, length);
     }
 
-    public Line calculateLine(float x, float y, float startAngle, float length) {
+    @Override
+    protected Line calculateLine(float startAngle, float length) {
         adjacentSide = ((float) Math.cos(Math.toRadians(startAngle))) * length;
         oppositeSide = ((float) Math.sin(Math.toRadians(startAngle))) * length;
-        this.x = oppositeSide + x;
-        this.y = adjacentSide - y;
-        return new Line(x, y, this.x, this.y);
+        float xRes = oppositeSide + x;
+        float yRes = y - adjacentSide;
+        return new Line(x, y, xRes, yRes);
     }
 
     @Override
-    public void updateFlipperfinger(Ball ball, GameView gameView) {
+    protected void updateFlipperfinger(Ball ball, GameView gameView) {
         KeyEvent[] keyEvent;
         keyEvent = gameView.getKeyEvents();
         try {
@@ -42,9 +43,9 @@ public class LeftFlipperFinger extends FlipperFinger {
                 if (flipperFingerDirection) {
                     angle = calculateAngleUp((TIMEFORSTOPANGLE - abortTimeStop + System.currentTimeMillis() - startTime), startAngle);
                 } else {
-                    angle = calculateAngleUp((TIMEFORSTOPANGLE - abortTimeStart + (System.currentTimeMillis() - stopTime)), startAngle);
+                    angle = calculateAngleDown((TIMEFORSTOPANGLE - abortTimeStart + (System.currentTimeMillis() - stopTime)), startAngle);
                 }
-                lines[0] = calculateLine(x, y, angle, length);
+                lines[0] = calculateLine(angle, length);
             }
         } catch (Exception e) {
             e.printStackTrace();
