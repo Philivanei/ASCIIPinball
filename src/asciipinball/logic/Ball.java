@@ -133,7 +133,7 @@ public class Ball implements Drawable {
 
 
     /**
-     * simulateTick takes a float gravitation value and simulates the behaviour of the ball per tick(call).
+     * calculate Future takes a float gravitation value and simulates the behaviour of the ball per tick(call).
      *
      * @param gravitationPerTick
      */
@@ -141,12 +141,13 @@ public class Ball implements Drawable {
 
         float xSpeed = getXSpeed();
         float ySpeed = getYSpeed();
-        System.out.println("XSpeed: " + xSpeed + " YSpeed: " + ySpeed);
+
 
         calculateFuturePosition(xSpeed, ySpeed);
 
         //Simulate gravitation
         ySpeed -= gravitationPerTick;
+        //System.out.println("XSpeed: " + xSpeed + " YSpeed: " + ySpeed);
 
         calculateFutureDirection(xSpeed, ySpeed);
         calculateFutureVelocity(xSpeed, ySpeed);
@@ -156,6 +157,8 @@ public class Ball implements Drawable {
     public void updateBall() {
         positionX = futurePositionX;
         positionY = futurePositionY;
+        velocity = futureVelocity;
+        direction = futureDirection;
     }
 
     public void updateBall(Ball ball) {
@@ -168,6 +171,7 @@ public class Ball implements Drawable {
     public void updateBall(Ball ball1, Ball ball2) {
         // calculate average if a ball hits a top or a corner
         // Philivanei was here
+        //TODO
         float twoBallsDirection;
         twoBallsDirection = ((((ball1.getDirection() + 360) % 360) + ((ball2.getDirection() + 360) % 360)) / 2);
     }
@@ -188,7 +192,7 @@ public class Ball implements Drawable {
                     canvasSegment[row][column] = 'B';
                 }
                 else{
-                    canvasSegment[row][column] = '0';
+                    canvasSegment[row][column] = ' ';
                 }
             }
         }

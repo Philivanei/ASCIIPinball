@@ -8,8 +8,6 @@ import asciipinball.shapes.Line;
 
 public class Table extends PolygonEntity implements Drawable {
 
-    private Line lines[];
-
     public Table(float width, float hight) {
 
         Coordinate topLeft = new Coordinate(0,hight);

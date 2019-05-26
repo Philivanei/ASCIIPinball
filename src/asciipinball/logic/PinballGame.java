@@ -5,7 +5,7 @@ import asciipinball.objects.physicobject.PhysicEntity;
 import asciipinball.shapes.Line;
 
 public class PinballGame {
-    public static final float GRAVITATION = (float) 0.3;
+    public static final float GRAVITATION = 0.00001f;
     public static final int OFFSET = 10;
     public static final int WIDTH = 200;
     public static final int HEIGHT = 135;

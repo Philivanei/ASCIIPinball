@@ -12,6 +12,7 @@ public abstract class PhysicEntity implements Drawable {
 
     public Ball updateEntity(Ball ball){
         if(isCollided(ball)){
+            System.out.println("Collision DETECTED");
             return interactWitBall(ball);
         } else {
             return null;
