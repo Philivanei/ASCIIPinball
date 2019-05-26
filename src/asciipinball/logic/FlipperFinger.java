@@ -16,6 +16,7 @@ public abstract class FlipperFinger extends PolygonEntity {
     protected long stopTime;
     protected long abortTimeStop;
     protected long abortTimeStart;
+    protected float startAngle;
     protected float length;
     protected float adjacentSide;
     protected float oppositeSide;
@@ -24,16 +25,17 @@ public abstract class FlipperFinger extends PolygonEntity {
 
     public abstract Line calculateLine(float x, float y, float startAngle, float length);
 
-    public abstract void updateFlipperfinger(Ball ball, GameView gameView, float startAngle);
+    public abstract void updateFlipperfinger(Ball ball, GameView gameView);
 
     //startangle initializes the angle in wich the flipperfingers are created
     //stopangle where the flipperfingers should stop
     public FlipperFinger(float x, float y, float startAngle, float stopAngle, float length) {
         // this.startAngle = startAngle;
         this.stopAngle = stopAngle;
+        this.startAngle = startAngle;
         this.length = length;
-        lines = new Line[2];
-        calculateLine(x, y, startAngle, length);
+        lines = new Line[1];
+        lines[0] = calculateLine(x, y, startAngle, length);
     }
 
     //moves the line of the flipperfingers up
@@ -59,6 +61,11 @@ public abstract class FlipperFinger extends PolygonEntity {
     protected Ball interactWitBall(Ball ball) {
 
         Ball standardBall = super.interactWitBall(ball);
-        return new Ball(standardBall.getPositionX(),standardBall.getPositionY(),standardBall.getDirection(), (standardBall.getVelocity() + 0.03f));
+        return new Ball(standardBall.getPositionX(), standardBall.getPositionY(), standardBall.getRadius() , standardBall.getDirection(), (standardBall.getVelocity() + 0.03f));
+    }
+
+    @Override
+    public void addToCanvas(GameView gameView) {
+        lines[0].addToCanvas(gameView);
     }
 }

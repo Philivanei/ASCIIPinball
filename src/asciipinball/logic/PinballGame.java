@@ -20,6 +20,8 @@ public class PinballGame {
     private Player[] players;
     private Table table;
     private PhysicEntity[] physicEntities;
+    private RightFlipperFinger rightFlipperFinger;
+    private LeftFlipperFinger leftFlipperFinger;
 
     public PinballGame() {
 
@@ -38,11 +40,19 @@ public class PinballGame {
         //TODO
         //DEBUG STUFF REMOVE BEFORE RELEASE!
         physicEntities[0] = new LineWall(30, 30,50,0);
+        leftFlipperFinger = new LeftFlipperFinger(20,20,(float) Math.toRadians(45),(float) Math.toRadians(135), 4);
+        rightFlipperFinger = new RightFlipperFinger(40,20,(float) Math.toRadians(45),(float) Math.toRadians(135),4);
+
 
     }
 
     public void simulateTick(){
+
         ball.calculateFuture(PinballGame.GRAVITATION);
+
+        leftFlipperFinger.updateFlipperfinger(ball, gameView);
+        rightFlipperFinger.updateFlipperfinger(ball, gameView);
+
         Ball newBall = updateAll();
 
         if(newBall != null){
@@ -67,6 +77,16 @@ public class PinballGame {
             }
         }
 
+        Ball rightFlipperfingerBall = rightFlipperFinger.updateEntity(ball);
+        if(rightFlipperfingerBall != null){
+            resultBall = rightFlipperfingerBall;
+        }
+        Ball leftFlipperfingerBall = leftFlipperFinger.updateEntity(ball);
+
+        if(leftFlipperfingerBall != null){
+            resultBall = leftFlipperfingerBall;
+        }
+
         Ball tableBall = table.updateEntity(ball);
         if(tableBall != null){
             resultBall = tableBall;
@@ -86,6 +106,9 @@ public class PinballGame {
                 physicEntity.addToCanvas(gameView);
             }
         }
+
+        leftFlipperFinger.addToCanvas(gameView);
+        rightFlipperFinger.addToCanvas(gameView);
 
         ball.addToCanvas(gameView);
 

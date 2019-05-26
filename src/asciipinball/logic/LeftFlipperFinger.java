@@ -20,7 +20,7 @@ public class LeftFlipperFinger extends FlipperFinger {
     }
 
     @Override
-    public void updateFlipperfinger(Ball ball, GameView gameView, float startAngle) {
+    public void updateFlipperfinger(Ball ball, GameView gameView) {
         KeyEvent[] keyEvent;
         keyEvent = gameView.getKeyEvents();
         try {

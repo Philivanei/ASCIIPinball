@@ -5,7 +5,7 @@ import asciipinball.shapes.Line;
 
 import java.awt.event.KeyEvent;
 
-public abstract class RightFlipperFinger extends FlipperFinger {
+public class RightFlipperFinger extends FlipperFinger {
 
     public RightFlipperFinger(float x, float y, float startAngle, float stopAngle, float length) {
         super(x, y, startAngle, stopAngle, length);
@@ -20,7 +20,7 @@ public abstract class RightFlipperFinger extends FlipperFinger {
     }
 
     @Override
-    public void updateFlipperfinger(Ball ball, GameView gameView, float startAngle) {
+    public void updateFlipperfinger(Ball ball, GameView gameView) {
         try {
             KeyEvent[] keyEvent;
             keyEvent = gameView.getKeyEvents();
