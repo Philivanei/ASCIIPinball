@@ -12,10 +12,10 @@ public class Table extends PolygonEntity implements Drawable {
 
     public Table(float width, float hight) {
 
-        Coordinate topLeft = new Coordinate(0,hight);
-        Coordinate topRight = new Coordinate(width, hight);
+        Coordinate topLeft = new Coordinate(0,hight-1);
+        Coordinate topRight = new Coordinate(width-1, hight-1);
         Coordinate bottomLeft = new Coordinate(0,0);
-        Coordinate bottomRight = new Coordinate(width,0);
+        Coordinate bottomRight = new Coordinate(width-1,0);
 
         lines = new Line[4];
         lines[0] = new Line(topLeft,topRight);
@@ -27,7 +27,9 @@ public class Table extends PolygonEntity implements Drawable {
 
     @Override
     public void addToCanvas(GameView gameView) {
-
+        for(int i = 0; i < lines.length; i++){
+            lines[i].addToCanvas(gameView);
+        }
     }
 
 }
