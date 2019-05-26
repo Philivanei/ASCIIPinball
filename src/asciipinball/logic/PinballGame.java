@@ -29,7 +29,7 @@ public class PinballGame {
 
 
         /**Init Arrays and Values**/
-        ball = new Ball(40f,40f,2.5f);
+        ball = new Ball(40f,40f,2.5f,0,0.01f);
         players = new Player[4];
         physicEntities = new PhysicEntity[300];
         table = new Table(WIDTH, HEIGHT);
