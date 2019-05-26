@@ -13,7 +13,7 @@ public class Rectangle {
         lines = new Line[4];
 
         if (angle != 0) {
-            createLines(angle, x1, y1, x2, y2);
+            initializeLines(angle, x1, y1, x2, y2);
         } else {
             //coordinates for the case that the rectangle is horizontal (angle = 0)
             lines[0] = new Line(x1, y1, x2, y1);
@@ -47,7 +47,7 @@ public class Rectangle {
     }
 
     //calculates the unknown coordinates of the rectangle and creates the lines
-    public void createLines(float angle, float x1, float y1, float x2, float y2) {
+    public void initializeLines(float angle, float x1, float y1, float x2, float y2) {
 
         //calculating the x3 coordinate
         //lengthPointRight is the basic length of the right triangle beneath the rectangle
