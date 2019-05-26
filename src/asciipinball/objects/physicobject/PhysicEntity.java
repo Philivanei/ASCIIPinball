@@ -1,8 +1,9 @@
 package asciipinball.objects.physicobject;
 
+import asciipinball.interfaces.Drawable;
 import asciipinball.logic.Ball;
 
-public abstract class PhysicEntity {
+public abstract class PhysicEntity implements Drawable {
 
     protected float positionX;
     protected float positionY;

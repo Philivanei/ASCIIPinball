@@ -1,6 +1,7 @@
 package asciipinball.logic;
 
 import asciipinball.GameView;
+import asciipinball.objects.physicobject.PhysicEntity;
 import asciipinball.shapes.Line;
 
 public class PinballGame {
@@ -9,14 +10,15 @@ public class PinballGame {
     public static final int WIDTH = 10;
     public static final int HEIGHT = 135;
 
-    public static GameView gameView;
+    public GameView gameView;
 
     //TODO IMPORTANT: Max Koordinate is WIDTH/HEIGHT -1
 
 
-    private Ball[] balls;
+    private Ball ball;
     private Player[] players;
     private Table table;
+    private PhysicEntity[] physicEntities;
 
     public PinballGame() {
 
@@ -27,8 +29,9 @@ public class PinballGame {
 
 
         /**Init Arrays and Values**/
-        balls = new Ball[4];
+        ball = new Ball(40f,40f,2.5f);
         players = new Player[4];
+        physicEntities = new PhysicEntity[300];
         table = new Table(WIDTH, HEIGHT);
 
         //TODO
@@ -38,8 +41,28 @@ public class PinballGame {
         //Line testLine = new Line(20,122,25,3);
         testLine.addToCanvas(gameView);
         gameView.printCanvas();
-
-
-
     }
+
+    public void updateAll(){
+        ball.calculateFuture(PinballGame.GRAVITATION);
+        for (PhysicEntity physicEntity : physicEntities) {
+            if(physicEntity != null){
+                physicEntity.updateEntity(ball);
+            }
+        }
+    }
+
+    public void addAllToCanvas(){
+
+        table.addToCanvas(gameView);
+
+        for (PhysicEntity physicEntity : physicEntities) {
+            if(physicEntity != null) {
+                physicEntity.addToCanvas(gameView);
+            }
+        }
+
+        ball.addToCanvas(gameView);
+    }
+
 }
