@@ -5,8 +5,20 @@ import asciipinball.logic.PinballGame;
 
 public class Program {
     public static void main (String[] args){
-        GameView gameView = new GameView(15, 25, "Menu");
-        Menu menu = new Menu(gameView);
+
+        PinballGame pinballGame = new PinballGame();
+        long millis = System.currentTimeMillis();
+        pinballGame.printAll();
+
+        while (true){
+
+            if((System.currentTimeMillis() - millis) > 17){
+                millis = System.currentTimeMillis();
+                pinballGame.printAll();
+            }
+            pinballGame.simulateTick();
+        }
+
 
     }
 }

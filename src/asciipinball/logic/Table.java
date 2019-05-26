@@ -8,14 +8,12 @@ import asciipinball.shapes.Line;
 
 public class Table extends PolygonEntity implements Drawable {
 
-    private Line lines[];
-
     public Table(float width, float hight) {
 
         Coordinate topLeft = new Coordinate(0,hight);
         Coordinate topRight = new Coordinate(width, hight);
-        Coordinate bottomLeft = new Coordinate(0,0);
-        Coordinate bottomRight = new Coordinate(width,0);
+        Coordinate bottomLeft = new Coordinate(0,1);
+        Coordinate bottomRight = new Coordinate(width,1);
 
         lines = new Line[4];
         lines[0] = new Line(topLeft,topRight);
@@ -27,7 +25,9 @@ public class Table extends PolygonEntity implements Drawable {
 
     @Override
     public void addToCanvas(GameView gameView) {
-
+        for(Line line : lines){
+            line.addToCanvas(gameView);
+        }
     }
 
 }

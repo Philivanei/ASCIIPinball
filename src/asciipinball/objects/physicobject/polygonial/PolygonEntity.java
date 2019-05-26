@@ -23,7 +23,7 @@ public abstract class PolygonEntity extends PhysicEntity {
 
         float minDistance = Float.MAX_VALUE;
 
-        for(int i = 0; i< lines.length; i++){
+        for(int i = 0; i < lines.length; i++){
             float distanceToBall;
             float distanceToA;
             float distanceToB;
@@ -34,20 +34,30 @@ public abstract class PolygonEntity extends PhysicEntity {
             if(Float.isFinite(mLine)){ //If The line isn't 90° straight
                 float bLine = lines[i].getB();
                 float mVertical = -1/mLine;
-                float bVertical = ball.getPositionY() - mVertical * ball.getPositionX();
+                if(Float.isFinite(mVertical)){
+                    float bVertical = ball.getFuturePositionY() - mVertical * ball.getFuturePositionX();
 
-                x = (bLine - bVertical) / (bVertical - mLine);
-                y = mVertical * x + bVertical;
+                    x = (bLine - bVertical) / (mVertical - mLine);
+                    y = mVertical * x + bVertical;
+                    //calc distance Ball to lotfußpunkt
+                    distanceToBall = (float) Math.sqrt(Math.pow((x - ball.getFuturePositionX()),2) + Math.pow((y - ball.getFuturePositionY()),2));
+                }else{ //if Line is 0° horizontal
+                    x = ball.getFuturePositionX();
+                    y = lines[i].getY1();
 
-                //calc distance Ball to lotfußpunkt
-                distanceToBall = (float) Math.sqrt((x-ball.getPositionX()) * (x-ball.getPositionX()) + (y-ball.getPositionY()) * (y-ball.getPositionY()));
+                    distanceToBall = Math.abs(y - ball.getFuturePositionY());
+                }
+
+
             }else{ // If the line is 90° straight (up)
 
                 x = lines[i].getX1();
-                y = ball.getPositionY();
+                y = ball.getFuturePositionY();
 
-                distanceToBall = Math.abs(ball.getPositionX() - lines[i].getX1());
+                distanceToBall = Math.abs(ball.getFuturePositionX() - lines[i].getX1());
             }
+
+            //System.out.println(distanceToBall + " " + Boolean.toString(Float.isInfinite(mLine)));
 
             distanceToA = (float) (Math.sqrt(Math.pow((x - lines[i].getX1()),2) +
                     Math.pow((y - lines[i].getY1()),2)));
@@ -86,11 +96,25 @@ public abstract class PolygonEntity extends PhysicEntity {
     protected Ball interactWitBall(Ball ball) {
         float angleToLine;
         if(Float.isFinite(collisionLine.getM())){
-            angleToLine = (float) Math.atan(1/collisionLine.getM());
+
+            if(Float.isFinite(1/collisionLine.getM())){
+                angleToLine = (float) Math.toDegrees(Math.atan(1/collisionLine.getM()));
+            }else{
+                angleToLine = 0;
+            }
         }else{
             angleToLine = 90;
         }
-        float finalAngle = ball.convertDirection((-ball.convertDirection((ball.getDirection() + 90 - angleToLine)))  - (90 - angleToLine)); //double conversion is necessary if -ball.convertDirection results in -180°
-        return new Ball(ball.getPositionX(),ball.getPositionY(),finalAngle,ball.getVelocity());
+
+        System.out.println(angleToLine);
+
+        if(angleToLine < 0){
+            angleToLine = Math.abs(angleToLine) + 90;
+        }
+
+        float finalAngle = ball.convertDirection(-(ball.getDirection() - angleToLine) + angleToLine);
+        //float finalAngle = ball.convertDirection((-ball.convertDirection((ball.getDirection() + 90 - angleToLine)))  - (90 - angleToLine)); //double conversion is necessary if -ball.convertDirection results in -180°
+        System.out.println(ball.getDirection() + " -> " + finalAngle);
+        return new Ball(ball.getPositionX(),ball.getPositionY(), ball.getRadius(),finalAngle,ball.getVelocity());
     }
 }
