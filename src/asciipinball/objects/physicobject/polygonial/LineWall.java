@@ -12,6 +12,6 @@ public class LineWall extends PolygonEntity{
 
     @Override
     public void addToCanvas(GameView gameView) {
-
+        lines[0].addToCanvas(gameView);
     }
 }

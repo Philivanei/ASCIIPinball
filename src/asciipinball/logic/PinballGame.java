@@ -2,6 +2,7 @@ package asciipinball.logic;
 
 import asciipinball.GameView;
 import asciipinball.objects.physicobject.PhysicEntity;
+import asciipinball.objects.physicobject.polygonial.LineWall;
 import asciipinball.shapes.Line;
 
 public class PinballGame {
@@ -29,10 +30,14 @@ public class PinballGame {
 
 
         /**Init Arrays and Values**/
-        ball = new Ball(40f,40f,2.5f,0,0.01f);
+        ball = new Ball(40f,70f,2.5f,0,0.0f);
         players = new Player[4];
         physicEntities = new PhysicEntity[300];
         table = new Table(WIDTH, HEIGHT);
+
+        //TODO
+        //DEBUG STUFF REMOVE BEFORE RELEASE!
+        physicEntities[0] = new LineWall(30, 30,60,25);
 
     }
 
