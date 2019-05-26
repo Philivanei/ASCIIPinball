@@ -7,7 +7,7 @@ import asciipinball.shapes.Line;
 public class PinballGame {
     public static final float GRAVITATION = (float) 0.3;
     public static final int OFFSET = 10;
-    public static final int WIDTH = 10;
+    public static final int WIDTH = 200;
     public static final int HEIGHT = 135;
 
     public GameView gameView;
@@ -34,25 +34,45 @@ public class PinballGame {
         physicEntities = new PhysicEntity[300];
         table = new Table(WIDTH, HEIGHT);
 
-        //TODO
-        /**DEBUG STUFF REMOVE BEFORE RELEASE!**/
-        Line testLine = new Line(0,0,20,150);
-        //Line testLine = new Line(20,3,33,122);
-        //Line testLine = new Line(20,122,25,3);
-        testLine.addToCanvas(gameView);
-        gameView.printCanvas();
     }
 
-    public void updateAll(){
+    public void simulateTick(){
         ball.calculateFuture(PinballGame.GRAVITATION);
+        Ball newBall = updateAll();
+
+        if(newBall != null){
+            ball.updateBall(newBall);
+        }else{
+            ball.updateBall();
+        }
+
+        printAll();
+    }
+
+    public Ball updateAll(){
+
+        Ball resultBall = null;
+
         for (PhysicEntity physicEntity : physicEntities) {
             if(physicEntity != null){
-                physicEntity.updateEntity(ball);
+                Ball physicEntityBall = physicEntity.updateEntity(ball);
+                if(physicEntityBall != null){
+                    resultBall = physicEntityBall;
+                }
             }
         }
+
+        Ball tableBall = table.updateEntity(ball);
+        if(tableBall != null){
+            resultBall = tableBall;
+        }
+
+        return  resultBall;
     }
 
-    public void addAllToCanvas(){
+    public void printAll(){
+
+        gameView.clearCanvas();
 
         table.addToCanvas(gameView);
 
@@ -63,6 +83,8 @@ public class PinballGame {
         }
 
         ball.addToCanvas(gameView);
+
+        gameView.printCanvas();
     }
 
 }
