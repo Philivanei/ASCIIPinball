@@ -7,12 +7,16 @@ import java.util.concurrent.locks.LockSupport;
 
 public class Program {
     public static void main (String[] args){
-
         PinballGame pinballGame = new PinballGame();
-        long startTime = System.currentTimeMillis();
         pinballGame.printAll();
+
+        loop(pinballGame);
+    }
+
+    public static void loop(PinballGame pinballGame){
+        long startTime = System.currentTimeMillis();
         long calculationIterator = 0;
-        long maxCalculation = 80;
+        long maxCalculation = 75;
 
         while (true) {
 

@@ -1,6 +1,7 @@
 package asciipinball.logic;
 
 import asciipinball.GameView;
+import asciipinball.Settings;
 import asciipinball.interfaces.Drawable;
 
 /**
@@ -197,8 +198,8 @@ public class Ball implements Drawable {
             }
         }
 
-        int canvasRow = PinballGame.HEIGHT - Math.round(positionY + radius);
-        int canvasColumn = Math.round(positionX - radius) + PinballGame.OFFSET;
+        int canvasRow = Settings.HEIGHT - Math.round(positionY + radius);
+        int canvasColumn = Math.round(positionX - radius) + Settings.OFFSET;
 
         gameView.addToCanvas(canvasSegment,canvasRow,canvasColumn);
 
