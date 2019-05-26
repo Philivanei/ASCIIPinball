@@ -1,14 +1,16 @@
 package asciipinball.shapes;
 
-public class Rectangle {
+import asciipinball.GameView;
+import asciipinball.objects.physicobject.polygonial.PolygonEntity;
+import asciipinball.shapes.Line;
 
-    private Line[] lines;
+public class Rectangle extends PolygonEntity {
 
     //angle always in radians!!!
     //ground point coordinates are x1 and y1 and of the upper edge x2 and y2
 
     //creates a rectangle with defined angle
-    public Rectangle(float angle, float x1, float y1, float x2, float y2) {
+    public Rectangle(float x1, float y1, float x2, float y2, float angle) {
 
         lines = new Line[4];
 
@@ -78,5 +80,12 @@ public class Rectangle {
         lines[1] = new Line(x3, y3, x2, y2);
         lines[2] = new Line(x2, y2, x4, y4);
         lines[3] = new Line(x4, y4, x1, y1);
+    }
+
+    @Override
+    public void addToCanvas(GameView gameView) {
+        for (Line line : lines) {
+            line.addToCanvas(gameView);
+        }
     }
 }

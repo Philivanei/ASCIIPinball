@@ -4,6 +4,7 @@ import asciipinball.GameView;
 import asciipinball.objects.physicobject.PhysicEntity;
 import asciipinball.objects.physicobject.polygonial.LineWall;
 import asciipinball.shapes.Line;
+import asciipinball.shapes.Rectangle;
 
 public class PinballGame {
     public static final float GRAVITATION = 0.00001f;
@@ -40,6 +41,7 @@ public class PinballGame {
         //TODO
         //DEBUG STUFF REMOVE BEFORE RELEASE!
         physicEntities[0] = new LineWall(30, 30,50,0);
+        physicEntities[1] = new Rectangle(100,100,120,120,45);
         leftFlipperFinger = new LeftFlipperFinger(20,20,(float) Math.toRadians(45),(float) Math.toRadians(135), 4);
         rightFlipperFinger = new RightFlipperFinger(40,20,(float) Math.toRadians(45),(float) Math.toRadians(135),4);
 
