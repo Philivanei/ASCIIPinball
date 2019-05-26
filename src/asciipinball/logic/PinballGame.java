@@ -37,7 +37,7 @@ public class PinballGame {
 
         //TODO
         //DEBUG STUFF REMOVE BEFORE RELEASE!
-        physicEntities[0] = new LineWall(30, 30,60,25);
+        physicEntities[0] = new LineWall(30, 30,50,0);
 
     }
 

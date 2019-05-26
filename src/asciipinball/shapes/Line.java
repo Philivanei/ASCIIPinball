@@ -65,6 +65,7 @@ public class Line implements Drawable {
                 if(Float.isFinite(getM())){
                     if(getM() > 0){
                         if(Math.abs(((canvasSegment.length - 1) - row) - (getM() * column)) < ((Math.abs(getM()) <= 1) ? 1 : (Math.abs(getM()) / 2))){
+                        //if(Math.abs(((canvasSegment.length - 1) - row) - (getM() * column)) < (Math.abs(getM()) / 2)){
                             canvasSegment[row][column] = 'B';
                         }else{
                             canvasSegment[row][column] = ' ';
