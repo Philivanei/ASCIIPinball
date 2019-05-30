@@ -14,7 +14,7 @@ public abstract class PhysicEntity implements Drawable {
 
     public Ball updateEntity(Ball ball){
         if(isCollided(ball)){
-            System.out.println("Collision DETECTED");
+            //System.out.println("Collision DETECTED");
             return interactWithBall(ball);
         } else {
             return null;
@@ -53,7 +53,7 @@ public abstract class PhysicEntity implements Drawable {
             angleToLine = 90;
         }
 
-        System.out.println(angleToLine);
+        //System.out.println(angleToLine);
 
         if(angleToLine < 0){
             angleToLine = Math.abs(angleToLine) + 90;

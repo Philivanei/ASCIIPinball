@@ -2,13 +2,11 @@ package asciipinball.logic;
 
 import asciipinball.GameView;
 import asciipinball.Settings;
+import asciipinball.levels.Levels;
 import asciipinball.objects.physicobject.PhysicEntity;
-import asciipinball.objects.physicobject.circular.Bumper;
 import asciipinball.objects.physicobject.polygonial.Table;
 
-import java.awt.*;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 public class PinballGame {
 
@@ -35,15 +33,16 @@ public class PinballGame {
 
 
         /**Init Arrays and Values**/
-        ball = new Ball(40f,70f,2.5f,90,0.00f);
+        ball = new Ball(90f,30f,2.5f,100,0.05f);
         players = new Player[4];
         physicEntities = new PhysicEntity[300];
         table = new Table(Settings.WIDTH, Settings.HEIGHT, Settings.HOLE_WIDTH);
 
-        //TODO Remove before release
+        //TODO Remove before final release
         //DEBUG STUFF REMOVE BEFORE RELEASE!
         //physicEntities[0] = new LineWall(30, 30,50,0);
-        physicEntities[0] = new Bumper(38, 30,4f);
+        //physicEntities[0] = new Bumper(38, 30,4f);
+        physicEntities = Levels.LEVEL1;
 
     }
 

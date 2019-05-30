@@ -22,6 +22,18 @@ public class Ball implements Drawable {
     private float velocity;
     private float radius;
 
+    public Ball(Ball ball){
+        positionX = ball.getPositionX();
+        positionY = ball.getPositionY();
+        futurePositionX = ball.futurePositionX;
+        futurePositionY = ball.futurePositionY;
+        futureDirection = ball.futureDirection;
+        futureVelocity = ball.futureVelocity;
+        direction = ball.direction;
+        velocity = ball.getVelocity();
+        radius = ball.getRadius();
+    }
+
     public Ball(float x, float y, float radius) {
         positionX = x;
         positionY = y;
@@ -152,11 +164,10 @@ public class Ball implements Drawable {
         ySpeed -= gravitationPerTick;
         //System.out.println("XSpeed: " + xSpeed + " YSpeed: " + ySpeed);
 
-        if(velocity - Settings.FRICTION > Settings.MAX_SLOWDOWN) {
+        if(velocity - Settings.FRICTION > Settings.MIN_SPEED) {
             velocity -= Settings.FRICTION;
         }
 
-        System.out.println(velocity);
 
 
         calculateFutureDirection(xSpeed, ySpeed);
@@ -173,12 +184,30 @@ public class Ball implements Drawable {
 
     public void updateBall(Ball ball) {
 
-        ball.calculateFuture(Settings.GRAVITATION);
+       /* Ball ballCopy = new Ball(ball);
 
-        this.positionX = ball.getFuturePositionX();
-        this.positionY = ball.getFuturePositionY();
+        for(int i = 0; i < 2; i++){
+            ballCopy = new Ball(ballCopy.getFuturePositionX(), ballCopy.getFuturePositionY(), ballCopy.getRadius(), ball.getDirection(), ball.getVelocity());
+            ballCopy.calculateFuture(Settings.GRAVITATION);
+        }*/
+
+        ball.preventBug();
+
+        this.positionX = ball.getPositionX();
+        this.positionY = ball.getPositionY();
         this.direction = ball.getDirection();
         this.velocity = ball.getVelocity();
+    }
+
+    public void preventBug(){
+        for(int i = 0; i < 2; i++){
+            calculateFuture(Settings.GRAVITATION);
+            positionX = futurePositionX;
+            positionY = futurePositionY;
+            velocity = futureVelocity;
+            direction = futureDirection;
+        }
+
     }
 
     public Ball joinBalls(ArrayList<Ball> balls) {
@@ -191,6 +220,13 @@ public class Ball implements Drawable {
         //It is Possible that there is only one Ball in ArrayList -> in that case return the Ball
         //It is Possible that ArrayList is empty -> in that case return null
         return balls.isEmpty() ? null : balls.get(0);
+    }
+
+    public void addVelocity(float velocityAdd){
+        float newVelocity = velocity + velocityAdd;
+        if(newVelocity > Settings.MIN_SPEED && newVelocity < Settings.MAX_SPEED){
+            velocity = newVelocity;
+        }
     }
 
 

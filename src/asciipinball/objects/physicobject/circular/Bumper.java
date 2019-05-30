@@ -16,7 +16,9 @@ public class Bumper extends CircleEntity {
     @Override
     protected Ball interactWithBall(Ball ball) {
         Ball unmodifiedBall = super.interactWithBall(ball);
-        return new Ball(unmodifiedBall.getPositionX(),unmodifiedBall.getPositionY(), unmodifiedBall.getRadius(), unmodifiedBall.getDirection() ,unmodifiedBall.getVelocity() + 0.025f);
+        unmodifiedBall.addVelocity(0.025f);
+        System.out.println("COLLISION");
+        return unmodifiedBall;
     }
 
     @Override
