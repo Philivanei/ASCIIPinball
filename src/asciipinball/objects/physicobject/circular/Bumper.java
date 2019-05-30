@@ -35,7 +35,7 @@ public class Bumper extends CircleEntity {
                 float distanceCanvasMiddle = (float) Math.sqrt(Math.pow(((radius - 0.5) - column),2) + Math.pow(((radius - 0.5) - row),2));
                 //canvasSegment[row][column] = (distanceCanvasMiddle < radius) ? 'B' : ' ';
                 if(distanceCanvasMiddle <= radius){
-                    canvasSegment[row][column] = 'B';
+                    canvasSegment[row][column] = 'R';
                 }
                 else{
                     canvasSegment[row][column] = ' ';
@@ -46,6 +46,6 @@ public class Bumper extends CircleEntity {
         int canvasRow = Settings.HEIGHT - Math.round(y + radius);
         int canvasColumn = Math.round(x - radius) + Settings.OFFSET;
 
-        gameView.addToCanvas(canvasSegment,canvasRow,canvasColumn);
+        gameView.addColorStringToCanvas(canvasSegment,canvasRow,canvasColumn);
     }
 }

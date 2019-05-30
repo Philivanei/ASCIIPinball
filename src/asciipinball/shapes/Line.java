@@ -5,6 +5,8 @@ import asciipinball.GameView;
 import asciipinball.Settings;
 import asciipinball.interfaces.Drawable;
 
+import java.awt.*;
+
 public class Line extends Shapes implements Drawable {
     private float x1;
     private float y1;
@@ -94,6 +96,6 @@ public class Line extends Shapes implements Drawable {
 
         int canvasColumn = Math.round(x1 < x2 ? x1 : x2) + Settings.OFFSET; //Column = X
         int canvasRow = Math.abs(Math.round((y1 > y2 ? y1 : y2) - (Settings.HEIGHT)));
-        gameView.addToCanvas(canvasSegment,canvasRow,canvasColumn);
+        gameView.addColorStringToCanvas(canvasSegment,canvasRow,canvasColumn);
     }
 }
