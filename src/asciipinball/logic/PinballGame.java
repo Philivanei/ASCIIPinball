@@ -3,7 +3,7 @@ package asciipinball.logic;
 import asciipinball.GameView;
 import asciipinball.Settings;
 import asciipinball.objects.physicobject.PhysicEntity;
-import asciipinball.objects.physicobject.polygonial.LineWall;
+import asciipinball.objects.physicobject.circular.Bumper;
 import asciipinball.objects.physicobject.polygonial.Table;
 
 import java.util.ArrayList;
@@ -22,7 +22,7 @@ public class PinballGame {
 
     public PinballGame() {
 
-        /** Init asciipinball.asciipinball.asciipinball.GameView **/
+        /** Init GameView **/
         gameView = new GameView(Settings.HEIGHT, 240, "Pinball");
         gameView.setWindowsSize(GameView.WINDOWSIZE_LARGE);
         gameView.show();
@@ -32,11 +32,12 @@ public class PinballGame {
         ball = new Ball(40f,70f,2.5f,90,0.00f);
         players = new Player[4];
         physicEntities = new PhysicEntity[300];
-        table = new Table(Settings.WIDTH, Settings.HEIGHT);
+        table = new Table(Settings.WIDTH, Settings.HEIGHT, Settings.HOLE_WIDTH);
 
         //TODO Remove before release
         //DEBUG STUFF REMOVE BEFORE RELEASE!
-        physicEntities[0] = new LineWall(30, 30,50,0);
+        //physicEntities[0] = new LineWall(30, 30,50,0);
+        physicEntities[0] = new Bumper(38, 30,4f);
 
     }
 

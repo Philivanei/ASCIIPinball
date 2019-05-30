@@ -2,6 +2,7 @@ package asciipinball.objects.physicobject.circular;
 
 import asciipinball.GameView;
 import asciipinball.Settings;
+import asciipinball.logic.Ball;
 import asciipinball.shapes.Circle;
 
 public class Bumper extends CircleEntity {
@@ -10,6 +11,12 @@ public class Bumper extends CircleEntity {
         score = 1;
         circles = new Circle[1];
         circles[0] = new Circle(x,y,radius);
+    }
+
+    @Override
+    protected Ball interactWithBall(Ball ball) {
+        Ball unmodifiedBall = super.interactWithBall(ball);
+        return new Ball(unmodifiedBall.getPositionX(),unmodifiedBall.getPositionY(), unmodifiedBall.getRadius(), unmodifiedBall.getDirection() ,unmodifiedBall.getVelocity() + 0.025f);
     }
 
     @Override
@@ -36,8 +43,8 @@ public class Bumper extends CircleEntity {
             }
         }
 
-        int canvasRow = Settings.HEIGHT - Math.round(x + radius);
-        int canvasColumn = Math.round(y - radius) + Settings.OFFSET;
+        int canvasRow = Settings.HEIGHT - Math.round(y + radius);
+        int canvasColumn = Math.round(x - radius) + Settings.OFFSET;
 
         gameView.addToCanvas(canvasSegment,canvasRow,canvasColumn);
     }
