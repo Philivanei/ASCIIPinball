@@ -8,6 +8,7 @@ import java.awt.*;
 import java.awt.event.*;
 import java.awt.font.TextAttribute;
 import java.awt.geom.Rectangle2D;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
@@ -21,12 +22,14 @@ import java.util.concurrent.LinkedBlockingQueue;
  * <br>
  *
  * @author Andreas Berl
- * @version 3.08 (02.05.2019)
- *
+ * @version 4.25(28.05.2019)
+ * <p>
  * Updates:
- * fillCanvas(char c)
- * Textbox skaliert mit Windows
- *
+ * Neuer Canvas
+ * Buchstaben mittig Ausgerichtet
+ * JavaDoc �berarbeitet
+ * Gro�e Buchstaben
+ * Kein Gr��enlimit
  */
 public class GameView {
 
@@ -46,12 +49,12 @@ public class GameView {
      * Fester maximiert
      */
     public static final int WINDOWSIZE_MAXIMIZED = 3;
-    final static String STANDARDTITEL = "GameView III";
-    private final static String STATUSRECHTS = "GameView III (2019) - Prof. Dr. Andreas Berl - TH Deggendorf ";
-    private final static String SPLASH = "\n       ASCII-\n\n" + " GameView III (2019) \n";
+    final static String STANDARDTITEL = "GameView IV";
+    private final static String STATUSRECHTS = "GameView IV (2019) - Prof. Dr. Andreas Berl - TH Deggendorf ";
+    private final static String SPLASH = "      ASCII-\n\n" + "GameView IV (2019)";
     private final static char STANDARDNONTRANSPARENTSPACE = ';';
     private static GameView gameView;
-
+    private final String framesLost = " --> Frames verloren!";
     private LinkedBlockingQueue<KeyEvent> keyboardEvents;
     private LinkedBlockingQueue<MouseEvent> mousePointerEvents;
 
@@ -66,9 +69,11 @@ public class GameView {
     private boolean useMouse;
     private boolean nullCursor;
 
-    private char[][] canvas;
+    private Canvas canvas;
+    private HashMap<Character, Color> colormap;
+    private Color foregroundColor;
+    private Color backgroundColor;
     private char nonTransparentSpace;
-    private String printThis;
 
     private long lastTime;
     private int countPrints;
@@ -84,8 +89,8 @@ public class GameView {
      * das Fenster mit der Aufl�sung, die am h�ufigsten ben�tigt wird, da die Form des Fensters davon abh�ngt. Sie k�nnen
      * die Aufl�sung sp�ter mit der Methode <code>changeResolution(int lines, int rows)</code> �ndern.
      *
-     * @param lines Die gew�hlte Aufl�sung (Zeilen von mindestens 9 bis h�chstens 135).
-     * @param rows  Die gew�hlte Aufl�sung (Spalten von mindestens 16 bis h�chstens 240).
+     * @param lines Die gew�hlte Aufl�sung (Zeilen).
+     * @param rows  Die gew�hlte Aufl�sung (Spalten).
      * @param title Der Titel f�r die Titelzeile des Fensters.
      */
     public GameView(int lines, int rows, String title) {
@@ -98,6 +103,8 @@ public class GameView {
         }
         // Initialize variables
         setResolution(lines, rows);
+        this.foregroundColor = Color.white;
+        this.backgroundColor = Color.black;
         this.useMouse = false;
         this.nullCursor = false;
         this.nonTransparentSpace = STANDARDNONTRANSPARENTSPACE;
@@ -110,8 +117,8 @@ public class GameView {
         this.keyboardEvents = new LinkedBlockingQueue<>();
         this.mousePointerEvents = new LinkedBlockingQueue<>();
         this.windowSize = WINDOWSIZE_NORMAL;
+        fillColormap();
         title = (title == "") ? STANDARDTITEL : title;
-        // Init JFrame
         intitFrame(title);
     }
 
@@ -167,9 +174,9 @@ public class GameView {
     }
 
     /**
-     * Legt ein Symbol f�r die Titelleiste fest. Das Symbolfile* muss in einem
-     * Verzeichnis"src/resources" liegen.Bitte den* Namen des Files ohne
-     * Verzeichnisnamen angeben, z.B.*"Symbol.png". Diese Methode muss aufgerufen
+     * Legt ein Symbol f�r die Titelleiste fest. Das Symbolfile muss in einem
+     * Verzeichnis "src/resources" liegen.Bitte den Namen des Files ohne
+     * Verzeichnisnamen angeben, z.B."Symbol.png". Diese Methode muss aufgerufen
      * werden, bevor das Fenster sichtbar gemacht wird.
      *
      * @param windowIcon Das Symbol.
@@ -218,30 +225,32 @@ public class GameView {
         if (windowSize == WINDOWSIZE_MAXIMIZED) {
             frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
         } else if (windowSize == WINDOWSIZE_NORMAL) {
-            frame.setSize((int) (Toolkit.getDefaultToolkit().getScreenSize().width / 3d * 2d), (int) (Toolkit.getDefaultToolkit().getScreenSize().width / 3d * 2d));
+            frame.setSize((int) (Toolkit.getDefaultToolkit().getScreenSize().width / 3d * 2d), (int) (Toolkit.getDefaultToolkit().getScreenSize().height / 3d * 2d));
         } else if (windowSize == WINDOWSIZE_LARGE) {
             frame.setSize(Toolkit.getDefaultToolkit().getScreenSize().width - 100, Toolkit.getDefaultToolkit().getScreenSize().height - 100);
+        } else if (windowSize == WINDOWSIZE_SMALL) {
+            frame.setSize((int) (Toolkit.getDefaultToolkit().getScreenSize().width / 3.5d * 2d), (int) (Toolkit.getDefaultToolkit().getScreenSize().height / 3.5 * 2d));
         }
         frame.revalidate();
         area.setFontsizeThatFitsWindow();
         frame.pack();
         frame.setLocationRelativeTo(null);
-        frame.setVisible(true);
+        new Thread(() -> frame.setVisible(true)).run();
         splashScreen();
+        while (!isSplashFinished) {
+            Thread.onSpinWait();
+        }
     }
 
     /**
-     * �ndert die Aufl�sung im Fenster. Die Fenstergr��e wird dabei beibehalten. Es
-     * k�nnen Aufl�sungen ausgew�hlt werden, z.B.:
-     * <code>Resolution.R04_064_x_036</code> erzeugt ein Fenster mit 36 Zeilen und
-     * 64 Spalten.
+     * �ndert die Aufl�sung im Fenster. Die Fenstergr��e wird dabei beibehalten.
      *
-     * @param lines Die gew�hlte Aufl�sung (Zeilen von mindestens 9 bis h�chstens 135).
-     * @param rows  Die gew�hlte Aufl�sung (Spalten von mindestens 16 bis h�chstens 240).
+     * @param lines Die gew�hlte Aufl�sung (Zeilen).
+     * @param rows  Die gew�hlte Aufl�sung (Spalten).
      */
     public void changeResolution(int lines, int rows) {
         setResolution(lines, rows);
-        this.area.setText(printThis);
+        this.area.setText();
         area.setFontsizeThatFitsWindow();
     }
 
@@ -261,6 +270,15 @@ public class GameView {
      */
     public int getColumns() {
         return spalten;
+    }
+
+    /**
+     * Gibt den aktuellen char an der Stelle (line, row) vom Canvas zur�ck.
+     *
+     * @return Aktueller Canvas.
+     */
+    public char getCharacter(int line, int row) {
+        return canvas.getCharacter(line, row);
     }
 
     /**
@@ -347,6 +365,30 @@ public class GameView {
         frame.setCursor(Cursor.getDefaultCursor());
     }
 
+
+    /**
+     * Gibt den �bergebenen <code>String</code> zentriert im Fenster aus. Diese Methode sollte
+     * h�chstens alle 16 ms aufgerufen werden (60 Frames pro Sekunde).
+     *
+     * @param string Der anzuzeigende String.
+     */
+    public void printCentred(String string) {
+        char[][] chars = convertStringToCharArray(string);
+        printCentred(chars);
+    }
+
+    /**
+     * Das �bergebene <code>char[][]</code> (mit Zeilen, Spalten) wird zentriert im Fenster
+     * ausgegeben. Diese Methode sollte h�chstens alle 16 ms aufgerufen werden (60
+     * Frames pro Sekunde).
+     *
+     * @param chars Das anzuzeigende <code>char[][]</code>.
+     */
+    public void printCentred(char[][] chars) {
+        print(chars, true);
+    }
+
+
     /**
      * Gibt den �bergebenen <code>String</code> im Fenster aus. Diese Methode sollte
      * h�chstens alle 16 ms aufgerufen werden (60 Frames pro Sekunde).
@@ -366,60 +408,134 @@ public class GameView {
      * @param chars Das anzuzeigende <code>char[][]</code>.
      */
     public void print(char[][] chars) {
+        print(chars, false);
+    }
+
+    private void print(char[][] chars, boolean centred) {
         clearCanvas();
-        addToCanvas(chars, 0, 0);
+        char temp = getNonTransparentSpace();
+        setNonTransparentSpace('\u1000');
+        if (centred) {
+            addToCanvasCentered(chars);
+        } else {
+            addToCanvas(chars, 0, 0);
+        }
         printCanvas();
+        setNonTransparentSpace(temp);
     }
 
     /**
      * L�scht alle Inhalte auf dem Canvas.
      */
     public void clearCanvas() {
-        for (int i = 0; i < zeilen; i++) {
-            for (int j = 0; j < spalten; j++) {
-                canvas[i][j] = ' ';
-            }
-        }
+        canvas.clearCanvas();
     }
 
     /**
      * Schreibt den �bergebenen <code>String</code> zentriert auf das Canvas, ohne
-     * die bisherigen Inhalte zu l�schen. Achtung: In dieser Methode ist das
-     * Leerzeichen durchsichtig (der Hintergrund ist zu sehen). Falls ein
-     * undurchsichtiges Leerzeichen ben�tigt wird, bitte statt dessen das Semikolon
-     * ";" verwenden. Das undurchsichtige Leerzeichen kann mit der Methode
+     * die bisherigen Inhalte zu l�schen.
+     * Achtung: In dieser Methode ist das
+     * Leerzeichen durchsichtig (Objekte im Hintergrund sind zu sehen). Falls ein
+     * undurchsichtiges Leerzeichen ben�tigt wird (die Hintergrundfarbe ist zu sehen), kann statt dessen das Semikolon
+     * ";" verwendet werden.
+     * Das undurchsichtige Leerzeichen kann mit der Methode
+     * <code>setNonTransparentSpace(char c)</code> auf ein anderes Zeichen gesetzt
+     * werden.
+     *
+     * @param string Der zu schreibende <code>String</code>.
+     * @param color  Farbe, die verwendet werden soll.
+     */
+    public void addToCanvasCentered(String string, Color color) {
+        char[][] chars = convertStringToCharArray(string);
+        addToCanvasCentered(chars, color);
+    }
+
+    /**
+     * Schreibt den �bergebenen <code>String</code> zentriert auf das Canvas, ohne
+     * die bisherigen Inhalte zu l�schen.
+     * Achtung: In dieser Methode ist das
+     * Leerzeichen durchsichtig (Objekte im Hintergrund sind zu sehen). Falls ein
+     * undurchsichtiges Leerzeichen ben�tigt wird (die Hintergrundfarbe ist zu sehen), kann statt dessen das Semikolon
+     * ";" verwendet werden.
+     * Das undurchsichtige Leerzeichen kann mit der Methode
      * <code>setNonTransparentSpace(char c)</code> auf ein anderes Zeichen gesetzt
      * werden.
      *
      * @param string Der zu schreibende <code>String</code>.
      */
     public void addToCanvasCentered(String string) {
-        char[][] chars = convertStringToCharArray(string);
-        addToCanvasCentered(chars);
+        addToCanvasCentered(string, foregroundColor);
     }
 
     /**
      * Schreibt das �bergebene <code>char[][]</code> (mit Zeilen, Spalten) zentriert
-     * auf das Canvas, ohne die bisherigen Inhalte zu l�schen. Achtung: In dieser
-     * Methode ist das Leerzeichen durchsichtig (der Hintergrund ist zu sehen).
-     * Falls ein undurchsichtiges Leerzeichen ben�tigt wird, bitte statt dessen das
-     * Semikolon ";" verwenden. Das undurchsichtige Leerzeichen kann mit der Methode
+     * auf das Canvas, ohne die bisherigen Inhalte zu l�schen.
+     * Achtung: In dieser Methode ist das
+     * Leerzeichen durchsichtig (Objekte im Hintergrund sind zu sehen). Falls ein
+     * undurchsichtiges Leerzeichen ben�tigt wird (die Hintergrundfarbe ist zu sehen), kann statt dessen das Semikolon
+     * ";" verwendet werden.
+     * Das undurchsichtige Leerzeichen kann mit der Methode
+     * <code>setNonTransparentSpace(char c)</code> auf ein anderes Zeichen gesetzt
+     * werden.
+     *
+     * @param chars Das anzuzeigende <code>char[][]</code>.
+     * @param color Farbe, die verwendet werden soll.
+     */
+    public void addToCanvasCentered(char[][] chars, Color color) {
+        addToCanvas(chars, zeilen / 2 - chars.length / 2, spalten / 2 - chars[0].length / 2, color);
+    }
+
+    /**
+     * Schreibt das �bergebene <code>char[][]</code> (mit Zeilen, Spalten) zentriert
+     * auf das Canvas, ohne die bisherigen Inhalte zu l�schen.
+     * Achtung: In dieser Methode ist das
+     * Leerzeichen durchsichtig (Objekte im Hintergrund sind zu sehen). Falls ein
+     * undurchsichtiges Leerzeichen ben�tigt wird (die Hintergrundfarbe ist zu sehen), kann statt dessen das Semikolon
+     * ";" verwendet werden.
+     * Das undurchsichtige Leerzeichen kann mit der Methode
      * <code>setNonTransparentSpace(char c)</code> auf ein anderes Zeichen gesetzt
      * werden.
      *
      * @param chars Das anzuzeigende <code>char[][]</code>.
      */
     public void addToCanvasCentered(char[][] chars) {
-        addToCanvas(chars, zeilen / 2 - chars.length / 2, spalten / 2 - chars[0].length / 2);
+        addToCanvasCentered(chars, foregroundColor);
     }
 
     /**
      * Schreibt den �bergebenen <code>String</code> auf das Canvas, ohne die
      * bisherigen Inhalte zu l�schen. Zus�tzlich werden Koordinaten ausgewertet: (0,
      * 0) ist oben links. Negative Koordinaten k�nnen verwendet werden um Objekte
-     * teilweise anzuzeigen. Achtung: In dieser Methode ist das Leerzeichen
-     * durchsichtig (der Hintergrund ist zu sehen). Falls ein undurchsichtiges
-     * Leerzeichen ben�tigt wird, bitte statt dessen das Semikolon ";" verwenden.
+     * teilweise anzuzeigen.
+     * Achtung: In dieser Methode ist das
+     * Leerzeichen durchsichtig (Objekte im Hintergrund sind zu sehen). Falls ein
+     * undurchsichtiges Leerzeichen ben�tigt wird (die Hintergrundfarbe ist zu sehen), kann statt dessen das Semikolon
+     * ";" verwendet werden.
+     * Das undurchsichtige Leerzeichen kann mit der Methode
+     * <code>setNonTransparentSpace(char c)</code> auf ein anderes Zeichen gesetzt
+     * werden.
+     *
+     * @param string Der zu schreibende <code>String</code>.
+     * @param row    Zeile in der der <code>String</code> angezeigt werden soll.
+     *               Zeile. ist oben.
+     * @param column Spalte, in der der <code>String</code> angezeigt werden soll.
+     *               Spalte 0 ist links.
+     * @param color  Farbe, die verwendet werden soll.
+     */
+    public void addToCanvas(String string, int row, int column, Color color) {
+        char[][] chars = convertStringToCharArray(string);
+        addToCanvas(chars, row, column, color);
+    }
+
+    /**
+     * Schreibt den �bergebenen <code>String</code> auf das Canvas, ohne die
+     * bisherigen Inhalte zu l�schen. Zus�tzlich werden Koordinaten ausgewertet: (0,
+     * 0) ist oben links. Negative Koordinaten k�nnen verwendet werden um Objekte
+     * teilweise anzuzeigen.
+     * Achtung: In dieser Methode ist das
+     * Leerzeichen durchsichtig (Objekte im Hintergrund sind zu sehen). Falls ein
+     * undurchsichtiges Leerzeichen ben�tigt wird (die Hintergrundfarbe ist zu sehen), kann statt dessen das Semikolon
+     * ";" verwendet werden.
      * Das undurchsichtige Leerzeichen kann mit der Methode
      * <code>setNonTransparentSpace(char c)</code> auf ein anderes Zeichen gesetzt
      * werden.
@@ -431,18 +547,66 @@ public class GameView {
      *               Spalte 0 ist links.
      */
     public void addToCanvas(String string, int row, int column) {
-        char[][] chars = convertStringToCharArray(string);
-        addToCanvas(chars, row, column);
+        addToCanvas(string, row, column, foregroundColor);
     }
 
     /**
      * Schreibt das �bergebene <code>char[][]</code> (mit Zeilen, Spalten) auf das
      * Canvas, ohne die bisherigen Inhalte zu l�schen. Zus�tzlich werden Koordinaten
      * ausgewertet: (0, 0) ist oben links. Negative Koordinaten k�nnen verwendet
-     * werden um Objekte teilweise anzuzeigen. Achtung: In dieser Methode ist das
-     * Leerzeichen durchsichtig (der Hintergrund ist zu sehen). Falls ein
-     * undurchsichtiges Leerzeichen ben�tigt wird, bitte statt dessen das Semikolon
-     * ";" verwenden. Das undurchsichtige Leerzeichen kann mit der Methode
+     * werden um Objekte teilweise anzuzeigen.
+     * Achtung: In dieser Methode ist das
+     * Leerzeichen durchsichtig (Objekte im Hintergrund sind zu sehen). Falls ein
+     * undurchsichtiges Leerzeichen ben�tigt wird (die Hintergrundfarbe ist zu sehen), kann statt dessen das Semikolon
+     * ";" verwendet werden.
+     * Das undurchsichtige Leerzeichen kann mit der Methode
+     * <code>setNonTransparentSpace(char c)</code> auf ein anderes Zeichen gesetzt
+     * werden.
+     *
+     * @param chars  Das anzuzeigende <code>char[][]</code>.
+     * @param row    Zeile in der das Array angezeigt werden soll. Zeile 0 ist oben.
+     * @param column Spalte, in der das Array angezeigt werden soll. Spalte 0 ist
+     *               links.
+     * @param color  Farbe, die verwendet werden soll.
+     */
+    public void addToCanvas(char[][] chars, int row, int column, Color color) {
+        addToCanvas(chars, row, column, color, false);
+    }
+
+    private void addToCanvas(char[][] chars, int row, int column, Color color, boolean colorString) {
+        for (int i = 0; i < zeilen; i++) {
+            for (int j = 0; j < spalten; j++) {
+                if (i >= row && j >= column // nur schreiben, wenn Koorinaten erf�llt sind.
+                        && i - row < chars.length && j - column < chars[i - row].length // nur wenn char vorhanden
+                        && chars[i - row][j - column] != ' ') { // transparent
+                    if (chars[i - row][j - column] == nonTransparentSpace) {
+                        if (colorString) {
+                            canvas.add(' ', foregroundColor, backgroundColor, i, j);
+                        } else {
+                            canvas.add(' ', color, backgroundColor, i, j);
+                        }
+                    } else {
+                        if (colorString) {
+                            canvas.add(' ', foregroundColor, colormap.get(chars[i - row][j - column]), i, j);
+                        } else {
+                            canvas.add(chars[i - row][j - column], color, i, j);
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    /**
+     * Schreibt das �bergebene <code>char[][]</code> (mit Zeilen, Spalten) auf das
+     * Canvas, ohne die bisherigen Inhalte zu l�schen. Zus�tzlich werden Koordinaten
+     * ausgewertet: (0, 0) ist oben links. Negative Koordinaten k�nnen verwendet
+     * werden um Objekte teilweise anzuzeigen.
+     * Achtung: In dieser Methode ist das
+     * Leerzeichen durchsichtig (Objekte im Hintergrund sind zu sehen). Falls ein
+     * undurchsichtiges Leerzeichen ben�tigt wird (die Hintergrundfarbe ist zu sehen), kann statt dessen das Semikolon
+     * ";" verwendet werden.
+     * Das undurchsichtige Leerzeichen kann mit der Methode
      * <code>setNonTransparentSpace(char c)</code> auf ein anderes Zeichen gesetzt
      * werden.
      *
@@ -452,19 +616,106 @@ public class GameView {
      *               links.
      */
     public void addToCanvas(char[][] chars, int row, int column) {
-        for (int i = 0; i < zeilen; i++) {
-            for (int j = 0; j < spalten; j++) {
-                if (i >= row && j >= column // nur schreiben, wenn Koorinaten erf�llt sind.
-                        && i - row < chars.length && j - column < chars[i - row].length // nur wenn char vorhanden
-                        && chars[i - row][j - column] != ' ') { // transparent
-                    if (chars[i - row][j - column] == nonTransparentSpace) {
-                        canvas[i][j] = ' ';
-                    } else {
-                        canvas[i][j] = chars[i - row][j - column];
-                    }
-                }
-            }
-        }
+        addToCanvas(chars, row, column, foregroundColor);
+    }
+
+    /**
+     * Der �bergebene String aus Farbcodes wird ohne Zeichen auf das Canvas �bertragen, ohne die bisherigen Inhalte zu l�schen.
+     * Die darin enthaltenen Buchstaben werden als Farben interpretiert.
+     * Dazu wird eine Colormap ausgewertet, die durch eine Methode <code>setColormap()</code> ge�ndert
+     * werden kann.
+     * <p>
+     * HashMap<Character, Color> colormap = new HashMap<>();
+     * colormap.put('R', Color.RED);
+     * colormap.put('r', Color.RED.brighter());
+     * colormap.put('G', Color.GREEN);
+     * colormap.put('g', Color.GREEN.brighter());
+     * colormap.put('B', Color.BLUE);
+     * colormap.put('b', Color.BLUE.brighter());
+     * colormap.put('Y', Color.YELLOW);
+     * colormap.put('P', Color.PINK);
+     * colormap.put('C', Color.CYAN);
+     * colormap.put('M', Color.MAGENTA);
+     * colormap.put('O', Color.ORANGE);
+     * colormap.put('W', Color.WHITE);
+     * <p>
+     * Zus�tzlich werden Koordinaten
+     * ausgewertet: (0, 0) ist oben links. Negative Koordinaten k�nnen verwendet
+     * werden um Objekte teilweise anzuzeigen.
+     * Achtung: In dieser Methode ist das
+     * Leerzeichen durchsichtig (Objekte im Hintergrund sind zu sehen). Falls ein
+     * undurchsichtiges Leerzeichen ben�tigt wird (die Hintergrundfarbe ist zu sehen), kann statt dessen das Semikolon
+     * ";" verwendet werden.
+     * Das undurchsichtige Leerzeichen kann mit der Methode
+     * <code>setNonTransparentSpace(char c)</code> auf ein anderes Zeichen gesetzt
+     * werden.
+     *
+     * @param colorString Der Farb-Codierte String.
+     * @param row         Zeile in der der String angezeigt werden soll. Zeile 0 ist oben.
+     * @param column      Spalte, in der der String angezeigt werden soll. Spalte 0 ist
+     *                    links.
+     */
+    public void addColorStringToCanvas(String colorString, int row, int column) {
+        addColorStringToCanvas(convertStringToCharArray(colorString), row, column);
+    }
+
+    /**
+     * Der �bergebene String aus Farbcodes wird ohne Zeichen auf das Canvas �bertragen, ohne die bisherigen Inhalte zu l�schen.
+     * Die darin enthaltenen Buchstaben werden als Farben interpretiert.
+     * Dazu wird eine Colormap ausgewertet, die durch eine Methode <code>setColormap()</code> ge�ndert
+     * werden kann.
+     * <p>
+     * HashMap<Character, Color> colormap = new HashMap<>();
+     * colormap.put('R', Color.RED);
+     * colormap.put('r', Color.RED.brighter());
+     * colormap.put('G', Color.GREEN);
+     * colormap.put('g', Color.GREEN.brighter());
+     * colormap.put('B', Color.BLUE);
+     * colormap.put('b', Color.BLUE.brighter());
+     * colormap.put('Y', Color.YELLOW);
+     * colormap.put('P', Color.PINK);
+     * colormap.put('C', Color.CYAN);
+     * colormap.put('M', Color.MAGENTA);
+     * colormap.put('O', Color.ORANGE);
+     * colormap.put('W', Color.WHITE);
+     * <p>
+     * Zus�tzlich werden Koordinaten
+     * ausgewertet: (0, 0) ist oben links. Negative Koordinaten k�nnen verwendet
+     * werden um Objekte teilweise anzuzeigen.
+     * Achtung: In dieser Methode ist das
+     * Leerzeichen durchsichtig (Objekte im Hintergrund sind zu sehen). Falls ein
+     * undurchsichtiges Leerzeichen ben�tigt wird (die Hintergrundfarbe ist zu sehen), kann statt dessen das Semikolon
+     * ";" verwendet werden.
+     * Das undurchsichtige Leerzeichen kann mit der Methode
+     * <code>setNonTransparentSpace(char c)</code> auf ein anderes Zeichen gesetzt
+     * werden.
+     *
+     * @param colorString Das Farb-Codierte Array.
+     * @param row         Zeile in der das Array angezeigt werden soll. Zeile 0 ist oben.
+     * @param column      Spalte, in der das Array angezeigt werden soll. Spalte 0 ist
+     *                    links.
+     */
+    public void addColorStringToCanvas(char[][] colorString, int row, int column) {
+        addToCanvas(colorString, row, column, foregroundColor, true);
+    }
+
+    /**
+     * F�llt alle Stellen des Canvas mit dem gegebenen Zeichen. Vorhandene Inhalte werden �berschrieben.
+     *
+     * @param c     Zeichen, das auf den Canvas geschrieben werden soll.
+     * @param color Farbe, die verwendet werden soll.
+     */
+    public void fillCanvas(char c, Color color) {
+        canvas.fillCanvas(c, color);
+    }
+
+    /**
+     * F�llt alle Stellen des Canvas mit gleichfarbigen Pixeln. Vorhandene Inhalte werden �berschrieben.
+     *
+     * @param color Farbe, die verwendet werden soll.
+     */
+    public void fillCanvas(Color color) {
+        canvas.fillCanvas(color);
     }
 
     /**
@@ -473,11 +724,7 @@ public class GameView {
      * @param c Zeichen, das auf den Canvas geschrieben werden soll.
      */
     public void fillCanvas(char c) {
-        for (int i = 0; i < zeilen; i++) {
-            for (int j = 0; j < spalten; j++) {
-                canvas[i][j] = c;
-            }
-        }
+        fillCanvas(c, foregroundColor);
     }
 
     /**
@@ -486,24 +733,12 @@ public class GameView {
      */
     public void printCanvas() {
         countPrints++;
-
-        StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < canvas.length; i++) {
-            for (int j = 0; j < canvas[i].length; j++) {
-                sb.append(canvas[i][j]);
-            }
-            if (i < canvas.length - 1) {
-                sb.append("\n");
-            }
-        }
-        printThis = sb.toString();
-        SwingUtilities.invokeLater(() -> area.setText(printThis));
-
+        area.setText();
         // Check FPS
         long now = System.currentTimeMillis();
         if (now - lastTime > 1000) {
-            if (countPrints >= 65) {
-                setStatusLabel(Color.RED, " Achtung: Zu viele Frames pro Sekunde: " + countPrints + " FPS!");
+            if (countPrints >= 70) {
+                setStatusLabel(Color.RED, "Prints pro Sekunde: " + countPrints + ((area.canvasList.size() > 4) ? framesLost : ""));
             } else {
                 setStatusLabel(Color.BLACK, statusTextLinks);
             }
@@ -513,30 +748,36 @@ public class GameView {
     }
 
     /**
-     * Gibt den aktuellen Inhalt des Canvas zur�ck.
+     * In den Methoden <code>addToCanvas(...)</code> ist das
+     * normale Leerzeichen durchsichtig (Objekte im Hintergrund sind zu sehen). Falls ein
+     * undurchsichtiges Leerzeichen ben�tigt wird (die Hintergrundfarbe ist zu sehen), kann statt dessen das Semikolon
+     * ";" verwendet werden.
+     * Das undurchsichtige Leerzeichen kann mit der Methode
+     * <code>setNonTransparentSpace(char c)</code> auf ein anderes Zeichen gesetzt
+     * werden. Diese Methode gibt das aktell gesetzte Zeichen zur�ck
      *
-     * @return Aktueller Canvas.
+     * @return Das undurchsichtige Leerzeichen.
      */
-    public char[][] getCanvas() {
-        return canvas;
+    public char getNonTransparentSpace() {
+        return nonTransparentSpace;
     }
 
     /**
      * Das undurchsichtige Leerzeichen kann mit dieser Methode auf ein anderes
      * Zeichen gesetzt werden. In den Methoden <code>addToCanvas(...)</code> ist das
-     * normale Leerzeichen durchsichtig (der Hintergrund ist zu sehen). Falls ein
-     * undurchsichtiges Leerzeichen ben�tigt wird, kann statt dessen das Semikolon
+     * normale Leerzeichen durchsichtig (Objekte im Hintergrund sind zu sehen). Falls ein
+     * undurchsichtiges Leerzeichen ben�tigt wird (die Hintergrundfarbe ist zu sehen), kann statt dessen das Semikolon
      * ";" verwendet werden. Diese Methode erlaubt es, die Voreinstellung zu �ndern
      * und ein anderes Zeichen zu w�hlen.
      *
      * @param c Das neue undurchsichtige Leerzeichen.
      */
-    public void setNonTransparentSpaceForCanvas(char c) {
+    public void setNonTransparentSpace(char c) {
         nonTransparentSpace = c;
     }
 
     /**
-     * Liefert alle Tastendr�cke die seit dem letzten Aufruf dieser Methode
+     * Liefert alle Tastendr�cke (java.awt.event.Keyevent) die seit dem letzten Aufruf dieser Methode
      * aufgelaufen sind als Array zur�ck. Es werden maximal die neuesten 25
      * Ereignisse zur�ckgegeben, alte Ereignisse werden gel�scht.
      * <p>
@@ -549,13 +790,33 @@ public class GameView {
      *
      * <pre>
      * <code>
-     *   if (keyEvent.getID() == KeyEvent.KEY_PRESSED) {
-     *     if (keyEvent.getKeyCode() == KeyEvent.VK_ENTER) {
-     *       System.out.println("Eingabetaste");
-     *     }
-     *   } else if (keyEvent.getID() == KeyEvent.KEY_TYPED) {
-     * 		 System.out.println(keyEvent.getKeyChar());
+     * package keyevents;
+     * import java.awt.event.KeyEvent;
+     *
+     * public class Test {
+     *   GameView gameView;
+     *
+     *   public Test(){
+     *     gameView = new GameView(20, 40,"Test");
+     *     gameView.show();
      *   }
+     *
+     *   public void loop() {
+     *     while(true) {
+     *       KeyEvent[] keyEvents = gameView.getKeyEvents();
+     *       for (int i = 0; i < keyEvents.length; i++) {
+     *         KeyEvent keyEvent = keyEvents[i];
+     *         if (keyEvent.getID() == KeyEvent.KEY_PRESSED) {
+     *           if (keyEvent.getKeyCode() == KeyEvent.VK_ENTER) {
+     *             System.out.println("Eingabetaste");
+     *           }
+     *         } else if (keyEvent.getID() == KeyEvent.KEY_TYPED) {
+     *           System.out.println(keyEvent.getKeyChar());
+     *         }
+     *       }
+     *     }
+     *   }
+     * }
      * </code>
      * </pre>
      *
@@ -571,6 +832,24 @@ public class GameView {
         }
         return keyEvents;
 
+    }
+
+    /**
+     * Setzt die Default-Farbe der Schrift.
+     *
+     * @param foregroundColor Schriftfarbe
+     */
+    public void setForegroundColor(Color foregroundColor) {
+        this.foregroundColor = foregroundColor;
+    }
+
+    /**
+     * Setzt die Default-Farbe des Hintergrunds.
+     *
+     * @param foregroundColor Hintergrundfarbe
+     */
+    public void setBackgroundColor(Color backgroundColor) {
+        this.backgroundColor = backgroundColor;
     }
 
     /**
@@ -598,9 +877,32 @@ public class GameView {
      *
      * <pre>
      * <code>
-     *   if (mouseEvent.getID() == MouseEvent.MOUSE_CLICKED) {
-     *     System.out.println("Geklickt in Spalte: " + mouseEvent.getX());
+     * package mouseevents;
+     *
+     * import java.awt.event.MouseEvent;
+     *
+     * public class Test {
+     *   GameView gameView;
+     *
+     *   public Test() {
+     *     gameView = new GameView(20, 40, "Test");
+     *     gameView.useMouse(true);
+     *     gameView.show();
      *   }
+     *
+     *   public void loop() {
+     *     while (true) {
+     *       MouseEvent[] mouseEvents = gameView.getMouseEvents();
+     *       for (int i = 0; i < mouseEvents.length; i++) {
+     *         MouseEvent mouseEvent = mouseEvents[i];
+     *         if (mouseEvent.getID() == MouseEvent.MOUSE_CLICKED) {
+     *         System.out.println("Geklickt in Spalte: " + mouseEvent.getX());
+     *         }
+     *       }
+     *     }
+     *   }
+     * }
+     *
      * </code>
      * </pre>
      *
@@ -644,10 +946,49 @@ public class GameView {
         new Thread(run).start();
     }
 
+    /**
+     * Hier kann die Farb-Assoziation f�r die Methode <code> addColorStringToCanvas() </code> festgelegt werden.
+     * Als Standard sind folgede Farben definiert:
+     * <p>
+     * colormap.put('R', Color.RED);
+     * colormap.put('r', Color.RED.brighter());
+     * colormap.put('G', Color.GREEN);
+     * colormap.put('g', Color.GREEN.brighter());
+     * colormap.put('B', Color.BLUE);
+     * colormap.put('b', Color.BLUE.brighter());
+     * colormap.put('Y', Color.YELLOW);
+     * colormap.put('P', Color.PINK);
+     * colormap.put('C', Color.CYAN);
+     * colormap.put('M', Color.MAGENTA);
+     * colormap.put('O', Color.ORANGE);
+     * <p>
+     *
+     * @param colormap Die Farbzuordnungen.
+     */
+    public void setColormap(HashMap<Character, Color> colormap) {
+        this.colormap = colormap;
+    }
+
+    private void fillColormap() {
+        this.colormap = new HashMap<>();
+        colormap.put('R', Color.RED);
+        colormap.put('r', Color.RED.brighter());
+        colormap.put('G', Color.GREEN);
+        colormap.put('g', Color.GREEN.brighter());
+        colormap.put('B', Color.BLUE);
+        colormap.put('b', Color.BLUE.brighter());
+        colormap.put('Y', Color.YELLOW);
+        colormap.put('P', Color.PINK);
+        colormap.put('C', Color.CYAN);
+        colormap.put('M', Color.MAGENTA);
+        colormap.put('O', Color.ORANGE);
+        colormap.put('W', Color.WHITE);
+    }
+
     private void intitFrame(String fensterName) {
 
         Box box = new Box(BoxLayout.Y_AXIS);
-        area = new TextPanel(printThis, box);
+        area = new TextPanel(box);
         area.requestFocus();
 
         box.setAlignmentX(JComponent.CENTER_ALIGNMENT);
@@ -675,7 +1016,7 @@ public class GameView {
         statuszeile.setForeground(Color.BLACK);
 
         JPanel outer = new JPanel(new BorderLayout());
-        outer.setBackground(Color.black);
+        outer.setBackground(backgroundColor);
         outer.add(box, BorderLayout.CENTER);
         outer.add(statuszeile, BorderLayout.SOUTH);
 
@@ -687,18 +1028,15 @@ public class GameView {
         frame.setResizable(true);
 
         // Small size
-        frame.setSize(960, 540);
+        frame.setSize((int) (Toolkit.getDefaultToolkit().getScreenSize().width / 3d * 2d), (int) (Toolkit.getDefaultToolkit().getScreenSize().height / 3d * 2d));
         area.setFontsizeThatFitsWindow();
         frame.pack();
-        frame.setMinimumSize(frame.getSize());
 
         // Listener
         frame.addComponentListener(new ComponentAdapter() {
             public void componentResized(ComponentEvent componentEvent) {
                 if (isSplashFinished) {
-                    SwingUtilities.invokeLater(() -> {
-                        area.setFontsizeThatFitsWindow();
-                    });
+                    area.setFontsizeThatFitsWindow();
                     if (resizeTimer != null) {
                         resizeTimer.cancel();
                     }
@@ -719,7 +1057,7 @@ public class GameView {
                             }
                         }
                     };
-                    resizeTimer.schedule(resizeTask, 400);
+                    resizeTimer.schedule(resizeTask, 100);
                 }
             }
         });
@@ -732,9 +1070,10 @@ public class GameView {
     private void splashScreen() {
         int lines = this.zeilen;
         int rows = this.spalten;
-        changeResolution(18, 32);
+        changeResolution(9, 22);
         area.setFont(area.getFont().deriveFont(Font.BOLD));
-        addToCanvasCentered(SPLASH);
+        fillCanvas(Color.BLACK);
+        addToCanvasCentered(SPLASH, Color.cyan.darker());
         printCanvas();
         try {
             Thread.sleep(1200);
@@ -752,28 +1091,9 @@ public class GameView {
     }
 
     private void setResolution(int lines, int rows) {
-        if (lines < 9 || lines > 135 || rows < 16 || rows > 240) {
-            System.err.println("Fenster hat falsche Gr��e: Zeilen von 9 bis 135, Spalten von 16 bis 240");
-            System.exit(1);
-        }
         this.zeilen = lines;
         this.spalten = rows;
-        initCanvas(zeilen, spalten);
-        StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < zeilen; i++) {
-            for (int j = 0; j < spalten; j++) {
-                sb.append(" ");
-            }
-            if (i < zeilen - 1) {
-                sb.append("\n");
-            }
-        }
-        this.printThis = sb.toString();
-    }
-
-    private void initCanvas(int zeilen, int spalten) {
-        canvas = new char[zeilen][spalten];
-        clearCanvas();
+        canvas = new Canvas(zeilen, spalten);
     }
 
     private void addMouseEventListener() {
@@ -874,42 +1194,281 @@ public class GameView {
             statusLabelLinks.setText(fpsMessage);
             statusLabelLinks.setForeground(color);
         });
+    }
 
+    private class Canvas implements Cloneable {
+        private int zeilen;
+        private int spalten;
+        private boolean resolutionChanged;
+        private char[][] chars;
+        private Color[][] foreground;
+        private Color[][] background;
+        private String[][] difference;
+        private String[][] clear;
+        private boolean allNull = true;
+
+        public Canvas(int zeilen, int spalten) {
+            this.zeilen = zeilen;
+            this.spalten = spalten;
+            this.resolutionChanged = false;
+            chars = new char[zeilen][spalten];
+            foreground = new Color[zeilen][spalten];
+            background = new Color[zeilen][spalten];
+            difference = new String[zeilen][spalten];
+            clear = new String[zeilen][spalten];
+            clearCanvas();
+        }
+
+        public int getZeilen() {
+            return zeilen;
+        }
+
+        public int getSpalten() {
+            return spalten;
+        }
+
+        public void add(char character, Color foreground, Color background, int zeile, int spalte) {
+            add(character, foreground, zeile, spalte);
+            this.background[zeile][spalte] = background;
+        }
+
+        public void add(char character, Color foreground, int zeile, int spalte) {
+            chars[zeile][spalte] = character;
+            this.foreground[zeile][spalte] = foreground;
+        }
+
+        public void fillCanvas(char c, Color color) {
+            for (int i = 0; i < zeilen; i++) {
+                for (int j = 0; j < spalten; j++) {
+                    add(c, color, i, j);
+                }
+            }
+        }
+
+        public void fillCanvas(Color color) {
+            for (int i = 0; i < zeilen; i++) {
+                for (int j = 0; j < spalten; j++) {
+                    add(' ', foregroundColor, color, i, j);
+                }
+            }
+        }
+
+        public void clearCanvas() {
+            for (int zeile = 0; zeile < zeilen; zeile++) {
+                for (int spalte = 0; spalte < spalten; spalte++) {
+                    chars[zeile][spalte] = ' ';
+                    foreground[zeile][spalte] = foregroundColor;
+                    background[zeile][spalte] = backgroundColor;
+                    difference[zeile][spalte] = null;
+                    clear[zeile][spalte] = null;
+                }
+            }
+        }
+
+        public char getCharacter(int zeile, int spalte) {
+            return chars[zeile][spalte];
+        }
+
+        public Color getForeground(int zeile, int spalte) {
+            return foreground[zeile][spalte];
+        }
+
+        public Color getBackground(int zeile, int spalte) {
+            return background[zeile][spalte];
+        }
+
+        public String getDifference(int zeile, int spalte) {
+            return difference[zeile][spalte];
+        }
+
+        public String getClear(int zeile, int spalte) {
+            return clear[zeile][spalte];
+        }
+
+        @Override
+        public Canvas clone() {
+            Canvas copy = new Canvas(this.zeilen, this.spalten);
+            for (int zeile = 0; zeile < zeilen; zeile++) {
+                for (int spalte = 0; spalte < spalten; spalte++) {
+                    copy.chars[zeile][spalte] = chars[zeile][spalte];
+                    copy.foreground[zeile][spalte] = foreground[zeile][spalte];
+                    copy.background[zeile][spalte] = background[zeile][spalte];
+                    copy.difference[zeile][spalte] = difference[zeile][spalte];
+                    copy.clear[zeile][spalte] = clear[zeile][spalte];
+                }
+            }
+            return copy;
+        }
+
+
+        public void calculateDifferencesTo(Canvas canvas) {
+            if (canvas == null || this.zeilen != canvas.zeilen || this.spalten != canvas.spalten) {
+                resolutionChanged = true;
+            }
+            for (int zeile = 0; zeile < this.zeilen; zeile++) {
+                for (int spalte = 0; spalte < this.spalten; spalte++) {
+                    if (resolutionChanged || this.chars[zeile][spalte] != canvas.chars[zeile][spalte] || this.foreground[zeile][spalte] != canvas.foreground[zeile][spalte] || this.background[zeile][spalte] != canvas.background[zeile][spalte]) {
+                        allNull = false;
+                        this.difference[zeile][spalte] = String.valueOf(chars[zeile][spalte]);
+                        if (!resolutionChanged) {
+                            this.clear[zeile][spalte] = String.valueOf(canvas.getCharacter(zeile, spalte));
+                        }
+//                        if (zeile < zeilen - 1) {
+//                            this.difference[zeile + 1][spalte] = String.valueOf(chars[zeile + 1][spalte]);
+//                            if (!resolutionChanged) {
+//                                this.clear[zeile + 1][spalte] = String.valueOf(canvas.getCharacter(zeile + 1, spalte));
+//                            }
+//                        }
+//                        if (zeile > 0) {
+//                            this.difference[zeile - 1][spalte] = String.valueOf(chars[zeile - 1][spalte]);
+//                            if (!resolutionChanged) {
+//                                this.clear[zeile - 1][spalte] = String.valueOf(canvas.getCharacter(zeile - 1, spalte));
+//                            }
+//                        }
+//                        if (spalte < spalten - 1) {
+//                            this.difference[zeile][spalte + 1] = String.valueOf(chars[zeile][spalte + 1]);
+//                            if (!resolutionChanged) {
+//                                this.clear[zeile][spalte + 1] = String.valueOf(canvas.getCharacter(zeile, spalte + 1));
+//                            }
+//                        }
+//                        if (spalte > 0) {
+//                            this.difference[zeile][spalte - 1] = String.valueOf(chars[zeile][spalte - 1]);
+//                            if (!resolutionChanged) {
+//                                this.clear[zeile][spalte - 1] = String.valueOf(canvas.getCharacter(zeile, spalte - 1));
+//                            }
+//                        }
+                    }
+                }
+            }
+        }
+
+        @Override
+        public String toString() {
+            StringBuilder sb = new StringBuilder();
+            sb.append("\"");
+            for (int i = 0; i < zeilen; i++) {
+                for (int j = 0; j < spalten; j++) {
+                    sb.append(difference[i][j]);
+                }
+                sb.append("\n");
+            }
+            sb.append("\"");
+            return sb.toString();
+        }
     }
 
     private class TextPanel extends JPanel {
         private static final long serialVersionUID = 1L;
-        private String[] drawMe;
+        boolean resized;
+        private BufferedImage image;
+        private Graphics2D g2;
         private int lineHeight;
+        private int charWidth;
         private int height;
         private int width;
         private Map<TextAttribute, Object> fontMap;
         private Box box;
         private Font font;
         private Rectangle2D bounds;
+        private int x;
+        private int y;
+        private int yForString;
+        private Canvas currentCanvas;
+        private Canvas lastCanvas;
+        private Canvas printCanvas;
+        private LinkedBlockingQueue<Canvas> canvasList;
 
-        public TextPanel(String text, Box box) {
-            this.drawMe = text.split("\n");
+
+        public TextPanel(Box box) {
             this.box = box;
-            setBackground(Color.black);
-            setForeground(Color.white);
+            setBackground(backgroundColor);
+            setForeground(foregroundColor);
             fontMap = new HashMap<>();
             fontMap.put(TextAttribute.FAMILY, "Monospaced");
-            fontMap.put(TextAttribute.WIDTH, 1.35);
-            setFontsize(20);
+            fontMap.put(TextAttribute.WIDTH, 2.25);
+            calculateDimensionsForFont(20);
+            setFont(new Font(fontMap));
+            canvasList = new LinkedBlockingQueue<>();
+        }
+
+        @Override
+        public void setFont(Font font) {
+            super.setFont(font);
+            this.font = font;
+            if (g2 != null) {
+                g2.setFont(font);
+            }
         }
 
         @Override
         protected void paintComponent(Graphics g) {
-            super.paintComponent(g);
-            for (int i = 0; i < drawMe.length; i++) {
-                g.drawString(drawMe[i], 0, (i + 1) * lineHeight);
+
+            if (canvasList.isEmpty()) {
+                if (printCanvas == null) {
+                    return;
+                }
+            } else {
+                printCanvas = canvasList.remove();
             }
+
+            if (resized) {
+                printCanvas.resolutionChanged = true;
+                printCanvas.calculateDifferencesTo(null);
+                resized = false;
+            }
+
+            if (printCanvas.resolutionChanged) {
+                if (g2 != null) {
+                    g2.dispose();
+                }
+
+                try {
+                    Thread.sleep(20);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
+                g2 = image.createGraphics();
+                g2.setFont(font);
+            }
+
+            for (int i = 0; i < printCanvas.getZeilen(); i++) {
+                for (int j = 0; j < printCanvas.getSpalten(); j++) {
+                    if (printCanvas.getDifference(i, j) != null) {
+                        x = j * charWidth;
+                        y = (i + 1) * lineHeight;
+                        yForString = y - (int) Math.rint(lineHeight * 0.25);
+                        g2.setColor(printCanvas.getBackground(i, j));
+                        g2.fillRect(x, y - lineHeight, charWidth, lineHeight);
+                        if (printCanvas.getClear(i, j) != null && !printCanvas.getClear(i, j).isBlank()) {
+                            g2.drawString(printCanvas.getClear(i, j), x, yForString);
+                        }
+                        if (!printCanvas.getDifference(i, j).isBlank()) {
+                            g2.setColor(printCanvas.getForeground(i, j));
+                            g2.drawString(printCanvas.getDifference(i, j), x, yForString);
+                        }
+                    }
+                }
+            }
+
+            super.paintComponent(g);
+            g.drawImage(image, 0, 0, null);
+            if (!canvasList.isEmpty()) {
+                repaint();
+            }
+            g.dispose();
         }
 
-        public void setText(String text) {
-            this.drawMe = text.split("\n");
-            this.repaint();
+        public void setText() {
+            if (canvasList.size() < 5) {
+                lastCanvas = currentCanvas;
+                currentCanvas = canvas.clone();
+                currentCanvas.calculateDifferencesTo(lastCanvas);
+                if (!currentCanvas.allNull) {
+                    canvasList.add(currentCanvas);
+                    SwingUtilities.invokeLater(() -> this.repaint());
+                }
+            }
         }
 
         @Override
@@ -922,22 +1481,18 @@ public class GameView {
             return getPreferredSize();
         }
 
-        public void setFontsize(int fontsize) {
-            calculateDimensionsForFont(fontsize);
-            setFont(new Font(fontMap));
-        }
-
         private void calculateDimensionsForFont(int fontsize) {
             fontMap.put(TextAttribute.SIZE, fontsize);
             font = new Font(fontMap);
-            bounds = getFontMetrics(font).getStringBounds(drawMe[0], 0, drawMe[0].length(), getGraphics());
-            this.lineHeight = (int) (bounds.getHeight() * 0.6);
-            this.height = 2 + drawMe.length * lineHeight;
-            this.width = 2 + (int) bounds.getWidth();
+            bounds = getFontMetrics(font).getStringBounds("Q", 0, 1, getGraphics());
+            this.lineHeight = (int) (bounds.getHeight());
+            this.charWidth = (int) bounds.getWidth();
+            this.height = (int) (canvas.getZeilen() * lineHeight);
+            this.width = (int) (charWidth * canvas.getSpalten() + (charWidth * 0.02));
         }
 
         public void setFontsizeThatFitsWindow() {
-            int fontsize = 5;
+            int fontsize = 1;
             int step = 256;
             while (true) {
                 calculateDimensionsForFont(fontsize + step);
@@ -951,7 +1506,19 @@ public class GameView {
                 }
                 step = Math.max(step / 2, 1);
             }
-            setFontsize(fontsize);
+            calculateDimensionsForFont(fontsize);
+            setFont(new Font(fontMap));
+            if (isSplashFinished) {
+                SwingUtilities.invokeLater(() -> {
+                    resized = true;
+                    repaint();
+                });
+                try {
+                    Thread.sleep(25);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
         }
     }
 }

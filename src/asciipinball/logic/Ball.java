@@ -206,7 +206,7 @@ public class Ball implements Drawable {
                 float distanceCanvasMiddle = (float) Math.sqrt(Math.pow(((radius - 0.5) - column),2) + Math.pow(((radius - 0.5) - row),2));
                 //canvasSegment[row][column] = (distanceCanvasMiddle < radius) ? 'B' : ' ';
                 if(distanceCanvasMiddle <= radius){
-                    canvasSegment[row][column] = 'B';
+                    canvasSegment[row][column] = 'Y';
                 }
                 else{
                     canvasSegment[row][column] = ' ';
@@ -217,7 +217,7 @@ public class Ball implements Drawable {
         int canvasRow = Settings.HEIGHT - Math.round(positionY + radius);
         int canvasColumn = Math.round(positionX - radius) + Settings.OFFSET;
 
-        gameView.addToCanvas(canvasSegment,canvasRow,canvasColumn);
+        gameView.addColorStringToCanvas(canvasSegment,canvasRow,canvasColumn);
 
     }
 }

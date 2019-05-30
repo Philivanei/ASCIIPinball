@@ -6,7 +6,9 @@ import asciipinball.objects.physicobject.PhysicEntity;
 import asciipinball.objects.physicobject.circular.Bumper;
 import asciipinball.objects.physicobject.polygonial.Table;
 
+import java.awt.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class PinballGame {
 
@@ -26,6 +28,10 @@ public class PinballGame {
         gameView = new GameView(Settings.HEIGHT, 240, "Pinball");
         gameView.setWindowsSize(GameView.WINDOWSIZE_LARGE);
         gameView.show();
+
+
+        /* Init Colormap */
+        Settings.initColorMap(gameView);
 
 
         /**Init Arrays and Values**/
