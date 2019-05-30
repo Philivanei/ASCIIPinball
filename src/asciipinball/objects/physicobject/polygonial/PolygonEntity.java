@@ -5,9 +5,7 @@ import asciipinball.logic.Ball;
 import asciipinball.objects.physicobject.PhysicEntity;
 import asciipinball.shapes.Line;
 
-import java.awt.geom.Line2D;
 import java.util.ArrayList;
-import java.util.Collections;
 
 public abstract class PolygonEntity extends PhysicEntity {
 
@@ -106,28 +104,7 @@ public abstract class PolygonEntity extends PhysicEntity {
             if(collisionPointDistanceA >= collisionLine.getLength() || collisionPointDistanceB >= collisionLine.getLength()){ //If this statement is true the ball is bumping into the side of the Line
                 finalAngle = ball.convertDirection(-ball.getDirection());
             }else{ //In this case the Ball hits the Line "normaly"
-                float angleToLine;
-
-                if(Float.isFinite(collisionLine.getM())){
-
-                    if(Float.isFinite(1/collisionLine.getM())){
-                        angleToLine = (float) Math.toDegrees(Math.atan(1/collisionLine.getM()));
-                    }else{
-                        angleToLine = 0;
-                    }
-                }else{
-                    angleToLine = 90;
-                }
-
-                System.out.println(angleToLine);
-
-                if(angleToLine < 0){
-                    angleToLine = Math.abs(angleToLine) + 90;
-                }
-
-                finalAngle = ball.convertDirection(-(ball.getDirection() - angleToLine) + angleToLine);
-                //float finalAngle = ball.convertDirection((-ball.convertDirection((ball.getDirection() + 90 - angleToLine)))  - (90 - angleToLine)); //double conversion is necessary if -ball.convertDirection results in -180°
-                System.out.println(ball.getDirection() + " -> " + finalAngle);
+                finalAngle = calculateBallAngleFromGradient(ball, collisionLine.getM());
             }
 
             ballList.add(new Ball(ball.getPositionX(),ball.getPositionY(), ball.getRadius(),finalAngle,ball.getVelocity()));

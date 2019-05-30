@@ -152,6 +152,13 @@ public class Ball implements Drawable {
         ySpeed -= gravitationPerTick;
         //System.out.println("XSpeed: " + xSpeed + " YSpeed: " + ySpeed);
 
+        if(velocity - Settings.FRICTION > Settings.MAX_SLOWDOWN) {
+            velocity -= Settings.FRICTION;
+        }
+
+        System.out.println(velocity);
+
+
         calculateFutureDirection(xSpeed, ySpeed);
         calculateFutureVelocity(xSpeed, ySpeed);
 
@@ -165,8 +172,11 @@ public class Ball implements Drawable {
     }
 
     public void updateBall(Ball ball) {
-        this.positionX = ball.getPositionX();
-        this.positionY = ball.getPositionY();
+
+        ball.calculateFuture(Settings.GRAVITATION);
+
+        this.positionX = ball.getFuturePositionX();
+        this.positionY = ball.getFuturePositionY();
         this.direction = ball.getDirection();
         this.velocity = ball.getVelocity();
     }
