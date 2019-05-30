@@ -6,13 +6,14 @@ import asciipinball.objects.physicobject.PhysicEntity;
 import asciipinball.objects.physicobject.polygonial.LineWall;
 import asciipinball.shapes.Line;
 
+import java.util.ArrayList;
 import java.util.Set;
 
 public class PinballGame {
 
     public GameView gameView;
 
-    //TODO IMPORTANT: Max Koordinate is WIDTH/HEIGHT -1
+    /*IMPORTANT: Max Koordinate is WIDTH/HEIGHT -1*/
 
 
     private Ball ball;
@@ -29,14 +30,14 @@ public class PinballGame {
 
 
         /**Init Arrays and Values**/
-        ball = new Ball(40f,70f,2.5f,90,0.03f);
+        ball = new Ball(40f,70f,2.5f,90,0.00f);
         players = new Player[4];
         physicEntities = new PhysicEntity[300];
         table = new Table(Settings.WIDTH, Settings.HEIGHT);
 
-        //TODO
+        //TODO Remove before release
         //DEBUG STUFF REMOVE BEFORE RELEASE!
-        physicEntities[0] = new LineWall(30, 30,50,0);
+        physicEntities[0] = new LineWall(40, 30,40,0);
 
     }
 
@@ -54,23 +55,28 @@ public class PinballGame {
 
     public Ball updateAll(){
 
-        Ball resultBall = null;
+        ArrayList<Ball> collisionBalls = new ArrayList<Ball>();
 
         for (PhysicEntity physicEntity : physicEntities) {
             if(physicEntity != null){
                 Ball physicEntityBall = physicEntity.updateEntity(ball);
                 if(physicEntityBall != null){
-                    resultBall = physicEntityBall;
+                    collisionBalls.add(physicEntityBall);
                 }
             }
         }
 
         Ball tableBall = table.updateEntity(ball);
         if(tableBall != null){
-            resultBall = tableBall;
+            collisionBalls.add(tableBall);
         }
 
-        return  resultBall;
+        if(collisionBalls.isEmpty()){
+            return null;
+        }
+
+        return  ball.joinBalls(collisionBalls);
+
     }
 
     public void printAll(){

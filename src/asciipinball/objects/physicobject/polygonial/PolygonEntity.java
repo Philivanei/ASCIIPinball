@@ -1,23 +1,22 @@
 package asciipinball.objects.physicobject.polygonial;
 
+import asciipinball.CollisionData;
 import asciipinball.logic.Ball;
 import asciipinball.objects.physicobject.PhysicEntity;
 import asciipinball.shapes.Line;
 
 import java.awt.geom.Line2D;
+import java.util.ArrayList;
+import java.util.Collections;
 
 public abstract class PolygonEntity extends PhysicEntity {
 
     protected Line[] lines;
-    private Line collisionLine;
-
 
     @Override
     protected boolean isCollided(Ball ball) {
 
         boolean collisionDetected = false;
-
-        float minDistance = Float.MAX_VALUE;
 
         for(int i = 0; i < lines.length; i++){
             float distanceToBall;
@@ -74,43 +73,68 @@ public abstract class PolygonEntity extends PhysicEntity {
                         continue;
                     }
                 }
-
                 collisionDetected = true;
-                if(distanceToBall < minDistance){
-                    minDistance = distanceToBall;
-                    collisionPositionX = x;
-                    collisionPositionY = y;
-                    collisionLine = lines[i];
-                }
+                collisionList.add(new CollisionData(x, y, lines[i], distanceToBall));
             }
         }
+
+        cleanupCollisionList();
 
         return collisionDetected;
     }
 
+
     @Override
-    protected Ball interactWitBall(Ball ball) {
-        float angleToLine;
-        if(Float.isFinite(collisionLine.getM())){
+    protected Ball interactWithBall(Ball ball){
 
-            if(Float.isFinite(1/collisionLine.getM())){
-                angleToLine = (float) Math.toDegrees(Math.atan(1/collisionLine.getM()));
-            }else{
-                angleToLine = 0;
+        ArrayList<Ball> ballList = new ArrayList<Ball>();
+
+        while(!collisionList.isEmpty()){
+
+            CollisionData collisionData = collisionList.get(0);
+            Line collisionLine = (Line) collisionData.getCollisionShape();
+            collisionList.remove(0);
+
+            //Checks if the collisionPoint is on the line segment
+            float collisionPointDistanceA = (float) (Math.sqrt(Math.pow((collisionData.getCollisionX() - collisionLine.getX1()),2) +
+                    Math.pow((collisionData.getCollisionY() - collisionLine.getY1()),2)));
+            float collisionPointDistanceB = (float) (Math.sqrt(Math.pow((collisionData.getCollisionX() - collisionLine.getX2()),2) +
+                    Math.pow((collisionData.getCollisionY() - collisionLine.getY2()),2)));
+
+            float finalAngle;
+
+            if(collisionPointDistanceA >= collisionLine.getLength() || collisionPointDistanceB >= collisionLine.getLength()){ //If this statement is true the ball is bumping into the side of the Line
+                finalAngle = ball.convertDirection(-ball.getDirection());
+            }else{ //In this case the Ball hits the Line "normaly"
+                float angleToLine;
+
+                if(Float.isFinite(collisionLine.getM())){
+
+                    if(Float.isFinite(1/collisionLine.getM())){
+                        angleToLine = (float) Math.toDegrees(Math.atan(1/collisionLine.getM()));
+                    }else{
+                        angleToLine = 0;
+                    }
+                }else{
+                    angleToLine = 90;
+                }
+
+                System.out.println(angleToLine);
+
+                if(angleToLine < 0){
+                    angleToLine = Math.abs(angleToLine) + 90;
+                }
+
+                finalAngle = ball.convertDirection(-(ball.getDirection() - angleToLine) + angleToLine);
+                //float finalAngle = ball.convertDirection((-ball.convertDirection((ball.getDirection() + 90 - angleToLine)))  - (90 - angleToLine)); //double conversion is necessary if -ball.convertDirection results in -180°
+                System.out.println(ball.getDirection() + " -> " + finalAngle);
             }
-        }else{
-            angleToLine = 90;
+
+            ballList.add(new Ball(ball.getPositionX(),ball.getPositionY(), ball.getRadius(),finalAngle,ball.getVelocity()));
+
         }
 
-        System.out.println(angleToLine);
+        return ball.joinBalls(ballList);
 
-        if(angleToLine < 0){
-            angleToLine = Math.abs(angleToLine) + 90;
-        }
-
-        float finalAngle = ball.convertDirection(-(ball.getDirection() - angleToLine) + angleToLine);
-        //float finalAngle = ball.convertDirection((-ball.convertDirection((ball.getDirection() + 90 - angleToLine)))  - (90 - angleToLine)); //double conversion is necessary if -ball.convertDirection results in -180°
-        System.out.println(ball.getDirection() + " -> " + finalAngle);
-        return new Ball(ball.getPositionX(),ball.getPositionY(), ball.getRadius(),finalAngle,ball.getVelocity());
     }
 }

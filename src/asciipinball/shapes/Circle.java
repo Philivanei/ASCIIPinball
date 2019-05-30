@@ -1,6 +1,6 @@
 package asciipinball.shapes;
 
-public class Circle {
+public class Circle extends Shapes {
     private float radius;
     private float x;
     private float y;

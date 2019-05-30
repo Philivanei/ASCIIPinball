@@ -1,5 +1,6 @@
 package asciipinball.objects.physicobject.circular;
 
+import asciipinball.CollisionData;
 import asciipinball.logic.Ball;
 import asciipinball.objects.physicobject.PhysicEntity;
 import asciipinball.shapes.Circle;
@@ -7,11 +8,9 @@ import asciipinball.shapes.Circle;
 public abstract class CircleEntity extends PhysicEntity {
 
     protected Circle[] circles;
-    protected Circle collisionCircle;
 
     @Override
     protected boolean isCollided(Ball ball) {
-        float closestCollision = Float.MAX_VALUE;
 
         boolean collisionDetected = false;
 
@@ -21,21 +20,23 @@ public abstract class CircleEntity extends PhysicEntity {
 
             if (distanceToBall < (circle.getRadius() + ball.getRadius())) {
                 collisionDetected = true;
-                if (distanceToBall < closestCollision) {
-                    closestCollision = distanceToBall;
-                    float angleToCollisionPoint = (float) (Math.atan((circle.getY() - ball.getPositionY()) / (circle.getX() - ball.getPositionX())));
-                    collisionPositionX = (float) (Math.cos(angleToCollisionPoint) * circle.getRadius());
-                    collisionPositionY = (float) (Math.sin(angleToCollisionPoint) * circle.getRadius());
-                    collisionCircle = circle;
-                }
+                float angleToCollisionPoint = (float) (Math.atan((circle.getY() - ball.getPositionY()) / (circle.getX() - ball.getPositionX())));
+
+                float collisionPositionX = (float) (Math.cos(angleToCollisionPoint) * circle.getRadius());
+                float collisionPositionY = (float) (Math.sin(angleToCollisionPoint) * circle.getRadius());
+
+                collisionList.add(new CollisionData(collisionPositionX, collisionPositionY, circle, distanceToBall));
             }
         }
+
+        cleanupCollisionList();
+
         return collisionDetected;
     }
 
     @Override
-    protected Ball interactWitBall(Ball ball) {
-        //TODO
+    protected Ball interactWithBall(Ball ball) {
+        //TODO Add collision physics to circle Entities
         return null;
     }
 }

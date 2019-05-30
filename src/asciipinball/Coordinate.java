@@ -1,4 +1,4 @@
-package asciipinball.shapes;
+package asciipinball;
 
 public class Coordinate {
     private float x;
