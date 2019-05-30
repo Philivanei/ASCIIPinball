@@ -36,7 +36,7 @@ public abstract class CircleEntity extends PhysicEntity {
 
     @Override
     protected Ball interactWithBall(Ball ball) {
-        //TODO
+        //TODO Add collision physics to circle Entities
         return null;
     }
 }

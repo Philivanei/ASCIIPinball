@@ -13,7 +13,7 @@ public class PinballGame {
 
     public GameView gameView;
 
-    //TODO IMPORTANT: Max Koordinate is WIDTH/HEIGHT -1
+    /*IMPORTANT: Max Koordinate is WIDTH/HEIGHT -1*/
 
 
     private Ball ball;
@@ -35,7 +35,7 @@ public class PinballGame {
         physicEntities = new PhysicEntity[300];
         table = new Table(Settings.WIDTH, Settings.HEIGHT);
 
-        //TODO
+        //TODO Remove before release
         //DEBUG STUFF REMOVE BEFORE RELEASE!
         physicEntities[0] = new LineWall(40, 30,40,0);
 
@@ -74,7 +74,9 @@ public class PinballGame {
         if(collisionBalls.isEmpty()){
             return null;
         }
+
         return  ball.joinBalls(collisionBalls);
+
     }
 
     public void printAll(){
