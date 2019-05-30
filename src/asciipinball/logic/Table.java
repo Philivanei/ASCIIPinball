@@ -3,7 +3,7 @@ package asciipinball.logic;
 import asciipinball.GameView;
 import asciipinball.interfaces.Drawable;
 import asciipinball.objects.physicobject.polygonial.PolygonEntity;
-import asciipinball.shapes.Coordinate;
+import asciipinball.Coordinate;
 import asciipinball.shapes.Line;
 
 public class Table extends PolygonEntity implements Drawable {

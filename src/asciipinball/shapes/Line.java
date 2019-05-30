@@ -1,11 +1,11 @@
 package asciipinball.shapes;
 
+import asciipinball.Coordinate;
 import asciipinball.GameView;
 import asciipinball.Settings;
 import asciipinball.interfaces.Drawable;
-import asciipinball.logic.PinballGame;
 
-public class Line implements Drawable {
+public class Line extends Shapes implements Drawable {
     private float x1;
     private float y1;
     private float x2;

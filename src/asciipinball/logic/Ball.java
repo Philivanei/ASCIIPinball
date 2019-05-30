@@ -4,6 +4,8 @@ import asciipinball.GameView;
 import asciipinball.Settings;
 import asciipinball.interfaces.Drawable;
 
+import java.util.ArrayList;
+
 /**
  * This class creates a ball and simulates gravitation physics
  */
@@ -169,12 +171,15 @@ public class Ball implements Drawable {
         this.velocity = ball.getVelocity();
     }
 
-    public void updateBall(Ball ball1, Ball ball2) {
+    public Ball joinBalls(ArrayList<Ball> balls) {
         // calculate average if a ball hits a top or a corner
         // Philivanei was here
         //TODO
-        float twoBallsDirection;
-        twoBallsDirection = ((((ball1.getDirection() + 360) % 360) + ((ball2.getDirection() + 360) % 360)) / 2);
+        //float twoBallsDirection;
+        //twoBallsDirection = ((((ball1.getDirection() + 360) % 360) + ((ball2.getDirection() + 360) % 360)) / 2);
+
+        //TODO!!!!!!!!
+        return balls.isEmpty() ? null : balls.get(0);
     }
 
 
