@@ -39,25 +39,18 @@ public abstract class PhysicEntity implements Drawable {
 
     }
 
-    protected float calculateBallAngleFromGradient(Ball ball, float gradient){
+    protected float calculateBallAngleFromGradient(Ball ball, float gradient) {
         float angleToLine;
 
-        if(Float.isFinite(gradient)){
+        if (Float.isFinite(gradient)) {
 
-            if(Float.isFinite(1/gradient)){
-                angleToLine = (float) Math.toDegrees(Math.atan(1/gradient));
-            }else{
-                angleToLine = 0;
-            }
-        }else{
+            //angle to line is Angle to x-axis
+            angleToLine = (float) Math.toDegrees(Math.atan(gradient));
+        } else {
             angleToLine = 90;
         }
 
         //System.out.println(angleToLine);
-
-        if(angleToLine < 0){
-            angleToLine = Math.abs(angleToLine) + 90;
-        }
 
         return ball.convertDirection(-(ball.getDirection() - angleToLine) + angleToLine);
         //float finalAngle = ball.convertDirection((-ball.convertDirection((ball.getDirection() + 90 - angleToLine)))  - (90 - angleToLine)); //double conversion is necessary if -ball.convertDirection results in -180°

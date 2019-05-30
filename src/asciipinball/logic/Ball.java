@@ -191,16 +191,16 @@ public class Ball implements Drawable {
             ballCopy.calculateFuture(Settings.GRAVITATION);
         }*/
 
-        ball.preventBug();
+        ball.calculateFuture(Settings.GRAVITATION);
 
-        this.positionX = ball.getPositionX();
-        this.positionY = ball.getPositionY();
+        this.positionX = ball.getFuturePositionX();
+        this.positionY = ball.getFuturePositionY();
         this.direction = ball.getDirection();
         this.velocity = ball.getVelocity();
     }
 
     public void preventBug(){
-        for(int i = 0; i < 2; i++){
+        for(int i = 0; i < 75; i++){
             calculateFuture(Settings.GRAVITATION);
             positionX = futurePositionX;
             positionY = futurePositionY;
@@ -216,10 +216,28 @@ public class Ball implements Drawable {
         //float twoBallsDirection;
         //twoBallsDirection = ((((ball1.getDirection() + 360) % 360) + ((ball2.getDirection() + 360) % 360)) / 2);
 
-        //TODO calculate one Ball out of the ArrayList
-        //It is Possible that there is only one Ball in ArrayList -> in that case return the Ball
-        //It is Possible that ArrayList is empty -> in that case return null
-        return balls.isEmpty() ? null : balls.get(0);
+        int arrayLength = balls.size();
+
+        if(balls.isEmpty()){
+            return null;
+        }else if(arrayLength == 1){
+            return balls.get(0);
+        }else if(arrayLength == 2){
+            Ball ball1 = balls.get(0);
+            Ball ball2 = balls.get(1);
+            float newDirection = ball1.convertDirection((((ball1.getDirection() + 360) % 360) + ((ball2.getDirection() + 360) % 360)) / 2);
+            //TODO calculate a new velocity
+            System.out.println("There were two Collisions");
+            return new Ball(ball1.positionX,ball1.positionY,ball1.radius,newDirection,ball1.getVelocity());
+
+        }else{
+            //TODO implement support for more than 2 Collision
+            System.out.println("MORE THAN TWO COLLISIONS ARE NOT SUPPORTET AT THIS POINT");
+            Ball ball1 = balls.get(0);
+            Ball ball2 = balls.get(1);
+            float newDirection = ball1.convertDirection((((ball1.getDirection() + 360) % 360) + ((ball2.getDirection() + 360) % 360)) / 2);
+            return new Ball(ball1.positionX,ball1.positionY,ball1.radius,newDirection,ball1.getVelocity());
+        }
     }
 
     public void addVelocity(float velocityAdd){

@@ -59,7 +59,7 @@ public abstract class CircleEntity extends PhysicEntity {
 
 
             float newAngle = calculateBallAngleFromGradient(ball,tangentGradient);
-            System.out.println(ball.getDirection() + " -> " + newAngle);
+            //System.out.println(ball.getDirection() + " -> " + newAngle);
 
             ballList.add(new Ball(ball.getPositionX(),ball.getPositionY(), ball.getRadius(), newAngle ,ball.getVelocity()));
 
