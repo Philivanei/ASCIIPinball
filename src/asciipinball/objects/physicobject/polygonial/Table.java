@@ -1,4 +1,4 @@
-package asciipinball.logic;
+package asciipinball.objects.physicobject.polygonial;
 
 import asciipinball.GameView;
 import asciipinball.interfaces.Drawable;

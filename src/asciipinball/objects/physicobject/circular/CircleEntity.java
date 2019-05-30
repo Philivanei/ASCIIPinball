@@ -5,6 +5,8 @@ import asciipinball.logic.Ball;
 import asciipinball.objects.physicobject.PhysicEntity;
 import asciipinball.shapes.Circle;
 
+import java.util.ArrayList;
+
 public abstract class CircleEntity extends PhysicEntity {
 
     protected Circle[] circles;
@@ -37,6 +39,22 @@ public abstract class CircleEntity extends PhysicEntity {
     @Override
     protected Ball interactWithBall(Ball ball) {
         //TODO Add collision physics to circle Entities
+        ArrayList<Ball> ballList = new ArrayList<Ball>();
+
+        while(!collisionList.isEmpty()) {
+
+            CollisionData collisionData = collisionList.get(0);
+            Circle collisionCircle = (Circle) collisionData.getCollisionShape();
+            collisionList.remove(0);
+
+            float gradientMiddleToCollisionPoint = (collisionData.getCollisionY() - collisionCircle.getY())/(collisionData.getCollisionX() - collisionCircle.getX());
+            float tangentGradient = -1/gradientMiddleToCollisionPoint;
+
+            ballList.add(new Ball(ball.getPositionX(),ball.getPositionY(), ball.getRadius(), calculateBallAngleFromGradient(ball,tangentGradient),ball.getVelocity()));
+
+        }
+
+
         return null;
     }
 }

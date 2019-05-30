@@ -5,7 +5,7 @@ public class Circle extends Shapes {
     private float x;
     private float y;
 
-    public Circle(float radius, float x, float y) {
+    public Circle(float x, float y, float radius) {
         this.radius = radius;
         this.x = x;
         this.y = y;

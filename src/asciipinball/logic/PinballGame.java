@@ -4,10 +4,9 @@ import asciipinball.GameView;
 import asciipinball.Settings;
 import asciipinball.objects.physicobject.PhysicEntity;
 import asciipinball.objects.physicobject.polygonial.LineWall;
-import asciipinball.shapes.Line;
+import asciipinball.objects.physicobject.polygonial.Table;
 
 import java.util.ArrayList;
-import java.util.Set;
 
 public class PinballGame {
 
@@ -37,7 +36,7 @@ public class PinballGame {
 
         //TODO Remove before release
         //DEBUG STUFF REMOVE BEFORE RELEASE!
-        physicEntities[0] = new LineWall(40, 30,40,0);
+        physicEntities[0] = new LineWall(30, 30,50,0);
 
     }
 
