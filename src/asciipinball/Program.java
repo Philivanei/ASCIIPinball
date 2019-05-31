@@ -26,6 +26,18 @@ public class Program {
                 calculationIterator = 0;
             }
             if(calculationIterator < maxCalculation){
+
+                long timeToWait = 16 - (System.currentTimeMillis() - startTime);
+
+                if(timeToWait > 0){
+                    try {
+                        Thread.sleep(timeToWait);
+                    }catch (Exception e){
+                        e.printStackTrace();
+                    }
+
+                }
+
                 pinballGame.simulateTick();
                 calculationIterator++;
             }
