@@ -2,13 +2,13 @@ package asciipinball.logic;
 
 import asciipinball.GameView;
 import asciipinball.Settings;
+import asciipinball.levels.Levels;
+import asciipinball.logic.flipperfinger.FlipperFingerControl;
 import asciipinball.objects.physicobject.PhysicEntity;
-import asciipinball.objects.physicobject.circular.Bumper;
 import asciipinball.objects.physicobject.polygonial.Table;
 
-import java.awt.*;
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.Set;
 
 public class PinballGame {
 
@@ -21,6 +21,7 @@ public class PinballGame {
     private Player[] players;
     private Table table;
     private PhysicEntity[] physicEntities;
+    private FlipperFingerControl flipperFinger;
 
     public PinballGame() {
 
@@ -35,20 +36,27 @@ public class PinballGame {
 
 
         /**Init Arrays and Values**/
-        ball = new Ball(40f,70f,2.5f,90,0.00f);
+        ball = new Ball(90f,30f,2.5f,100,0.05f);
         players = new Player[4];
         physicEntities = new PhysicEntity[300];
         table = new Table(Settings.WIDTH, Settings.HEIGHT, Settings.HOLE_WIDTH);
+        flipperFinger = new FlipperFingerControl((((float)Settings.WIDTH/2) - (Settings.HOLE_WIDTH/2)),
+                15, (((float)Settings.WIDTH/2) + (Settings.HOLE_WIDTH/2)), 15,
+                12.5f, 45, 135);
 
-        //TODO Remove before release
+        //TODO Remove before final release
         //DEBUG STUFF REMOVE BEFORE RELEASE!
         //physicEntities[0] = new LineWall(30, 30,50,0);
-        physicEntities[0] = new Bumper(38, 30,4f);
+        //physicEntities[0] = new Bumper(38, 30,4f);
+        physicEntities = Levels.LEVEL1;
 
     }
 
     public void simulateTick(){
         ball.calculateFuture(Settings.GRAVITATION);
+
+        flipperFinger.updateFlipperFinger(gameView);
+
         Ball newBall = updateAll();
 
         if(newBall != null){
@@ -77,6 +85,11 @@ public class PinballGame {
             collisionBalls.add(tableBall);
         }
 
+        Ball flipperBall = flipperFinger.updatePhysics(ball);
+        if(flipperBall != null){
+            collisionBalls.add(flipperBall);
+        }
+
         if(collisionBalls.isEmpty()){
             return null;
         }
@@ -96,6 +109,8 @@ public class PinballGame {
                 physicEntity.addToCanvas(gameView);
             }
         }
+
+        flipperFinger.addToCanvas(gameView);
 
         ball.addToCanvas(gameView);
 

@@ -20,7 +20,10 @@ public abstract class CircleEntity extends PhysicEntity {
             float distanceToBall = (float) (Math.sqrt(Math.pow((circle.getX() - ball.getPositionX()), 2) +
                     Math.pow((circle.getY() - ball.getPositionY()), 2)));
 
-            if (distanceToBall < (circle.getRadius() + ball.getRadius())) {
+            if (distanceToBall <= (circle.getRadius() + ball.getRadius())) {
+
+
+
                 collisionDetected = true;
                 float angleToCollisionPoint = (float) (Math.atan((circle.getY() - ball.getPositionY()) / (circle.getX() - ball.getPositionX())));
 
@@ -30,7 +33,6 @@ public abstract class CircleEntity extends PhysicEntity {
                 collisionList.add(new CollisionData(collisionPositionX, collisionPositionY, circle, distanceToBall));
             }
         }
-
         cleanupCollisionList();
 
         return collisionDetected;
@@ -46,6 +48,7 @@ public abstract class CircleEntity extends PhysicEntity {
             Circle collisionCircle = (Circle) collisionData.getCollisionShape();
             collisionList.remove(0);
 
+
             float gradientMiddleToCollisionPoint = (collisionData.getCollisionY() - collisionCircle.getY())/(collisionData.getCollisionX() - collisionCircle.getX());
             float tangentGradient;
             if(Float.isFinite(gradientMiddleToCollisionPoint)){
@@ -56,7 +59,7 @@ public abstract class CircleEntity extends PhysicEntity {
 
 
             float newAngle = calculateBallAngleFromGradient(ball,tangentGradient);
-            System.out.println(ball.getDirection() + " -> " + newAngle);
+            //System.out.println(ball.getDirection() + " -> " + newAngle);
 
             ballList.add(new Ball(ball.getPositionX(),ball.getPositionY(), ball.getRadius(), newAngle ,ball.getVelocity()));
 

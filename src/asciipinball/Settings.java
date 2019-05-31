@@ -8,12 +8,13 @@ public abstract class Settings {
     public static final int OFFSET = 70;
     public static final int WIDTH = 100;
     public static final int HEIGHT = 135;
-    public static final float HOLE_WIDTH = 10;
+    public static final float HOLE_WIDTH = 30;
     public static final float FRICTION = 0.003f;
-    public static final float MAX_SLOWDOWN = 0.001f;
+    public static final float MIN_SPEED = 0.001f;
+    public static final float MAX_SPEED = 0.25f;
 
-    public static void initColorMap(GameView gameView){
-        HashMap colormap = new HashMap<>();
+    public static void initColorMap(GameView gameView) {
+        HashMap<Character, Color> colormap = new HashMap<>();
         colormap.put('R', Color.RED);
         colormap.put('r', Color.RED.brighter());
         colormap.put('G', Color.GREEN);
