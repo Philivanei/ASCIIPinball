@@ -244,6 +244,8 @@ public class Ball implements Drawable {
         float newVelocity = velocity + velocityAdd;
         if(newVelocity > Settings.MIN_SPEED && newVelocity < Settings.MAX_SPEED){
             velocity = newVelocity;
+        }else if(newVelocity > Settings.MAX_SPEED){
+            velocity = Settings.MAX_SPEED;
         }
     }
 

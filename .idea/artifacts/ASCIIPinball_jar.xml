@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="ASCIIPinball:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/ASCIIPinball_jar</output-path>
+    <root id="archive" name="ASCIIPinball.jar">
+      <element id="module-output" name="ASCIIPinball" />
+    </root>
+  </artifact>
+</component>

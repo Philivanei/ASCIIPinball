@@ -63,8 +63,7 @@ public abstract class FlipperFinger extends PolygonEntity {
     public Ball updateEntity(Ball ball) {
         Ball unmodifiedBall = super.updateEntity(ball);
         if(unmodifiedBall != null){
-            unmodifiedBall = super.updateEntity(ball);
-            unmodifiedBall.addVelocity(0.4f);
+            unmodifiedBall.addVelocity(0.03f);
             System.out.println("COLLISION WITH FINGERS DETECTED: " +  ball.getDirection() + " -> " + unmodifiedBall.getDirection());
             unmodifiedBall.preventBug();
         }
