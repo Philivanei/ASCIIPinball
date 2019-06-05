@@ -110,7 +110,7 @@ public abstract class PolygonEntity extends PhysicEntity {
             }
 
             Ball ballToAdd = new Ball(ball.getPositionX(),ball.getPositionY(), ball.getRadius(),finalAngle,ball.getVelocity());
-            ballToAdd.addVelocity(Settings.FRICTION / 2); //Prevents ball from clipping into a wall
+            ballToAdd.jumpToFuture(2);
             ballList.add(ballToAdd);
 
         }
