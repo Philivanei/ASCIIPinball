@@ -1,6 +1,7 @@
 package asciipinball.objects.physicobject.polygonial;
 
 import asciipinball.CollisionData;
+import asciipinball.Settings;
 import asciipinball.logic.Ball;
 import asciipinball.objects.physicobject.PhysicEntity;
 import asciipinball.shapes.Line;
@@ -102,12 +103,15 @@ public abstract class PolygonEntity extends PhysicEntity {
             float finalAngle;
 
             if(collisionPointDistanceA >= collisionLine.getLength() || collisionPointDistanceB >= collisionLine.getLength()){ //If this statement is true the ball is bumping into the side of the Line
-                finalAngle = ball.convertDirection(-ball.getDirection());
+                System.out.println("Bumped into Edge");
+                finalAngle = calculateBallAngleFromGradient(ball, -1/collisionLine.getM());//ball.convertDirection(-ball.getDirection());
             }else{ //In this case the Ball hits the Line "normaly"
                 finalAngle = calculateBallAngleFromGradient(ball, collisionLine.getM());
             }
 
-            ballList.add(new Ball(ball.getPositionX(),ball.getPositionY(), ball.getRadius(),finalAngle,ball.getVelocity()));
+            Ball ballToAdd = new Ball(ball.getPositionX(),ball.getPositionY(), ball.getRadius(),finalAngle,ball.getVelocity());
+            ballToAdd.addVelocity(Settings.FRICTION / 2); //Prevents ball from clipping into a wall
+            ballList.add(ballToAdd);
 
         }
 
