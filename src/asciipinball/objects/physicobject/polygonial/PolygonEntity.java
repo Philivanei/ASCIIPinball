@@ -1,6 +1,7 @@
 package asciipinball.objects.physicobject.polygonial;
 
 import asciipinball.CollisionData;
+import asciipinball.Settings;
 import asciipinball.logic.Ball;
 import asciipinball.objects.physicobject.PhysicEntity;
 import asciipinball.shapes.Line;
@@ -101,13 +102,19 @@ public abstract class PolygonEntity extends PhysicEntity {
 
             float finalAngle;
 
-            if(collisionPointDistanceA >= collisionLine.getLength() || collisionPointDistanceB >= collisionLine.getLength()){ //If this statement is true the ball is bumping into the side of the Line
-                finalAngle = ball.convertDirection(-ball.getDirection());
+            float differenceA = collisionPointDistanceA - collisionLine.getLength();
+            float differenceB = collisionPointDistanceB - collisionLine.getLength();
+
+            //if(collisionPointDistanceA > collisionLine.getLength() || collisionPointDistanceB > collisionLine.getLength()){ //If this statement is true the ball is bumping into the side of the Line
+            if(((differenceA > (ball.getRadius()/2)) && collisionLine.isEdge1()) || ((differenceB > (ball.getRadius()/2))&& collisionLine.isEdge2())){
+                System.out.println("Bumped into the Edge");
+                finalAngle =  calculateBallAngleFromGradient(ball, -1/collisionLine.getM()) ; //ball.convertDirection(-ball.getDirection());
             }else{ //In this case the Ball hits the Line "normaly"
                 finalAngle = calculateBallAngleFromGradient(ball, collisionLine.getM());
             }
 
             ballList.add(new Ball(ball.getPositionX(),ball.getPositionY(), ball.getRadius(),finalAngle,ball.getVelocity()));
+            ball.addVelocity(2* Settings.FRICTION); //This ads double the friction, so the ball doesnt get stuck so easily
 
         }
 

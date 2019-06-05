@@ -12,12 +12,25 @@ public class Line extends Shapes implements Drawable {
     private float y1;
     private float x2;
     private float y2;
+    private boolean isEdge1; // True if there is no other Entity "Connected" at the end of the line (for the x1 y1 point)
+    private boolean isEdge2; //
 
     public Line(float x1, float y1, float x2, float y2) {
         this.x1 = x1;
         this.y1 = y1;
         this.x2 = x2;
         this.y2 = y2;
+        isEdge1 = true;
+        isEdge1 = true;
+    }
+
+    public Line(float x1, float y1, float x2, float y2, boolean isEdge1, boolean isEdge2) {
+        this.x1 = x1;
+        this.y1 = y1;
+        this.x2 = x2;
+        this.y2 = y2;
+        this.isEdge1 = isEdge1;
+        this.isEdge2 = isEdge2;
     }
 
     public Line(Coordinate p1, Coordinate p2){
@@ -25,6 +38,25 @@ public class Line extends Shapes implements Drawable {
         y1 = p1.getY();
         x2 = p2.getX();
         y2 = p2.getY();
+        isEdge1 = true;
+        isEdge2 = true;
+    }
+
+    public Line(Coordinate p1, Coordinate p2, boolean isEdge1, boolean isEdge2){
+        x1 = p1.getX();
+        y1 = p1.getY();
+        x2 = p2.getX();
+        y2 = p2.getY();
+        this.isEdge1 = isEdge1;
+        this.isEdge2 = isEdge2;
+    }
+
+    public boolean isEdge1(){
+        return isEdge1;
+    }
+
+    public boolean isEdge2(){
+        return isEdge2;
     }
 
     public float getX1() {

@@ -4,6 +4,7 @@ import asciipinball.GameView;
 import asciipinball.Settings;
 import asciipinball.interfaces.Drawable;
 
+import java.nio.channels.SeekableByteChannel;
 import java.util.ArrayList;
 
 /**
@@ -164,11 +165,7 @@ public class Ball implements Drawable {
         ySpeed -= gravitationPerTick;
         //System.out.println("XSpeed: " + xSpeed + " YSpeed: " + ySpeed);
 
-        if(velocity - Settings.FRICTION > Settings.MIN_SPEED) {
-            velocity -= Settings.FRICTION;
-        }
-
-
+        addVelocity(-Settings.FRICTION);
 
         calculateFutureDirection(xSpeed, ySpeed);
         calculateFutureVelocity(xSpeed, ySpeed);
@@ -246,6 +243,8 @@ public class Ball implements Drawable {
             velocity = newVelocity;
         }else if(newVelocity > Settings.MAX_SPEED){
             velocity = Settings.MAX_SPEED;
+        }else if(newVelocity < Settings.MIN_SPEED){
+            velocity = Settings.MIN_SPEED;
         }
     }
 

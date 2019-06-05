@@ -16,7 +16,7 @@ public class LeftFlipperFinger extends FlipperFinger {
         float oppositeSide = ((float) Math.sin(Math.toRadians(angle))) * length;
         float xRes = oppositeSide + x;
         float yRes = y - adjacentSide;
-        lines[0] = new Line(x, y, xRes, yRes);
+        lines[0] = new Line(x, y, xRes, yRes, false, true);
     }
 
     @Override
