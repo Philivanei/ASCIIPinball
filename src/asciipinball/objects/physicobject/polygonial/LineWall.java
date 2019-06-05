@@ -11,12 +11,6 @@ public class LineWall extends PolygonEntity{
         lines[0] = new Line(x1,y1,x2,y2);
     }
 
-    public LineWall(float x1, float y1, float x2, float y2, boolean isEdge1, boolean isEdge2){
-        score = 1;
-        lines = new Line[1];
-        lines[0] = new Line(x1,y1,x2,y2,isEdge1,isEdge2);
-    }
-
     @Override
     public void addToCanvas(GameView gameView) {
         lines[0].addToCanvas(gameView);

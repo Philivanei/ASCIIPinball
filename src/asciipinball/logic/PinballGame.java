@@ -42,7 +42,7 @@ public class PinballGame {
         table = new Table(Settings.WIDTH, Settings.HEIGHT, Settings.HOLE_WIDTH);
         flipperFinger = new FlipperFingerControl((((float)Settings.WIDTH/2) - (Settings.HOLE_WIDTH/2)),
                 15, (((float)Settings.WIDTH/2) + (Settings.HOLE_WIDTH/2)), 15,
-                11f, 45, 135);
+                14f, 45, 135);
 
         //TODO Remove before final release
         //DEBUG STUFF REMOVE BEFORE RELEASE!
