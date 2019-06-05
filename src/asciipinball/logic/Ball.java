@@ -164,9 +164,7 @@ public class Ball implements Drawable {
         ySpeed -= gravitationPerTick;
         //System.out.println("XSpeed: " + xSpeed + " YSpeed: " + ySpeed);
 
-        if(velocity - Settings.FRICTION > Settings.MIN_SPEED) {
-            velocity -= Settings.FRICTION;
-        }
+        addVelocity(-Settings.FRICTION);
 
 
 
@@ -199,8 +197,8 @@ public class Ball implements Drawable {
         this.velocity = ball.getVelocity();
     }
 
-    public void preventBug(){
-        for(int i = 0; i < 75; i++){
+    public void jumpToFuture(int numberOfSteps){
+        for(int i = 0; i < numberOfSteps; i++){
             calculateFuture(Settings.GRAVITATION);
             positionX = futurePositionX;
             positionY = futurePositionY;
@@ -246,6 +244,8 @@ public class Ball implements Drawable {
             velocity = newVelocity;
         }else if(newVelocity > Settings.MAX_SPEED){
             velocity = Settings.MAX_SPEED;
+        }else if(newVelocity < Settings.MIN_SPEED){
+            velocity = Settings.MIN_SPEED;
         }
     }
 

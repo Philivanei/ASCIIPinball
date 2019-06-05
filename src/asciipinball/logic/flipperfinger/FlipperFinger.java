@@ -12,6 +12,7 @@ public abstract class FlipperFinger extends PolygonEntity {
     protected float maxAngle;
     protected float length;
     protected static final float TIME_FOR_FLIP = 250;
+    protected MoveStatus moveStatus = MoveStatus.STOP;
 
     public FlipperFinger(float x, float y, float length , float minAngle, float maxAngle){
         lines = new Line[1];
@@ -38,7 +39,10 @@ public abstract class FlipperFinger extends PolygonEntity {
 
         float result = ((maxAngle - minAngle) / TIME_FOR_FLIP) * time + minAngle;
         if (result > maxAngle) {
+            moveStatus = MoveStatus.STOP;
             result = maxAngle;
+        }else{
+            moveStatus = MoveStatus.UP;
         }
         return result;
     }
@@ -53,8 +57,10 @@ public abstract class FlipperFinger extends PolygonEntity {
 
         float result = (minAngle - maxAngle) / TIME_FOR_FLIP * time + maxAngle;
         if (result < minAngle) {
+            moveStatus = MoveStatus.STOP;
             result = minAngle;
-            return result;
+        }else{
+            moveStatus = MoveStatus.DOWN;
         }
         return result;
     }
@@ -62,10 +68,14 @@ public abstract class FlipperFinger extends PolygonEntity {
     @Override
     public Ball updateEntity(Ball ball) {
         Ball unmodifiedBall = super.updateEntity(ball);
-        if(unmodifiedBall != null){
-            unmodifiedBall.addVelocity(0.03f);
-            System.out.println("COLLISION WITH FINGERS DETECTED: " +  ball.getDirection() + " -> " + unmodifiedBall.getDirection());
-            unmodifiedBall.preventBug();
+        if(unmodifiedBall != null) {
+            if (moveStatus == MoveStatus.UP) {
+                unmodifiedBall.addVelocity(0.03f);
+            }else if(moveStatus == MoveStatus.DOWN){
+                unmodifiedBall.addVelocity(-0.006f);
+            }
+            unmodifiedBall.jumpToFuture(75);
+
         }
         return unmodifiedBall;
     }
