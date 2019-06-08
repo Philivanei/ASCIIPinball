@@ -102,12 +102,17 @@ public abstract class PolygonEntity extends PhysicEntity {
 
             float finalAngle;
 
-            if(collisionPointDistanceA >= collisionLine.getLength() || collisionPointDistanceB >= collisionLine.getLength()){ //If this statement is true the ball is bumping into the side of the Line
+            float collisionGradient = collisionLine.getM();
+
+            if(collisionPointDistanceA >= collisionLine.getLength()){ //If this statement is true the ball is bumping into the side of the Line
                 System.out.println("Bumped into Edge");
-                finalAngle = calculateBallAngleFromGradient(ball, -1/collisionLine.getM());//ball.convertDirection(-ball.getDirection());
-            }else{ //In this case the Ball hits the Line "normaly"
-                finalAngle = calculateBallAngleFromGradient(ball, collisionLine.getM());
+                //finalAngle = calculateBallAngleFromGradient(ball, -1/collisionLine.getM());//ball.convertDirection(-ball.getDirection());
+                collisionGradient = -1/((ball.getPositionY() - collisionLine.getY1()) / (ball.getPositionX() - collisionLine.getX1()));               //finalAngle = calculateBallAngleOnEdgeCollision(ball);
+            }else if(collisionPointDistanceB >= collisionLine.getLength()) {
+                collisionGradient = -1/((ball.getPositionY() - collisionLine.getY2()) / (ball.getPositionX() - collisionLine.getX2()));
             }
+
+            finalAngle = calculateBallAngleFromGradient(ball, collisionGradient);
 
             Ball ballToAdd = new Ball(ball.getPositionX(),ball.getPositionY(), ball.getRadius(),finalAngle,ball.getVelocity());
             ballToAdd.jumpToFuture(2);

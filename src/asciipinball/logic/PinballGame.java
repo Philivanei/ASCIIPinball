@@ -2,6 +2,7 @@ package asciipinball.logic;
 
 import asciipinball.GameView;
 import asciipinball.Settings;
+import asciipinball.interfaces.Drawable;
 import asciipinball.levels.Levels;
 import asciipinball.logic.flipperfinger.FlipperFingerControl;
 import asciipinball.objects.physicobject.PhysicEntity;

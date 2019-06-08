@@ -4,12 +4,14 @@ import asciipinball.CollisionData;
 import asciipinball.interfaces.Drawable;
 import asciipinball.logic.Ball;
 import asciipinball.logic.Player;
+import asciipinball.shapes.Line;
 
+import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 
 public abstract class PhysicEntity implements Drawable {
 
-    protected ArrayList<CollisionData> collisionList = new ArrayList<CollisionData>();
+    protected ArrayList<CollisionData> collisionList = new ArrayList<>();
     protected int score = 0;
 
     public Ball updateEntity(Ball ball){
@@ -55,6 +57,8 @@ public abstract class PhysicEntity implements Drawable {
         return ball.convertDirection(-(ball.getDirection() - angleToLine) + angleToLine);
         //float finalAngle = ball.convertDirection((-ball.convertDirection((ball.getDirection() + 90 - angleToLine)))  - (90 - angleToLine)); //double conversion is necessary if -ball.convertDirection results in -180°
     }
+
+
 
     protected abstract boolean isCollided(Ball ball);
     protected abstract Ball interactWithBall(Ball ball);
