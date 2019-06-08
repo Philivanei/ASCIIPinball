@@ -53,8 +53,7 @@ public class RotatingCross extends PolygonEntity {
     }
 
     @Override
-    public void addToCanvas(GameView gameView) {
-        lines[0].addToCanvas(gameView);
-        lines[1].addToCanvas(gameView);
+    public char getColor() {
+        return 'G';
     }
 }

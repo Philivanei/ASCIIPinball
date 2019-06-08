@@ -37,10 +37,9 @@ public class JointCover extends CircleEntity {
         return returnBall;
     }
 
+
     @Override
-    public void addToCanvas(GameView gameView) {
-        //this is empty on purpose!
+    public char getColor() {
+        return ' ';
     }
-
-
 }

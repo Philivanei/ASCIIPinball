@@ -5,7 +5,7 @@ import asciipinball.interfaces.Drawable;
 import asciipinball.Coordinate;
 import asciipinball.shapes.Line;
 
-public class Table extends PolygonEntity implements Drawable {
+public class Table extends PolygonEntity {
 
     public Table(float width, float height, float holeWidth) {
 
@@ -25,11 +25,9 @@ public class Table extends PolygonEntity implements Drawable {
 
     }
 
-    @Override
-    public void addToCanvas(GameView gameView) {
-        for(Line line : lines){
-            line.addToCanvas(gameView);
-        }
-    }
 
+    @Override
+    public char getColor() {
+        return 'B';
+    }
 }

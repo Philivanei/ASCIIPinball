@@ -2,14 +2,12 @@ package asciipinball.logic;
 
 import asciipinball.GameView;
 import asciipinball.Settings;
-import asciipinball.interfaces.Drawable;
 import asciipinball.levels.Levels;
 import asciipinball.logic.flipperfinger.FlipperFingerControl;
 import asciipinball.objects.physicobject.PhysicEntity;
 import asciipinball.objects.physicobject.polygonial.Table;
 
 import java.util.ArrayList;
-import java.util.Set;
 
 public class PinballGame {
 
@@ -24,6 +22,7 @@ public class PinballGame {
     private PhysicEntity[] physicEntities;
     private FlipperFingerControl flipperFinger;
     private Control control;
+    private Gui gui;
 
     public PinballGame() {
 
@@ -46,6 +45,7 @@ public class PinballGame {
                 15, (((float)Settings.WIDTH/2) + (Settings.HOLE_WIDTH/2)), 15,
                 11f, 45, 135);
         control = new Control(flipperFinger);
+        gui = new Gui(gameView);
 
         //TODO Remove before final release
         //DEBUG STUFF REMOVE BEFORE RELEASE!
@@ -107,17 +107,21 @@ public class PinballGame {
 
         gameView.clearCanvas();
 
-        table.addToCanvas(gameView);
+        try {
+            gui.addToCanvas(table);
 
-        for (PhysicEntity physicEntity : physicEntities) {
-            if(physicEntity != null) {
-                physicEntity.addToCanvas(gameView);
+            for (PhysicEntity physicEntity : physicEntities) {
+                if (physicEntity != null) {
+                    gui.addToCanvas(physicEntity);
+                }
             }
+
+            gui.addToCanvas(flipperFinger);
+
+            gui.addToCanvas(ball);
+        }catch (Exception e){
+            e.printStackTrace();
         }
-
-        flipperFinger.addToCanvas(gameView);
-
-        ball.addToCanvas(gameView);
 
         gameView.printCanvas();
     }
