@@ -1,0 +1,60 @@
+package asciipinball.objects.physicobject.polygonial;
+
+import asciipinball.Coordinate;
+import asciipinball.GameView;
+import asciipinball.logic.Ball;
+import asciipinball.shapes.Line;
+
+public class RotatingCross extends PolygonEntity {
+
+    float x;
+    float y;
+    float speed;
+    float radius;
+    float step;
+    boolean turnClockWise;
+
+    public RotatingCross(float x, float y, float radius , float speed, boolean turnClockWise) {
+        lines = new Line[2];
+        generateLines();
+        this.x = x;
+        this.y = y;
+        this.speed = speed;
+        this.radius = radius;
+        this.turnClockWise = turnClockWise;
+        step = 0;
+    }
+
+    private void generateLines(){
+        byte factor = -1;
+        if(turnClockWise){
+            factor = 1;
+        }
+        Coordinate line1A = new Coordinate((float) (x + Math.sin(step) * radius), (float) (y + factor * Math.cos(step) * radius));
+        Coordinate line1B = new Coordinate((float) (x - Math.sin(step) * radius), (float) (y - factor * Math.cos(step) * radius));
+
+        Coordinate line2A = new Coordinate((float) (x - Math.cos(step) * radius), (float) (y + factor * Math.sin(step) * radius));
+        Coordinate line2B = new Coordinate((float) (x + Math.cos(step) * radius), (float) (y - factor * Math.sin(step) * radius));
+
+        lines[0] = new Line(line1A, line1B);
+        lines[1] = new Line(line2A, line2B);
+
+    }
+
+    private void updateRotation(){
+        step += speed;
+        generateLines();
+    }
+
+    @Override
+    public Ball updateEntity(Ball ball) {
+        updateRotation();
+        return super.updateEntity(ball);
+    }
+
+    @Override
+    public void addToCanvas(GameView gameView) {
+        lines[0].addToCanvas(gameView);
+        lines[1].addToCanvas(gameView);
+    }
+}

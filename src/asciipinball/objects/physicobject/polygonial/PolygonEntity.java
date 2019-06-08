@@ -106,8 +106,9 @@ public abstract class PolygonEntity extends PhysicEntity {
 
             if(collisionPointDistanceA >= collisionLine.getLength()){ //If this statement is true the ball is bumping into the side of the Line
                 System.out.println("Bumped into Edge");
-                //finalAngle = calculateBallAngleFromGradient(ball, -1/collisionLine.getM());//ball.convertDirection(-ball.getDirection());
-                collisionGradient = -1/((ball.getPositionY() - collisionLine.getY1()) / (ball.getPositionX() - collisionLine.getX1()));               //finalAngle = calculateBallAngleOnEdgeCollision(ball);
+                //finalAngle = calculateBallAngleFromGradient(ball, -1/collisionLine.getM());
+                collisionGradient = -1/((ball.getPositionY() - collisionLine.getY1()) / (ball.getPositionX() - collisionLine.getX1()));
+                //collisionGradient = -1/collisionLine.getM();
             }else if(collisionPointDistanceB >= collisionLine.getLength()) {
                 collisionGradient = -1/((ball.getPositionY() - collisionLine.getY2()) / (ball.getPositionX() - collisionLine.getX2()));
             }
