@@ -1,6 +1,6 @@
-package asciipinball.logic.flipperfinger;
+package asciipinball.objects.flipperfinger;
 
-import asciipinball.logic.Ball;
+import asciipinball.objects.Ball;
 import asciipinball.objects.physicobject.polygonial.PolygonEntity;
 import asciipinball.shapes.Line;
 

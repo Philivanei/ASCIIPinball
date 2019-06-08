@@ -1,8 +1,6 @@
-package asciipinball.logic;
+package asciipinball.objects;
 
-import asciipinball.GameView;
 import asciipinball.Settings;
-import asciipinball.interfaces.Drawable;
 
 import java.util.ArrayList;
 

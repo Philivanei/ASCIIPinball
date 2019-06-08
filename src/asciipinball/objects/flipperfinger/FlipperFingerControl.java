@@ -1,10 +1,8 @@
-package asciipinball.logic.flipperfinger;
+package asciipinball.objects.flipperfinger;
 
-import asciipinball.GameView;
 import asciipinball.interfaces.Drawable;
-import asciipinball.logic.Ball;
+import asciipinball.objects.Ball;
 
-import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 
 

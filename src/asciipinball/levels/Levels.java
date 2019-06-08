@@ -6,7 +6,6 @@ import asciipinball.objects.physicobject.circular.Bumper;
 import asciipinball.objects.physicobject.circular.JointCover;
 import asciipinball.objects.physicobject.polygonial.LineWall;
 import asciipinball.objects.physicobject.polygonial.RotatingCross;
-import asciipinball.objects.physicobject.polygonial.TriangleWall;
 
 public abstract class Levels {
 

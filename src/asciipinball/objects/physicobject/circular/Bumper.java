@@ -1,8 +1,6 @@
 package asciipinball.objects.physicobject.circular;
 
-import asciipinball.GameView;
-import asciipinball.Settings;
-import asciipinball.logic.Ball;
+import asciipinball.objects.Ball;
 import asciipinball.shapes.Circle;
 
 public class Bumper extends CircleEntity {

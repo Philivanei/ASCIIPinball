@@ -1,8 +1,7 @@
 package asciipinball.objects.physicobject.polygonial;
 
 import asciipinball.Coordinate;
-import asciipinball.GameView;
-import asciipinball.logic.Ball;
+import asciipinball.objects.Ball;
 import asciipinball.shapes.Line;
 
 public class RotatingCross extends PolygonEntity {

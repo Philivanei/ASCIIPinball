@@ -1,4 +1,4 @@
-package asciipinball;
+package asciipinball.exceptions;
 
 public class NotConnectedLinesException extends Exception {
     public NotConnectedLinesException() {

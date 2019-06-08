@@ -1,12 +1,9 @@
 package asciipinball.objects.physicobject;
 
 import asciipinball.CollisionData;
-import asciipinball.interfaces.Drawable;
-import asciipinball.logic.Ball;
-import asciipinball.logic.Player;
-import asciipinball.shapes.Line;
+import asciipinball.objects.Ball;
+import asciipinball.corelogic.Player;
 
-import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 
 public abstract class PhysicEntity {

@@ -1,9 +1,7 @@
 package asciipinball.objects.physicobject.circular;
 
-import asciipinball.GameView;
-import asciipinball.NotConnectedLinesException;
-import asciipinball.Settings;
-import asciipinball.logic.Ball;
+import asciipinball.exceptions.NotConnectedLinesException;
+import asciipinball.objects.Ball;
 import asciipinball.shapes.Circle;
 import asciipinball.shapes.Line;
 

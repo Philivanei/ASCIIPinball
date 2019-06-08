@@ -1,9 +1,8 @@
 package asciipinball.objects.physicobject.polygonial;
 
 import asciipinball.CollisionData;
-import asciipinball.Settings;
 import asciipinball.interfaces.Drawable;
-import asciipinball.logic.Ball;
+import asciipinball.objects.Ball;
 import asciipinball.objects.physicobject.PhysicEntity;
 import asciipinball.shapes.Line;
 

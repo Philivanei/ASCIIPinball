@@ -1,6 +1,5 @@
 package asciipinball.objects.physicobject.polygonial;
 
-import asciipinball.GameView;
 import asciipinball.shapes.Line;
 
 public class LineWall extends PolygonEntity{
