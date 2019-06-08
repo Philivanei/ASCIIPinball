@@ -33,50 +33,7 @@ public class FlipperFingerControl implements Drawable {
 
     }
 
-    public void updateFlipperFinger(GameView gameView){
-
-        KeyEvent[] keyEvents = gameView.getKeyEvents();
-
-        if(keyEvents.length != 0){
-
-            for (KeyEvent keyEvent : keyEvents) {
-
-                if(keyEvent.getID() == KeyEvent.KEY_PRESSED){
-
-                    if(keyEvent.getKeyCode() == KeyEvent.VK_LEFT){
-
-                        if(leftDirection == Direction.DOWN){
-                            upStartTimeLeft = System.currentTimeMillis();
-                        }
-                        leftDirection = Direction.UP;
-
-                    }else if(keyEvent.getKeyCode() == KeyEvent.VK_RIGHT){
-
-                        if(rightDirection == Direction.DOWN){
-                            upStartTimeRight = System.currentTimeMillis();
-                        }
-                        rightDirection = Direction.UP;
-
-                    }
-                }else if(keyEvent.getID() == KeyEvent.KEY_RELEASED){
-
-                    if(keyEvent.getKeyCode() == KeyEvent.VK_LEFT){
-
-                        if(leftDirection == Direction.UP){
-                            downStartTimeLeft = System.currentTimeMillis();
-                        }
-                        leftDirection = Direction.DOWN;
-
-                    }else if(keyEvent.getKeyCode() == KeyEvent.VK_RIGHT){
-
-                        if(rightDirection == Direction.UP){
-                            downStartTimeRight = System.currentTimeMillis();
-                        }
-                        rightDirection = Direction.DOWN;
-                    }
-                }
-            }
-        }
+    public void updateFlipperFinger(){
 
         if(leftDirection == Direction.UP){
             long timeSinceDown = System.currentTimeMillis() - downStartTimeLeft;
@@ -95,6 +52,35 @@ public class FlipperFingerControl implements Drawable {
             rightFlipperFinger.generateLine(rightFlipperFinger.calculateAngleDown(downStartTimeRight, timeSinceUp));
         }
 
+    }
+
+
+    public void onLeftDown(){
+        if(leftDirection == Direction.DOWN){
+            upStartTimeLeft = System.currentTimeMillis();
+        }
+        leftDirection = Direction.UP;
+    }
+
+    public void onLeftUp(){
+        if(leftDirection == Direction.UP){
+            downStartTimeLeft = System.currentTimeMillis();
+        }
+        leftDirection = Direction.DOWN;
+    }
+
+    public void onRightDown(){
+        if(rightDirection == Direction.DOWN){
+            upStartTimeRight = System.currentTimeMillis();
+        }
+        rightDirection = Direction.UP;
+    }
+
+    public void onRightUp(){
+        if(rightDirection == Direction.UP){
+            downStartTimeRight = System.currentTimeMillis();
+        }
+        rightDirection = Direction.DOWN;
     }
 
 
