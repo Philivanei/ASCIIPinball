@@ -9,7 +9,7 @@ import asciipinball.shapes.Line;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 
-public abstract class PhysicEntity implements Drawable {
+public abstract class PhysicEntity {
 
     protected ArrayList<CollisionData> collisionList = new ArrayList<>();
     protected int score = 0;

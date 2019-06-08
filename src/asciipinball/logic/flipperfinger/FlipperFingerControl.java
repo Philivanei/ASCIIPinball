@@ -104,11 +104,16 @@ public class FlipperFingerControl implements Drawable {
         return ball.joinBalls(flipperBalls);
     }
 
-
-    @Override
-    public void addToCanvas(GameView gameView) {
-        leftFlipperFinger.addToCanvas(gameView);
-        rightFlipperFinger.addToCanvas(gameView);
+    public LeftFlipperFinger getLeftFlipperFinger() {
+        return leftFlipperFinger;
     }
 
+    public RightFlipperFinger getRightFlipperFinger() {
+        return rightFlipperFinger;
+    }
+
+    @Override
+    public char getColor() {
+        return 'B';
+    }
 }
