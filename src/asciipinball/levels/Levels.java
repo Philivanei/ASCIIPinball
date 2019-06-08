@@ -22,7 +22,7 @@ public abstract class Levels {
             //new LineWall((((float)Settings.WIDTH/2) - (Settings.HOLE_WIDTH/2)),15,(((float)Settings.WIDTH/2) - (Settings.HOLE_WIDTH/2)),0),
             //new LineWall((((float)Settings.WIDTH/2) + (Settings.HOLE_WIDTH/2)),15,(((float)Settings.WIDTH/2) + (Settings.HOLE_WIDTH/2)),0),
             new Bumper(Settings.WIDTH/2,Settings.HEIGHT/2, 4),
-            //new RotatingCross(Settings.WIDTH/2,Settings.HEIGHT/2 + 30, 8, 0.0008f, false),
+            new RotatingCross(Settings.WIDTH/2,Settings.HEIGHT/2 + 30, 8, 0.0008f, false),
             //new Bumper((((float)Settings.WIDTH/2) - (Settings.HOLE_WIDTH/2)), 15,2),
             //new Bumper((((float)Settings.WIDTH/2) + (Settings.HOLE_WIDTH/2)), 15,2)
     };
