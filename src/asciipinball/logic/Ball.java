@@ -226,7 +226,8 @@ public class Ball implements Drawable {
             float newDirection = ball1.convertDirection((((ball1.getDirection() + 360) % 360) + ((ball2.getDirection() + 360) % 360)) / 2);
             //TODO calculate a new velocity
             System.out.println("There were two Collisions");
-            return new Ball(ball1.positionX,ball1.positionY,ball1.radius,newDirection,ball1.getVelocity());
+            Ball returnBall = new Ball(ball1.positionX,ball1.positionY,ball1.radius,newDirection,ball1.getVelocity());
+            return returnBall;
 
         }else{
             //TODO implement support for more than 2 Collision

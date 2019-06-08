@@ -22,8 +22,6 @@ public abstract class CircleEntity extends PhysicEntity {
 
             if (distanceToBall <= (circle.getRadius() + ball.getRadius())) {
 
-
-
                 collisionDetected = true;
                 float angleToCollisionPoint = (float) (Math.atan((circle.getY() - ball.getPositionY()) / (circle.getX() - ball.getPositionX())));
 
