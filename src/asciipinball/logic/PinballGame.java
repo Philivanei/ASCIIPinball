@@ -23,6 +23,7 @@ public class PinballGame {
     private Table table;
     private PhysicEntity[] physicEntities;
     private FlipperFingerControl flipperFinger;
+    private Control control;
 
     public PinballGame() {
 
@@ -44,6 +45,7 @@ public class PinballGame {
         flipperFinger = new FlipperFingerControl((((float)Settings.WIDTH/2) - (Settings.HOLE_WIDTH/2)),
                 15, (((float)Settings.WIDTH/2) + (Settings.HOLE_WIDTH/2)), 15,
                 11f, 45, 135);
+        control = new Control(flipperFinger);
 
         //TODO Remove before final release
         //DEBUG STUFF REMOVE BEFORE RELEASE!
@@ -54,9 +56,11 @@ public class PinballGame {
     }
 
     public void simulateTick(){
+
         ball.calculateFuture(Settings.GRAVITATION);
 
-        flipperFinger.updateFlipperFinger(gameView);
+        control.updateControls(gameView);
+        flipperFinger.updateFlipperFinger();
 
         Ball newBall = updateAll();
 
@@ -70,7 +74,7 @@ public class PinballGame {
 
     public Ball updateAll(){
 
-        ArrayList<Ball> collisionBalls = new ArrayList<Ball>();
+        ArrayList<Ball> collisionBalls = new ArrayList<>();
 
         for (PhysicEntity physicEntity : physicEntities) {
             if(physicEntity != null){
