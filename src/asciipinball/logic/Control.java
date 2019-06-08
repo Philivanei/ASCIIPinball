@@ -4,6 +4,7 @@ import asciipinball.GameView;
 import asciipinball.interfaces.Drawable;
 import asciipinball.logic.Ball;
 import asciipinball.logic.flipperfinger.*;
+import asciipinball.logic.launchcontrol.LaunchControl;
 
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
@@ -11,9 +12,11 @@ import java.util.ArrayList;
 public class Control {
 
     FlipperFingerControl flipperFingerControl;
+    LaunchControl launchControl;
 
-    public Control(FlipperFingerControl flipperFingerControl) {
+    public Control(FlipperFingerControl flipperFingerControl, LaunchControl launchControl) {
         this.flipperFingerControl = flipperFingerControl;
+        this.launchControl = launchControl;
     }
 
     public void updateControls(GameView gameView) {
@@ -34,6 +37,8 @@ public class Control {
 
                         flipperFingerControl.onRightDown();
 
+                    } else if(keyEvent.getKeyCode() == KeyEvent.VK_SPACE){
+                        launchControl.onSpaceDown();
                     }
                 } else if (keyEvent.getID() == KeyEvent.KEY_RELEASED) {
 
@@ -45,6 +50,8 @@ public class Control {
 
                         flipperFingerControl.onRightUp();
 
+                    } else if(keyEvent.getKeyCode() == KeyEvent.VK_SPACE){
+                        launchControl.onSpaceUp();
                     }
                 }
             }

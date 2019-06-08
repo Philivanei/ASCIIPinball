@@ -84,7 +84,7 @@ public class FlipperFingerControl implements Drawable {
     }
 
 
-    public Ball updatePhysics(Ball ball){
+    public Ball updateEntity(Ball ball){
 
         ArrayList<Ball> flipperBalls = new ArrayList<Ball>();
 
