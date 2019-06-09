@@ -1,12 +1,14 @@
 package asciipinball.objects.physicobject.circular;
 
+import asciipinball.corelogic.players.PlayerManager;
 import asciipinball.objects.Ball;
 import asciipinball.shapes.Circle;
 
 public class Bumper extends CircleEntity {
 
-    public Bumper(float x, float y, float radius){
-        score = 1;
+    public Bumper(PlayerManager playerManager, float x, float y, float radius){
+        super(playerManager);
+        score = 150;
         circles = new Circle[1];
         circles[0] = new Circle(x,y,radius);
     }

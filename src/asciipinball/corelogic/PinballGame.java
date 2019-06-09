@@ -1,6 +1,8 @@
 package asciipinball.corelogic;
 
 import asciipinball.GameView;
+import asciipinball.corelogic.players.Player;
+import asciipinball.corelogic.players.PlayerManager;
 import asciipinball.Settings;
 import asciipinball.graphics.GameOverScreen;
 import asciipinball.graphics.Gui;
@@ -28,6 +30,7 @@ public class PinballGame {
     private Gui gui;
     private boolean gameOver = false;
     private Player currentPlayer;
+    private PlayerManager playerManager;
 
     public PinballGame() {
 
@@ -42,21 +45,27 @@ public class PinballGame {
 
 
         /*Init Arrays and Values*/
-        ball = new Ball(90f,30f,2.5f,100,0.05f);
+        try {
+            playerManager = new PlayerManager((byte) 1);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        resetBall();
         players = new Player[4];
         physicEntities = new PhysicEntity[300];
-        table = new Table(Settings.WIDTH, Settings.HEIGHT, Settings.HOLE_WIDTH);
-        flipperFinger = new FlipperFingerControl((((float)Settings.WIDTH/2) - (Settings.HOLE_WIDTH/2)),
+        table = new Table(playerManager, Settings.WIDTH, Settings.HEIGHT, Settings.HOLE_WIDTH);
+        flipperFinger = new FlipperFingerControl(playerManager, (((float)Settings.WIDTH/2) - (Settings.HOLE_WIDTH/2)),
                 15, (((float)Settings.WIDTH/2) + (Settings.HOLE_WIDTH/2)), 15,
                 11f, 45, 135);
         control = new Control(flipperFinger);
         gui = new Gui(gameView);
+        //TODO Playernumber selection
 
         //TODO Remove before final release
         //DEBUG STUFF REMOVE BEFORE RELEASE!
         //physicEntities[0] = new LineWall(30, 30,50,0);
         //physicEntities[0] = new Bumper(38, 30,4f);
-        physicEntities = Levels.LEVEL1;
+        physicEntities = new Levels(playerManager).getLevel1();
         currentPlayer = new Player();
 
     }
@@ -77,14 +86,22 @@ public class PinballGame {
             }else{
                 ball.updateBall();
             }
-            checkGameOver();
+            checkBallOutOfGame();
         }
     }
 
-    private void checkGameOver(){
+    private void checkBallOutOfGame(){
         if(ball.getPositionY() < -10){
-            gameOver = true;
+            playerManager.currentPlayerLoseRound();
+            playerManager.nextPlayer();
+            resetBall();
         }
+
+        gameOver = !playerManager.isBallLeft();
+    }
+
+    private void resetBall(){
+        ball = new Ball(90f,30f,2.5f,100,0.05f);
     }
 
     private Ball updateAll(){

@@ -1,6 +1,7 @@
 package asciipinball.objects.physicobject.polygonial;
 
 import asciipinball.Coordinate;
+import asciipinball.corelogic.players.PlayerManager;
 import asciipinball.objects.Ball;
 import asciipinball.shapes.Line;
 
@@ -13,7 +14,8 @@ public class RotatingCross extends PolygonEntity {
     float step;
     boolean turnClockWise;
 
-    public RotatingCross(float x, float y, float radius , float speed, boolean turnClockWise) {
+    public RotatingCross(PlayerManager playerManager, float x, float y, float radius , float speed, boolean turnClockWise) {
+        super(playerManager);
         lines = new Line[2];
         generateLines();
         this.x = x;

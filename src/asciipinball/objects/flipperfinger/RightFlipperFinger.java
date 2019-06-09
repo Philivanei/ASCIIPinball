@@ -1,11 +1,12 @@
 package asciipinball.objects.flipperfinger;
 
+import asciipinball.corelogic.players.PlayerManager;
 import asciipinball.shapes.Line;
 
 public class RightFlipperFinger extends FlipperFinger {
 
-    public RightFlipperFinger(float x, float y,  float length, float startAngle, float stopAngle) {
-        super(x, y, length , startAngle, stopAngle);
+    public RightFlipperFinger(PlayerManager playerManager, float x, float y, float length, float startAngle, float stopAngle) {
+        super(playerManager, x, y, length , startAngle, stopAngle);
     }
 
     @Override

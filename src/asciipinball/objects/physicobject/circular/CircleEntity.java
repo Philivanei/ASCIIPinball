@@ -1,6 +1,7 @@
 package asciipinball.objects.physicobject.circular;
 
 import asciipinball.CollisionData;
+import asciipinball.corelogic.players.PlayerManager;
 import asciipinball.interfaces.Drawable;
 import asciipinball.objects.Ball;
 import asciipinball.objects.physicobject.PhysicEntity;
@@ -11,6 +12,10 @@ import java.util.ArrayList;
 public abstract class CircleEntity extends PhysicEntity implements Drawable {
 
     protected Circle[] circles;
+
+    public CircleEntity(PlayerManager playerManager) {
+        super(playerManager);
+    }
 
     public Circle[] getCircles() {
         return circles;

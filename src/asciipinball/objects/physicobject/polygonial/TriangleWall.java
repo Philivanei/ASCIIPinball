@@ -1,12 +1,13 @@
 package asciipinball.objects.physicobject.polygonial;
 
 import asciipinball.Coordinate;
-import asciipinball.GameView;
+import asciipinball.corelogic.players.PlayerManager;
 import asciipinball.shapes.Line;
 
 public class TriangleWall extends PolygonEntity {
 
-    public TriangleWall(float x1, float y1,float x2, float y2,float x3, float y3){
+    public TriangleWall(PlayerManager playerManager, float x1, float y1, float x2, float y2, float x3, float y3){
+        super(playerManager);
 
         lines = new Line[3];
 

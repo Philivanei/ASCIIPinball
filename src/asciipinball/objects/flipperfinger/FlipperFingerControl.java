@@ -1,5 +1,6 @@
 package asciipinball.objects.flipperfinger;
 
+import asciipinball.corelogic.players.PlayerManager;
 import asciipinball.interfaces.Drawable;
 import asciipinball.objects.Ball;
 
@@ -18,10 +19,10 @@ public class FlipperFingerControl implements Drawable {
     private long downStartTimeRight;
 
 
-    public FlipperFingerControl(float xLeftFlipperFinger, float yLeftFlipperFinger, float xRightFlipperFinger,
+    public FlipperFingerControl(PlayerManager playerManager, float xLeftFlipperFinger, float yLeftFlipperFinger, float xRightFlipperFinger,
                                 float yRightFlipperFinger, float length, float minAngle, float maxAngle){
-        leftFlipperFinger = new LeftFlipperFinger(xLeftFlipperFinger, yLeftFlipperFinger, length, minAngle, maxAngle);
-        rightFlipperFinger = new RightFlipperFinger(xRightFlipperFinger, yRightFlipperFinger, length, minAngle, maxAngle);
+        leftFlipperFinger = new LeftFlipperFinger(playerManager, xLeftFlipperFinger, yLeftFlipperFinger, length, minAngle, maxAngle);
+        rightFlipperFinger = new RightFlipperFinger(playerManager ,xRightFlipperFinger, yRightFlipperFinger, length, minAngle, maxAngle);
         leftDirection = Direction.DOWN;
         rightDirection = Direction.DOWN;
         upStartTimeRight = System.currentTimeMillis();

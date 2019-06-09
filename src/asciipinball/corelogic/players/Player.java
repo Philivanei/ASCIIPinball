@@ -1,4 +1,4 @@
-package asciipinball.corelogic;
+package asciipinball.corelogic.players;
 
 public class Player {
 
@@ -7,7 +7,7 @@ public class Player {
 
     public Player() {
         score = 0;
-        ballLifes = 3;
+        ballLifes = 2;
     }
 
     public int getScore() {
@@ -18,4 +18,14 @@ public class Player {
         this.score += score;
     }
 
+    public int getBallLifes() {
+        return ballLifes;
+    }
+
+    public void loseBall(){
+        ballLifes -= 1;
+        if(ballLifes < -1){
+            ballLifes = -1;
+        }
+    }
 }
