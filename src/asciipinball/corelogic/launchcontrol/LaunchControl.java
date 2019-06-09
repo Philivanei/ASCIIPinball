@@ -1,11 +1,10 @@
-package asciipinball.logic.launchcontrol;
+package asciipinball.corelogic.launchcontrol;
 
-
-import asciipinball.GameView;
 import asciipinball.Settings;
+import asciipinball.corelogic.players.PlayerManager;
 import asciipinball.interfaces.Drawable;
-import asciipinball.logic.Ball;
-import asciipinball.logic.flipperfinger.MoveStatus;
+import asciipinball.objects.Ball;
+import asciipinball.objects.flipperfinger.MoveStatus;
 import asciipinball.objects.physicobject.polygonial.PolygonEntity;
 import asciipinball.shapes.Line;
 
@@ -19,7 +18,8 @@ public class LaunchControl extends PolygonEntity implements Drawable {
     private float x;
     private boolean isClicked;
 
-    public LaunchControl(float x, float minHeight, float maxHeight, float radiusOfBall) {
+    public LaunchControl(PlayerManager playerManager, float x, float minHeight, float maxHeight, float radiusOfBall) {
+        super(playerManager);
         lines = new Line[1];
         //diameter of ball to calculate width of the launcherline
         sizeOfBall = radiusOfBall * 2;
@@ -58,7 +58,7 @@ public class LaunchControl extends PolygonEntity implements Drawable {
             lines[0] = new Line(x, maxHeight, x + sizeOfBall, y);
         } else {
             //moving the launcher up (horizontal)
-            lines[0] = new Line(x, y, x + 3, y);
+            lines[0] = new Line(x, y, x + sizeOfBall, y);
         }
     }
 

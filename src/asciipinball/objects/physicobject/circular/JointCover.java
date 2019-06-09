@@ -1,20 +1,21 @@
 package asciipinball.objects.physicobject.circular;
 
-import asciipinball.GameView;
-import asciipinball.NotConnectedLinesException;
-import asciipinball.Settings;
-import asciipinball.logic.Ball;
+import asciipinball.corelogic.players.PlayerManager;
+import asciipinball.exceptions.NotConnectedLinesException;
+import asciipinball.objects.Ball;
 import asciipinball.shapes.Circle;
 import asciipinball.shapes.Line;
 
 public class JointCover extends CircleEntity {
 
-    public JointCover(float x, float y) {
+    public JointCover(PlayerManager playerManager, float x, float y) {
+        super(playerManager);
         circles = new Circle[1];
         circles[0] = new Circle(x,y,1f);
     }
 
-    public JointCover(Line line1, Line line2) throws NotConnectedLinesException {
+    public JointCover(PlayerManager playerManager, Line line1, Line line2) throws NotConnectedLinesException {
+        super(playerManager);
 
         circles = new Circle[1];
 

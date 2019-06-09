@@ -1,6 +1,7 @@
-package asciipinball.logic.flipperfinger;
+package asciipinball.objects.flipperfinger;
 
-import asciipinball.logic.Ball;
+import asciipinball.corelogic.players.PlayerManager;
+import asciipinball.objects.Ball;
 import asciipinball.objects.physicobject.polygonial.PolygonEntity;
 import asciipinball.shapes.Line;
 
@@ -14,7 +15,8 @@ public abstract class FlipperFinger extends PolygonEntity {
     protected static final float TIME_FOR_FLIP = 250;
     protected MoveStatus moveStatus = MoveStatus.STOP;
 
-    public FlipperFinger(float x, float y, float length , float minAngle, float maxAngle){
+    public FlipperFinger(PlayerManager playerManager, float x, float y, float length , float minAngle, float maxAngle){
+        super(playerManager);
         lines = new Line[1];
         this.minAngle = minAngle;
         this.maxAngle = maxAngle;

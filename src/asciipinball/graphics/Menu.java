@@ -1,4 +1,4 @@
-package asciipinball.frontend;
+package asciipinball.graphics;
 
 import asciipinball.GameView;
 import java.awt.event.KeyEvent;

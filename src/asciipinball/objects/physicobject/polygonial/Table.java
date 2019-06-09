@@ -1,13 +1,13 @@
 package asciipinball.objects.physicobject.polygonial;
 
-import asciipinball.GameView;
-import asciipinball.interfaces.Drawable;
+import asciipinball.corelogic.players.PlayerManager;
 import asciipinball.Coordinate;
 import asciipinball.shapes.Line;
 
 public class Table extends PolygonEntity {
 
-    public Table(float width, float height, float holeWidth) {
+    public Table(PlayerManager playerManager, float width, float height, float holeWidth) {
+        super(playerManager);
 
         Coordinate topLeft = new Coordinate(0,height);
         Coordinate topRight = new Coordinate(width, height);

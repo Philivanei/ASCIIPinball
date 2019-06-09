@@ -1,4 +1,4 @@
-package asciipinball.logic.flipperfinger;
+package asciipinball.objects.flipperfinger;
 
 public enum Direction {
     UP,

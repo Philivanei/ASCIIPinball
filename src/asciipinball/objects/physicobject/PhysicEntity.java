@@ -1,22 +1,27 @@
 package asciipinball.objects.physicobject;
 
 import asciipinball.CollisionData;
-import asciipinball.interfaces.Drawable;
-import asciipinball.logic.Ball;
-import asciipinball.logic.Player;
-import asciipinball.shapes.Line;
+import asciipinball.corelogic.players.PlayerManager;
+import asciipinball.objects.Ball;
+import asciipinball.corelogic.players.Player;
 
-import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 
 public abstract class PhysicEntity {
 
     protected ArrayList<CollisionData> collisionList = new ArrayList<>();
     protected int score = 0;
+    protected PlayerManager playerManager;
+
+    public PhysicEntity(PlayerManager playerManager){
+        this.playerManager = playerManager;
+    }
 
     public Ball updateEntity(Ball ball){
         if(isCollided(ball)){
-            //System.out.println("Collision DETECTED");
+            if(score != 0){
+                playerManager.getCurrentPlayer().addToScore(score);
+            }
             return interactWithBall(ball);
         } else {
             return null;

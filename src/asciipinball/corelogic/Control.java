@@ -1,18 +1,15 @@
-package asciipinball.logic;
+package asciipinball.corelogic;
 
 import asciipinball.GameView;
-import asciipinball.interfaces.Drawable;
-import asciipinball.logic.Ball;
-import asciipinball.logic.flipperfinger.*;
-import asciipinball.logic.launchcontrol.LaunchControl;
+import asciipinball.corelogic.launchcontrol.LaunchControl;
+import asciipinball.objects.flipperfinger.*;
 
 import java.awt.event.KeyEvent;
-import java.util.ArrayList;
 
 public class Control {
 
-    FlipperFingerControl flipperFingerControl;
-    LaunchControl launchControl;
+    private LaunchControl launchControl;
+    private FlipperFingerControl flipperFingerControl;
 
     public Control(FlipperFingerControl flipperFingerControl, LaunchControl launchControl) {
         this.flipperFingerControl = flipperFingerControl;
