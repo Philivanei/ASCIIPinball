@@ -17,16 +17,22 @@ public class LaunchControl extends PolygonEntity implements Drawable {
     private long upStartTime;
     private float x;
     private boolean isClicked;
+    private long pressTime;
+    private long pressStartTime;
+    private boolean isFinished;
+    private boolean isSpaceBlocked;
 
     public LaunchControl(PlayerManager playerManager, float x, float minHeight, float maxHeight, float radiusOfBall) {
         super(playerManager);
         lines = new Line[1];
         //diameter of ball to calculate width of the launcherline
-        sizeOfBall = radiusOfBall * 2;
+        sizeOfBall = radiusOfBall * 2 + 2;
         this.minHeight = minHeight;
         this.maxHeight = maxHeight;
         this.x = x;
         isClicked = false;
+        isFinished = false;
+        isSpaceBlocked = false;
         moveStatus = MoveStatus.STOP;
         generateLines(minHeight);
     }
@@ -35,18 +41,28 @@ public class LaunchControl extends PolygonEntity implements Drawable {
     //new game/ ball gets lost --> reset everything
     public void reset() {
         isClicked = false;
+        isFinished = false;
+        isSpaceBlocked = false;
         moveStatus = MoveStatus.STOP;
         generateLines(minHeight);
     }
 
     //key reaction
     public void onSpaceDown() {
-
-        if (!isClicked) {
-            isClicked = true;
-            upStartTime = System.currentTimeMillis();
+        if (!isSpaceBlocked) {
+            pressStartTime = System.currentTimeMillis();
         }
-        moveStatus = MoveStatus.UP;
+        isSpaceBlocked = true;
+    }
+
+    //key reaction to get velocity dependent to time
+    public void onSpaceUp() {
+        if (!isClicked) {
+            pressTime = System.currentTimeMillis() - pressStartTime;
+            upStartTime = System.currentTimeMillis();
+            isClicked = true;
+            calculateVelocityBoost();
+        }
     }
 
 
@@ -71,6 +87,7 @@ public class LaunchControl extends PolygonEntity implements Drawable {
             //change movestatus
             result = maxHeight + Settings.TILT_Y_OFFSET;
             moveStatus = MoveStatus.STOP;
+            isFinished = true;
         } else {
             moveStatus = MoveStatus.UP;
         }
@@ -80,16 +97,40 @@ public class LaunchControl extends PolygonEntity implements Drawable {
     //sets the lines to the wanted positions
     public void updateLaunchControl() {
 
-        if (moveStatus == MoveStatus.UP) {
+        if (isClicked) {
+            if (!isFinished) {
+                moveStatus = MoveStatus.UP;
+            }
             long timeSinceUpStart = System.currentTimeMillis() - upStartTime;
             generateLines(calculateHeightUp(timeSinceUpStart));
+        }
+    }
+
+    //the longer you hold space the stronger is the velocity
+    private float calculateVelocityBoost() {
+
+        float velocityBoost = (Settings.MAX_LAUNCH_VELOCITY * (pressTime / Settings.MAX_LAUNCH_PRESS_TIME));
+
+        if (velocityBoost > Settings.MAX_LAUNCH_VELOCITY) {
+            return Settings.MAX_LAUNCH_VELOCITY;
+
+        } else if (velocityBoost < Settings.MIN_LAUNCH_VELOCITY) {
+            return Settings.MIN_LAUNCH_VELOCITY;
+
+        } else {
+            return velocityBoost;
         }
     }
 
     @Override
     protected Ball interactWithBall(Ball ball) {
         Ball returnBall = super.interactWithBall(ball);
-        returnBall.addVelocity(0.1f);
+        if (moveStatus != MoveStatus.STOP) {
+            returnBall = new Ball(returnBall.getPositionX(), returnBall.getPositionY(), returnBall.getRadius(),
+                    90, returnBall.getVelocity());
+            returnBall.addVelocity(calculateVelocityBoost());
+
+        }
         return returnBall;
     }
 
