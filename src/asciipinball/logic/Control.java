@@ -50,8 +50,6 @@ public class Control {
 
                         flipperFingerControl.onRightUp();
 
-                    } else if(keyEvent.getKeyCode() == KeyEvent.VK_SPACE){
-                        launchControl.onSpaceUp();
                     }
                 }
             }

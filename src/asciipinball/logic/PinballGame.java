@@ -45,7 +45,7 @@ public class PinballGame {
         flipperFinger = new FlipperFingerControl((((float)Settings.WIDTH/2) - (Settings.HOLE_WIDTH/2)),
                 15, (((float)Settings.WIDTH/2) + (Settings.HOLE_WIDTH/2)), 15,
                 11f, 45, 135);
-        launchControl = new LaunchControl(20,30,30, 50);
+        launchControl = new LaunchControl(20,30, 50, ball.getRadius());
         control = new Control(flipperFinger, launchControl);
 
 

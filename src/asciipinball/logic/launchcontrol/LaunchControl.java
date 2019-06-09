@@ -2,92 +2,87 @@ package asciipinball.logic.launchcontrol;
 
 
 import asciipinball.GameView;
+import asciipinball.Settings;
 import asciipinball.interfaces.Drawable;
 import asciipinball.logic.Ball;
-import asciipinball.logic.flipperfinger.Direction;
 import asciipinball.logic.flipperfinger.MoveStatus;
 import asciipinball.objects.physicobject.polygonial.PolygonEntity;
 import asciipinball.shapes.Line;
 
 public class LaunchControl extends PolygonEntity implements Drawable {
 
-    private final float TIME_FOR_JUMP = 100;
+    private float sizeOfBall;
     private float maxHeight;
     private float minHeight;
-    private Direction direction;
-    private MoveStatus moveStatus = MoveStatus.STOP;
+    private MoveStatus moveStatus;
     private long upStartTime;
-    private long downStartTime;
     private float x;
-    private float y;
+    private boolean isClicked;
 
-
-    public LaunchControl(float x, float y, float minHeight, float maxHeight) {
-        direction = Direction.DOWN;
+    public LaunchControl(float x, float minHeight, float maxHeight, float radiusOfBall) {
         lines = new Line[1];
+        //diameter of ball to calculate width of the launcherline
+        sizeOfBall = radiusOfBall * 2;
         this.minHeight = minHeight;
         this.maxHeight = maxHeight;
         this.x = x;
-        this.y = y;
+        isClicked = false;
+        moveStatus = MoveStatus.STOP;
+        generateLines(minHeight);
+    }
+
+
+    //new game/ ball gets lost --> reset everything
+    public void reset() {
+        isClicked = false;
+        moveStatus = MoveStatus.STOP;
         generateLines(minHeight);
     }
 
     //key reaction
     public void onSpaceDown() {
-        if (direction == Direction.DOWN) {
+
+        if (!isClicked) {
+            isClicked = true;
             upStartTime = System.currentTimeMillis();
         }
-        direction = Direction.UP;
-    }
-
-    //key reaction
-    public void onSpaceUp() {
-        if (direction == Direction.UP) {
-            downStartTime = System.currentTimeMillis();
-        }
-        direction = Direction.DOWN;
+        moveStatus = MoveStatus.UP;
     }
 
 
+    //creates the lines for animating them
     public void generateLines(float y) {
 
-        lines[0] = new Line(x, y, /*groesse des balls einfuegen*/x+3, y);
+        if (y >= maxHeight) {
+            //moving the launcher diagonally
+            lines[0] = new Line(x, maxHeight, x + sizeOfBall, y);
+        } else {
+            //moving the launcher up (horizontal)
+            lines[0] = new Line(x, y, x + 3, y);
+        }
     }
+
 
     //calculating the animation for moving the launcher up
     private float calculateHeightUp(long timeSinceStart) {
-        System.out.println(timeSinceStart);
-        float result = (maxHeight - minHeight) / TIME_FOR_JUMP * timeSinceStart + minHeight;
-        if (result > maxHeight) {
+
+        float result = (maxHeight - minHeight) / Settings.TIME_FOR_JUMP * timeSinceStart + minHeight;
+        if (result > (maxHeight + Settings.TILT_Y_OFFSET)) {
+            //change movestatus
+            result = maxHeight + Settings.TILT_Y_OFFSET;
             moveStatus = MoveStatus.STOP;
-            return maxHeight;
         } else {
             moveStatus = MoveStatus.UP;
         }
         return result;
     }
 
+    //sets the lines to the wanted positions
+    public void updateLaunchControl() {
 
-    //calculating the animation for moving the launcher down
-    private float calculateHeightDown(long timeSinceStart) {
-        System.out.println(timeSinceStart);
-        float result = (minHeight - maxHeight) / TIME_FOR_JUMP * timeSinceStart + maxHeight;
-        if (result < minHeight) {
-            moveStatus = MoveStatus.STOP;
-            return minHeight;
-        } else {
-            moveStatus = MoveStatus.DOWN;
-        }
-        return result;
-    }
-
-    public void updateLaunchControl(){
-        if (direction == Direction.UP){
+        if (moveStatus == MoveStatus.UP) {
             long timeSinceUpStart = System.currentTimeMillis() - upStartTime;
             generateLines(calculateHeightUp(timeSinceUpStart));
-        }else{
-            long timeSinceDownStart = System.currentTimeMillis() - downStartTime;
-            generateLines(calculateHeightDown(timeSinceDownStart));
         }
     }
 

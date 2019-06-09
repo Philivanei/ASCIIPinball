@@ -12,6 +12,8 @@ public abstract class Settings {
     public static final float FRICTION = 0.003f;
     public static final float MIN_SPEED = 0.001f;
     public static final float MAX_SPEED = 0.25f;
+    public static final float TIME_FOR_JUMP = 200;
+    public static final float TILT_Y_OFFSET = 5;
 
     public static void initColorMap(GameView gameView) {
         HashMap<Character, Color> colormap = new HashMap<>();
