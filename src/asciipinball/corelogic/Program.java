@@ -1,9 +1,6 @@
-package asciipinball;
+package asciipinball.corelogic;
 
-import asciipinball.frontend.Menu;
-import asciipinball.logic.PinballGame;
-
-import java.util.concurrent.locks.LockSupport;
+import asciipinball.corelogic.PinballGame;
 
 public class Program {
     public static void main (String[] args){

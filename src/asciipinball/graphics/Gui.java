@@ -1,23 +1,26 @@
-package asciipinball.logic;
+package asciipinball.graphics;
 
 import asciipinball.GameView;
 import asciipinball.Settings;
-import asciipinball.logic.flipperfinger.FlipperFinger;
-import asciipinball.logic.flipperfinger.FlipperFingerControl;
+import asciipinball.exceptions.ClassNotSupportedException;
+import asciipinball.objects.Ball;
+import asciipinball.objects.flipperfinger.FlipperFingerControl;
 import asciipinball.objects.physicobject.PhysicEntity;
 import asciipinball.objects.physicobject.circular.CircleEntity;
-import asciipinball.objects.physicobject.circular.JointCover;
-import asciipinball.objects.physicobject.polygonial.LineWall;
 import asciipinball.objects.physicobject.polygonial.PolygonEntity;
-import asciipinball.objects.physicobject.polygonial.Table;
 import asciipinball.shapes.Circle;
 import asciipinball.shapes.Line;
 
 public class Gui {
-    GameView gameView;
+
+    private GameView gameView;
 
     public Gui(GameView gameView){
         this.gameView = gameView;
+    }
+
+    public void addToCanvas(GameOverScreen gameOverScreen){
+        gameView.addToCanvas(gameOverScreen.getGameOverScreenString(), 10,10);
     }
 
     public void addToCanvas(FlipperFingerControl flipperFingerControl){
@@ -25,19 +28,19 @@ public class Gui {
         addToCanvas(flipperFingerControl.getRightFlipperFinger());
     }
 
-    public void addToCanvas(PhysicEntity entity) throws ClassNotSupportedException{
+    public void addToCanvas(PhysicEntity entity) throws ClassNotSupportedException {
         if(entity instanceof PolygonEntity){
             addToCanvas((PolygonEntity) entity);
         }else if (entity instanceof CircleEntity){
             addToCanvas((CircleEntity) entity);
         }
         else {
-            throw new ClassNotSupportedException();
+            throw new ClassNotSupportedException(entity);
         }
     }
 
     public void addToCanvas(PolygonEntity entity){
-        Line lines[] = entity.getLines();
+        Line[] lines = entity.getLines();
         if(lines.length != 0){
             for(Line line : lines){
                 addLineToCanvas(line, entity.getColor());
@@ -46,7 +49,7 @@ public class Gui {
     }
 
     public void addToCanvas(CircleEntity entity){
-        Circle circles[] = entity.getCircles();
+        Circle[] circles = entity.getCircles();
         if(circles.length != 0){
             for(Circle circle : circles){
                 addCircleToCanvas(circle, entity.getColor());
@@ -81,7 +84,7 @@ public class Gui {
 
 
     private void addLineToCanvas(Line line, char color){
-        char canvasSegment[][];
+        char[][] canvasSegment;
 
         int deltaX = Math.round(Math.abs(line.getX2()-line.getX1()));
         int deltaY = Math.round(Math.abs(line.getY2()-line.getY1()));
