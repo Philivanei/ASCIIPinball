@@ -1,18 +1,24 @@
-package asciipinball.corelogic.players;
+package asciipinball.fonts;
 
-public abstract class AsciiStringContainer {
-    public static final String A = "  /$$$$$$    \n" +
-            " /$$__  $$   \n" +
-            "| $$  \\ $$   \n" +
-            "| $$$$$$$$   \n" +
-            "| $$__  $$   \n" +
-            "| $$  | $$   \n" +
-            "| $$  | $$   \n" +
-            "|__/  |__/   \n" +
-            "             \n" +
-            "             \n" +
-            "             \n";
-    public static final String B = " /$$$$$$$    \n" +
+public class AsciiStringContainer {
+
+    public AsciiStringContainer() {
+
+    }
+
+    public String getA(){
+        return "  /$$$$$$    \n" +
+                " /$$__  $$   \n" +
+                "| $$  \\ $$   \n" +
+                "| $$$$$$$$   \n" +
+                "| $$__  $$   \n" +
+                "| $$  | $$   \n" +
+                "| $$  | $$   \n" +
+                "|__/  |__/   \n" +
+                "             \n" +
+                "             \n" +
+                "             \n";}
+    public String getB(){ return " /$$$$$$$    \n" +
             "| $$__  $$   \n" +
             "| $$  \\ $$   \n" +
             "| $$$$$$$    \n" +
@@ -22,8 +28,8 @@ public abstract class AsciiStringContainer {
             "|_______/    \n" +
             "             \n" +
             "             \n" +
-            "             \n";
-    public static final String C = "  /$$$$$$    \n" +
+            "             \n";}
+    public String getC(){ return "  /$$$$$$    \n" +
             " /$$__  $$   \n" +
             "| $$  \\__/   \n" +
             "| $$         \n" +
@@ -33,8 +39,8 @@ public abstract class AsciiStringContainer {
             " \\______/    \n" +
             "             \n" +
             "             \n" +
-            "             \n";
-    public static final String D = " /$$$$$$$    \n" +
+            "             \n";}
+    public String getD(){ return " /$$$$$$$    \n" +
             "| $$__  $$   \n" +
             "| $$  \\ $$   \n" +
             "| $$  | $$   \n" +
@@ -44,8 +50,8 @@ public abstract class AsciiStringContainer {
             "|_______/    \n" +
             "             \n" +
             "             \n" +
-            "             \n";
-    public static final String E =
+            "             \n";}
+    public String getE(){ return
             " /$$$$$$$$   \n" +
                     "| $$_____/   \n" +
                     "| $$         \n" +
@@ -56,8 +62,8 @@ public abstract class AsciiStringContainer {
                     "|________/   \n" +
                     "             \n" +
                     "             \n" +
-                    "             \n";
-    public static final String F =
+                    "             \n";}
+    public String getF(){ return
             " /$$$$$$$$   \n" +
                     "| $$_____/   \n" +
                     "| $$         \n" +
@@ -68,8 +74,8 @@ public abstract class AsciiStringContainer {
                     "|__/         \n" +
                     "             \n" +
                     "             \n" +
-                    "             \n";
-    public static final String G =
+                    "             \n";}
+    public String getG(){ return
             "  /$$$$$$    \n" +
                     " /$$__  $$   \n" +
                     "| $$  \\__/   \n" +
@@ -80,8 +86,8 @@ public abstract class AsciiStringContainer {
                     " \\______/    \n" +
                     "             \n" +
                     "             \n" +
-                    "             \n";
-    public static final String H =
+                    "             \n";}
+    public String getH(){ return
             " /$$   /$$   \n" +
                     "| $$  | $$   \n" +
                     "| $$  | $$   \n" +
@@ -92,8 +98,8 @@ public abstract class AsciiStringContainer {
                     "|__/  |__/   \n" +
                     "             \n" +
                     "             \n" +
-                    "             \n";
-    public static final String I =
+                    "             \n";}
+    public String getI(){ return
             " /$$$$$$     \n" +
                     "|_  $$_/     \n" +
                     "  | $$       \n" +
@@ -104,8 +110,8 @@ public abstract class AsciiStringContainer {
                     "|______/     \n" +
                     "             \n" +
                     "             \n" +
-                    "             \n";
-    public static final String J =
+                    "             \n";}
+    public String getJ(){ return
             "    /$$$$$   \n" +
                     "   |__  $$   \n" +
                     "      | $$   \n" +
@@ -116,8 +122,8 @@ public abstract class AsciiStringContainer {
                     " \\______/    \n" +
                     "             \n" +
                     "             \n" +
-                    "             \n";
-    public static final String K =
+                    "             \n";}
+    public String getK(){ return
             " /$$   /$$   \n" +
                     "| $$  /$$/   \n" +
                     "| $$ /$$/    \n" +
@@ -128,8 +134,8 @@ public abstract class AsciiStringContainer {
                     "|__/  \\__/   \n" +
                     "             \n" +
                     "             \n" +
-                    "             \n";
-    public static final String L =
+                    "             \n";}
+    public String getL(){ return
             " /$$         \n" +
                     "| $$         \n" +
                     "| $$         \n" +
@@ -140,8 +146,8 @@ public abstract class AsciiStringContainer {
                     "|________/   \n" +
                     "             \n" +
                     "             \n" +
-                    "             \n";
-    public static final String M =
+                    "             \n";}
+    public String getM(){ return
             " /$$      /$$\n" +
                     "| $$$    /$$$\n" +
                     "| $$$$  /$$$$\n" +
@@ -152,8 +158,8 @@ public abstract class AsciiStringContainer {
                     "|__/     |__/\n" +
                     "             \n" +
                     "             \n" +
-                    "             \n";
-    public static final String N =
+                    "             \n";}
+    public String getN(){ return
             " /$$   /$$   \n" +
                     "| $$$ | $$   \n" +
                     "| $$$$| $$   \n" +
@@ -164,8 +170,8 @@ public abstract class AsciiStringContainer {
                     "|__/  \\__/   \n" +
                     "             \n" +
                     "             \n" +
-                    "             \n";
-    public static final String O =
+                    "             \n";}
+    public String getO(){ return
             "  /$$$$$$    \n" +
                     " /$$__  $$   \n" +
                     "| $$  \\ $$   \n" +
@@ -176,8 +182,8 @@ public abstract class AsciiStringContainer {
                     " \\______/    \n" +
                     "             \n" +
                     "             \n" +
-                    "             \n";
-    public static final String P =
+                    "             \n";}
+    public String getP(){ return
             " /$$$$$$$    \n" +
                     "| $$__  $$   \n" +
                     "| $$  \\ $$   \n" +
@@ -188,8 +194,8 @@ public abstract class AsciiStringContainer {
                     "|__/         \n" +
                     "             \n" +
                     "             \n" +
-                    "             \n";
-    public static final String Q =
+                    "             \n";}
+    public String getQ(){ return
             "  /$$$$$$    \n" +
                     " /$$__  $$   \n" +
                     "| $$  \\ $$   \n" +
@@ -200,8 +206,8 @@ public abstract class AsciiStringContainer {
                     " \\____ $$$   \n" +
                     "      \\__/   \n" +
                     "             \n" +
-                    "             \n";
-    public static final String R =
+                    "             \n";}
+    public String getR(){ return
             " /$$$$$$$    \n" +
                     "| $$__  $$   \n" +
                     "| $$  \\ $$   \n" +
@@ -212,8 +218,8 @@ public abstract class AsciiStringContainer {
                     "|__/  |__/   \n" +
                     "             \n" +
                     "             \n" +
-                    "             \n";
-    public static final String S =
+                    "             \n";}
+    public String getS(){ return
             "  /$$$$$$    \n" +
                     " /$$__  $$   \n" +
                     "| $$  \\__/   \n" +
@@ -224,8 +230,8 @@ public abstract class AsciiStringContainer {
                     " \\______/    \n" +
                     "             \n" +
                     "             \n" +
-                    "             \n";
-    public static final String T =
+                    "             \n";}
+    public String getT(){ return
             " /$$$$$$$$   \n" +
                     "|__  $$__/   \n" +
                     "   | $$      \n" +
@@ -236,8 +242,8 @@ public abstract class AsciiStringContainer {
                     "   |__/      \n" +
                     "             \n" +
                     "             \n" +
-                    "             \n";
-    public static final String U =
+                    "             \n";}
+    public String getU(){ return
             " /$$   /$$   \n" +
                     "| $$  | $$   \n" +
                     "| $$  | $$   \n" +
@@ -248,8 +254,8 @@ public abstract class AsciiStringContainer {
                     " \\______/    \n" +
                     "             \n" +
                     "             \n" +
-                    "             \n";
-    public static final String V =
+                    "             \n";}
+    public String getV(){ return
             " /$$    /$$  \n" +
                     "| $$   | $$  \n" +
                     "| $$   | $$  \n" +
@@ -260,8 +266,8 @@ public abstract class AsciiStringContainer {
                     "    \\_/      \n" +
                     "             \n" +
                     "             \n" +
-                    "             \n";
-    public static final String W =
+                    "             \n";}
+    public String getW(){ return
             " /$$      /$$\n" +
                     "| $$  /$ | $$\n" +
                     "| $$ /$$$| $$\n" +
@@ -272,8 +278,8 @@ public abstract class AsciiStringContainer {
                     "|__/     \\__/\n" +
                     "             \n" +
                     "             \n" +
-                    "             \n";
-    public static final String X =
+                    "             \n";}
+    public String getX(){ return
             " /$$   /$$   \n" +
                     "| $$  / $$   \n" +
                     "|  $$/ $$/   \n" +
@@ -284,8 +290,8 @@ public abstract class AsciiStringContainer {
                     "|__/  |__/   \n" +
                     "             \n" +
                     "             \n" +
-                    "             \n";
-    public static final String Y =
+                    "             \n";}
+    public String getY(){ return
             " /$$     /$$ \n" +
                     "|  $$   /$$/ \n" +
                     " \\  $$ /$$/  \n" +
@@ -296,8 +302,8 @@ public abstract class AsciiStringContainer {
                     "    |__/     \n" +
                     "             \n" +
                     "             \n" +
-                    "             \n";
-    public static final String Z =
+                    "             \n";}
+    public String getZ(){ return
             " /$$$$$$$$   \n" +
                     "|_____ $$    \n" +
                     "     /$$/    \n" +
@@ -308,8 +314,8 @@ public abstract class AsciiStringContainer {
                     "|________/   \n" +
                     "             \n" +
                     "             \n" +
-                    "             \n";
-    public static final String N0 =
+                    "             \n";}
+    public String get0(){ return
             "  /$$$$$$    \n" +
                     " /$$$_  $$   \n" +
                     "| $$$$\\ $$   \n" +
@@ -320,8 +326,8 @@ public abstract class AsciiStringContainer {
                     " \\______/    \n" +
                     "             \n" +
                     "             \n" +
-                    "             \n";
-    public static final String N1 =
+                    "             \n";}
+    public String get1(){ return
             "   /$$       \n" +
                     " /$$$$       \n" +
                     "|_  $$       \n" +
@@ -332,8 +338,8 @@ public abstract class AsciiStringContainer {
                     "|______/     \n" +
                     "             \n" +
                     "             \n" +
-                    "             \n";
-    public static final String N2 =
+                    "             \n";}
+    public String get2(){ return
             "  /$$$$$$    \n" +
                     " /$$__  $$   \n" +
                     "|__/  \\ $$   \n" +
@@ -344,8 +350,8 @@ public abstract class AsciiStringContainer {
                     "|________/   \n" +
                     "             \n" +
                     "             \n" +
-                    "             \n";
-    public static final String N3 =
+                    "             \n";}
+    public String get3(){ return
             "  /$$$$$$    \n" +
                     " /$$__  $$   \n" +
                     "|__/  \\ $$   \n" +
@@ -356,8 +362,8 @@ public abstract class AsciiStringContainer {
                     " \\______/    \n" +
                     "             \n" +
                     "             \n" +
-                    "             \n";
-    public static final String N4 =
+                    "             \n";}
+    public String get4(){ return
             " /$$   /$$   \n" +
                     "| $$  | $$   \n" +
                     "| $$  | $$   \n" +
@@ -368,8 +374,8 @@ public abstract class AsciiStringContainer {
                     "      |__/   \n" +
                     "             \n" +
                     "             \n" +
-                    "             \n";
-    public static final String N5 =
+                    "             \n";}
+    public String get5(){ return
             " /$$$$$$$    \n" +
                     "| $$____/    \n" +
                     "| $$         \n" +
@@ -380,8 +386,8 @@ public abstract class AsciiStringContainer {
                     " \\______/    \n" +
                     "             \n" +
                     "             \n" +
-                    "             \n";
-    public static final String N6 =
+                    "             \n";}
+    public String get6(){ return
             "  /$$$$$$    \n" +
                     " /$$__  $$   \n" +
                     "| $$  \\__/   \n" +
@@ -392,8 +398,8 @@ public abstract class AsciiStringContainer {
                     " \\______/    \n" +
                     "             \n" +
                     "             \n" +
-                    "             \n";
-    public static final String N7 =
+                    "             \n";}
+    public String get7(){ return
             " /$$$$$$$$   \n" +
                     "|_____ $$/   \n" +
                     "     /$$/    \n" +
@@ -404,8 +410,8 @@ public abstract class AsciiStringContainer {
                     "|__/         \n" +
                     "             \n" +
                     "             \n" +
-                    "             \n";
-    public static final String N8 =
+                    "             \n";}
+    public String get8(){ return
             "  /$$$$$$    \n" +
                     " /$$__  $$   \n" +
                     "| $$  \\ $$   \n" +
@@ -416,8 +422,8 @@ public abstract class AsciiStringContainer {
                     " \\______/    \n" +
                     "             \n" +
                     "             \n" +
-                    "             \n";
-    public static final String N9 =
+                    "             \n";}
+    public String get9(){ return
             "  /$$$$$$    \n" +
                     " /$$__  $$   \n" +
                     "| $$  \\ $$   \n" +
@@ -426,8 +432,8 @@ public abstract class AsciiStringContainer {
                     " /$$  \\ $$   \n" +
                     "|  $$$$$$/   \n" +
                     " \\______/    \n" +
-                    "             ";
-    public static final String SPACE =
+                    "             ";}
+    public String getSPACE(){ return
             "             \n" +
                     "             \n" +
                     "             \n" +
@@ -436,5 +442,5 @@ public abstract class AsciiStringContainer {
                     "             \n" +
                     "             \n" +
                     "             \n" +
-                    "             \n";
+                    "             \n";}
 }

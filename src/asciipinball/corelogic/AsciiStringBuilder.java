@@ -1,11 +1,13 @@
 package asciipinball.corelogic;
 
-import asciipinball.corelogic.players.AsciiStringContainer;
+import asciipinball.fonts.AsciiStringContainer;
 
-public class AsciiStringBuilder {
+public class AsciiStringBuilder<Font extends  AsciiStringContainer> {
 
-    public AsciiStringBuilder() {
+    private Font font;
 
+    public AsciiStringBuilder(Font font) {
+        this.font = font;
     }
 
     public char[][] buildAsciiString(String string) {
@@ -69,115 +71,115 @@ public class AsciiStringBuilder {
     public String getString(char c) {
         switch (c) {
             case 'a':
-                return AsciiStringContainer.A;
+                return font.getA();
 
             case 'b':
-                return AsciiStringContainer.B;
+                return font.getB();
 
             case 'c':
-                return AsciiStringContainer.C;
+                return font.getC();
 
             case 'd':
-                return AsciiStringContainer.D;
+                return font.getD();
 
             case 'e':
-                return AsciiStringContainer.E;
+                return font.getE();
 
             case 'f':
-                return AsciiStringContainer.F;
+                return font.getF();
 
             case 'g':
-                return AsciiStringContainer.G;
+                return font.getG();
 
             case 'h':
-                return AsciiStringContainer.H;
+                return font.getH();
 
             case 'i':
-                return AsciiStringContainer.I;
+                return font.getI();
 
             case 'j':
-                return AsciiStringContainer.J;
+                return font.getJ();
 
             case 'k':
-                return AsciiStringContainer.K;
+                return font.getK();
 
             case 'l':
-                return AsciiStringContainer.L;
+                return font.getL();
 
             case 'm':
-                return AsciiStringContainer.M;
+                return font.getM();
 
             case 'n':
-                return AsciiStringContainer.N;
+                return font.getN();
 
             case 'o':
-                return AsciiStringContainer.O;
+                return font.getO();
 
             case 'p':
-                return AsciiStringContainer.P;
+                return font.getP();
 
             case 'q':
-                return AsciiStringContainer.Q;
+                return font.getQ();
 
             case 'r':
-                return AsciiStringContainer.R;
+                return font.getR();
 
             case 's':
-                return AsciiStringContainer.S;
+                return font.getS();
 
             case 't':
-                return AsciiStringContainer.T;
+                return font.getT();
 
             case 'u':
-                return AsciiStringContainer.U;
+                return font.getU();
 
             case 'v':
-                return AsciiStringContainer.V;
+                return font.getV();
 
             case 'w':
-                return AsciiStringContainer.W;
+                return font.getW();
 
             case 'x':
-                return AsciiStringContainer.X;
+                return font.getX();
 
             case 'y':
-                return AsciiStringContainer.Y;
+                return font.getY();
 
             case 'z':
-                return AsciiStringContainer.Z;
+                return font.getZ();
 
             case '0':
-                return AsciiStringContainer.N0;
+                return font.get0();
 
             case '1':
-                return AsciiStringContainer.N1;
+                return font.get1();
 
             case '2':
-                return AsciiStringContainer.N2;
+                return font.get2();
 
             case '3':
-                return AsciiStringContainer.N3;
+                return font.get3();
 
             case '4':
-                return AsciiStringContainer.N4;
+                return font.get4();
 
             case '5':
-                return AsciiStringContainer.N5;
+                return font.get5();
 
             case '6':
-                return AsciiStringContainer.N6;
+                return font.get6();
 
             case '7':
-                return AsciiStringContainer.N7;
+                return font.get7();
 
             case '8':
-                return AsciiStringContainer.N8;
+                return font.get8();
 
             case '9':
-                return AsciiStringContainer.N9;
+                return font.get9();
 
             case ' ':
-                return AsciiStringContainer.SPACE;
+                return font.getSPACE();
 
             default:
                 return " ";

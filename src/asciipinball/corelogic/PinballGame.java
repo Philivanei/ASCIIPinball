@@ -2,7 +2,6 @@ package asciipinball.corelogic;
 
 import asciipinball.GameView;
 import asciipinball.corelogic.launchcontrol.LaunchControl;
-import asciipinball.corelogic.players.AsciiStringContainer;
 import asciipinball.corelogic.players.Player;
 import asciipinball.corelogic.players.PlayerManager;
 import asciipinball.Settings;
@@ -165,14 +164,7 @@ public class PinballGame {
 
                 gui.addToCanvas(ball);
 
-                gui.addStringToCanvas(playerManager.getCurrentPlayerScoreString(), (int) Settings.HEIGHT/2, 10);
-
-                char[][] debug = new AsciiStringBuilder().convertStringToArray(AsciiStringContainer.L);
-
-                for(int i = 0; i < debug.length; i++){
-                    System.out.println(debug[i][0]);
-                }
-                System.out.println("XXXXXXXX");
+                gui.addStringToCanvas(playerManager.getCurrentPlayerScoreString(), (int) Settings.HEIGHT/2, 10);;
 
             }catch (Exception e){
                 e.printStackTrace();
