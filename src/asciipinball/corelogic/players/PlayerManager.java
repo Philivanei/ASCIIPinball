@@ -66,6 +66,6 @@ public class PlayerManager {
 
     public String getCurrentPlayerScoreString(){
 
-        return "Player " + getCurrentPlayerNumber() + "\n " + getCurrentPlayer().getScore();
+        return "player " + getCurrentPlayerNumber() + "\n " + getCurrentPlayer().getScore();
     }
 }
