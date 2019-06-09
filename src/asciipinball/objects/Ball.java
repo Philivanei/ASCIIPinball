@@ -19,6 +19,7 @@ public class Ball {
     private float direction;
     private float velocity;
     private float radius;
+    private boolean isInfluencedByPhysics;
 
     public Ball(Ball ball){
         positionX = ball.getPositionX();
@@ -30,6 +31,7 @@ public class Ball {
         direction = ball.direction;
         velocity = ball.getVelocity();
         radius = ball.getRadius();
+        isInfluencedByPhysics = ball.isInfluencedByPhysics();
     }
 
     public Ball(float x, float y, float radius) {
@@ -38,6 +40,7 @@ public class Ball {
         this.radius = radius;
         direction = 0; //0° = right -> 90° = up -> 180° = left -> -90°/270° = down
         velocity = 0;
+        isInfluencedByPhysics = false;
     }
 
     public Ball(float x, float y, float radius, float direction, float velocity) {
@@ -46,8 +49,12 @@ public class Ball {
         this.radius = radius;
         this.direction = convertDirection(direction);
         this.velocity = velocity;
+        isInfluencedByPhysics = velocity != 0;
     }
 
+    public boolean isInfluencedByPhysics() {
+        return isInfluencedByPhysics;
+    }
 
     public float getRadius() {
         return radius;
@@ -155,19 +162,25 @@ public class Ball {
         float xSpeed = getXSpeed();
         float ySpeed = getYSpeed();
 
-
         calculateFuturePosition(xSpeed, ySpeed);
 
-        //Simulate gravitation
-        ySpeed -= gravitationPerTick;
-        //System.out.println("XSpeed: " + xSpeed + " YSpeed: " + ySpeed);
+        if(isInfluencedByPhysics){
+            //Simulate gravitation
+            ySpeed -= gravitationPerTick;
+            //System.out.println("XSpeed: " + xSpeed + " YSpeed: " + ySpeed);
 
-        addVelocity(-Settings.FRICTION);
+            addVelocity(-Settings.FRICTION);
+
+            calculateFutureDirection(xSpeed, ySpeed);
+            calculateFutureVelocity(xSpeed, ySpeed);
+        }else{
+            isInfluencedByPhysics = velocity != 0;
+        }
 
 
 
-        calculateFutureDirection(xSpeed, ySpeed);
-        calculateFutureVelocity(xSpeed, ySpeed);
+
+
 
     }
 
