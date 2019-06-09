@@ -1,14 +1,15 @@
 package asciipinball.corelogic;
 
 import asciipinball.GameView;
+import asciipinball.corelogic.launchcontrol.LaunchControl;
 import asciipinball.corelogic.players.Player;
 import asciipinball.corelogic.players.PlayerManager;
 import asciipinball.Settings;
 import asciipinball.graphics.GameOverScreen;
 import asciipinball.graphics.Gui;
 import asciipinball.levels.Levels;
-import asciipinball.objects.Ball;
 import asciipinball.objects.flipperfinger.FlipperFingerControl;
+import asciipinball.objects.Ball;
 import asciipinball.objects.physicobject.PhysicEntity;
 import asciipinball.objects.physicobject.polygonial.Table;
 
@@ -27,6 +28,7 @@ public class PinballGame {
     private PhysicEntity[] physicEntities;
     private FlipperFingerControl flipperFinger;
     private Control control;
+    private LaunchControl launchControl;
     private Gui gui;
     private boolean gameOver = false;
     private Player currentPlayer;
@@ -50,6 +52,7 @@ public class PinballGame {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        launchControl = new LaunchControl(playerManager,20,30, 50, Settings.BALL_RADIUS);
         resetBall();
         players = new Player[4];
         physicEntities = new PhysicEntity[300];
@@ -57,7 +60,7 @@ public class PinballGame {
         flipperFinger = new FlipperFingerControl(playerManager, (((float)Settings.WIDTH/2) - (Settings.HOLE_WIDTH/2)),
                 15, (((float)Settings.WIDTH/2) + (Settings.HOLE_WIDTH/2)), 15,
                 11f, 45, 135);
-        control = new Control(flipperFinger);
+        control = new Control(flipperFinger, launchControl);
         gui = new Gui(gameView);
         //TODO Playernumber selection
 
@@ -76,6 +79,7 @@ public class PinballGame {
 
             ball.calculateFuture(Settings.GRAVITATION);
 
+            launchControl.updateLaunchControl();
             control.updateControls(gameView);
             flipperFinger.updateFlipperFinger();
 
@@ -101,7 +105,8 @@ public class PinballGame {
     }
 
     private void resetBall(){
-        ball = new Ball(90f,30f,2.5f,100,0.05f);
+        ball = new Ball(90f,30f,Settings.BALL_RADIUS,100,0.05f);
+        launchControl.reset();
     }
 
     private Ball updateAll(){
@@ -122,9 +127,14 @@ public class PinballGame {
             collisionBalls.add(tableBall);
         }
 
-        Ball flipperBall = flipperFinger.updatePhysics(ball);
+        Ball flipperBall = flipperFinger.updateEntity(ball);
         if(flipperBall != null){
             collisionBalls.add(flipperBall);
+        }
+
+        Ball launchBall = launchControl.updateEntity(ball);
+        if(launchBall != null){
+            collisionBalls.add(launchBall);
         }
 
         if(collisionBalls.isEmpty()){
@@ -147,6 +157,8 @@ public class PinballGame {
                         gui.addToCanvas(physicEntity);
                     }
                 }
+
+                gui.addToCanvas(launchControl);
 
                 gui.addToCanvas(flipperFinger);
 

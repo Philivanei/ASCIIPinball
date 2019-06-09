@@ -1,16 +1,19 @@
 package asciipinball.corelogic;
 
 import asciipinball.GameView;
+import asciipinball.corelogic.launchcontrol.LaunchControl;
 import asciipinball.objects.flipperfinger.*;
 
 import java.awt.event.KeyEvent;
 
 public class Control {
 
+    private LaunchControl launchControl;
     private FlipperFingerControl flipperFingerControl;
 
-    public Control(FlipperFingerControl flipperFingerControl) {
+    public Control(FlipperFingerControl flipperFingerControl, LaunchControl launchControl) {
         this.flipperFingerControl = flipperFingerControl;
+        this.launchControl = launchControl;
     }
 
     public void updateControls(GameView gameView) {
@@ -31,6 +34,8 @@ public class Control {
 
                         flipperFingerControl.onRightDown();
 
+                    } else if(keyEvent.getKeyCode() == KeyEvent.VK_SPACE){
+                        launchControl.onSpaceDown();
                     }
                 } else if (keyEvent.getID() == KeyEvent.KEY_RELEASED) {
 
