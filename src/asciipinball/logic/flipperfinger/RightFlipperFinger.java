@@ -19,7 +19,7 @@ public class RightFlipperFinger extends FlipperFinger {
     }
 
     @Override
-    public void addToCanvas(GameView gameView) {
-        lines[0].addToCanvas(gameView);
+    public char getColor() {
+        return 'B';
     }
 }

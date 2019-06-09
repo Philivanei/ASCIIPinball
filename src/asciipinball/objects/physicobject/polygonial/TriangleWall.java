@@ -19,11 +19,8 @@ public class TriangleWall extends PolygonEntity {
         lines[2] = new Line(c,a);
     }
 
-
     @Override
-    public void addToCanvas(GameView gameView) {
-        lines[0].addToCanvas(gameView);
-        lines[1].addToCanvas(gameView);
-        lines[2].addToCanvas(gameView);
+    public char getColor() {
+        return 'B';
     }
 }

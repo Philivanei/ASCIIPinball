@@ -24,6 +24,7 @@ public class PinballGame {
     private FlipperFingerControl flipperFinger;
     private Control control;
     private LaunchControl launchControl;
+    private Gui gui;
 
     public PinballGame() {
 
@@ -47,7 +48,7 @@ public class PinballGame {
                 11f, 45, 135);
         launchControl = new LaunchControl(20,30, 50, ball.getRadius());
         control = new Control(flipperFinger, launchControl);
-
+        gui = new Gui(gameView);
 
         //TODO Remove before final release
         //DEBUG STUFF REMOVE BEFORE RELEASE!
@@ -115,19 +116,23 @@ public class PinballGame {
 
         gameView.clearCanvas();
 
-        table.addToCanvas(gameView);
+        try {
+            gui.addToCanvas(table);
 
-        for (PhysicEntity physicEntity : physicEntities) {
-            if(physicEntity != null) {
-                physicEntity.addToCanvas(gameView);
+            for (PhysicEntity physicEntity : physicEntities) {
+                if (physicEntity != null) {
+                    gui.addToCanvas(physicEntity);
+                }
             }
+
+            gui.addToCanvas(launchControl);
+
+            gui.addToCanvas(flipperFinger);
+
+            gui.addToCanvas(ball);
+        }catch (Exception e){
+            e.printStackTrace();
         }
-
-        launchControl.addToCanvas(gameView);
-
-        flipperFinger.addToCanvas(gameView);
-
-        ball.addToCanvas(gameView);
 
         gameView.printCanvas();
     }

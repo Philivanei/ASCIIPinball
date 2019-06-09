@@ -1,15 +1,20 @@
 package asciipinball.objects.physicobject.circular;
 
 import asciipinball.CollisionData;
+import asciipinball.interfaces.Drawable;
 import asciipinball.logic.Ball;
 import asciipinball.objects.physicobject.PhysicEntity;
 import asciipinball.shapes.Circle;
 
 import java.util.ArrayList;
 
-public abstract class CircleEntity extends PhysicEntity {
+public abstract class CircleEntity extends PhysicEntity implements Drawable {
 
     protected Circle[] circles;
+
+    public Circle[] getCircles() {
+        return circles;
+    }
 
     @Override
     protected boolean isCollided(Ball ball) {

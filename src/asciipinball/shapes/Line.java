@@ -7,7 +7,7 @@ import asciipinball.interfaces.Drawable;
 
 import java.awt.*;
 
-public class Line extends Shapes implements Drawable {
+public class Line extends Shapes {
     private float x1;
     private float y1;
     private float x2;
@@ -53,49 +53,4 @@ public class Line extends Shapes implements Drawable {
 
     public float getB(){return (y1 - getM() * x1);} //Shift
 
-    @Override
-    public void addToCanvas(GameView gameView) {
-
-        char canvasSegment[][];
-
-        int deltaX = Math.round(Math.abs(x2-x1));
-        int deltaY = Math.round(Math.abs(y2-y1));
-
-        canvasSegment = new char[deltaY>0 ? deltaY : 1][deltaX>0 ? deltaX : 1]; //[ROW][COLUMN]
-
-        for (int  column = 0; column < canvasSegment[0].length; column++){
-            for (int row = 0; row < canvasSegment.length; row++){
-                if(Float.isFinite(getM())){
-                    if(getM() > 0){
-                        if(Math.abs(((canvasSegment.length - 1) - row) - (getM() * column)) < ((Math.abs(getM()) <= 1) ? 1 : (Math.abs(getM()) / 2))){
-                        //if(Math.abs(((canvasSegment.length - 1) - row) - (getM() * column)) < (Math.abs(getM()) / 2)){
-                            canvasSegment[row][column] = 'B';
-                        }else{
-                            canvasSegment[row][column] = ' ';
-                        }
-                    }else{
-                        if(Math.abs(-row - (getM() * column)) < ((Math.abs(getM()) <= 1) ? 1 : (Math.abs(getM()) / 2))){
-                            canvasSegment[row][column] = 'B';
-                        }
-                        else{
-                            canvasSegment[row][column] = ' ';
-                        }
-                    }
-                    /*if(Math.abs(((getM() > 0) ? ((canvasSegment.length - 1) - row) : -row) - (getM() * column)) < ((Math.abs(getM()) <= 1) ? 1 : (Math.abs(getM()) / 2))){
-
-                        canvasSegment[row][column] = 'B';
-                    }
-                    else{
-                        canvasSegment[row][column] = ' ';
-                    }*/
-                }else{
-                    canvasSegment[row][column] = 'B';
-                }
-            }
-        }
-
-        int canvasColumn = Math.round(x1 < x2 ? x1 : x2) + Settings.OFFSET; //Column = X
-        int canvasRow = Math.abs(Math.round((y1 > y2 ? y1 : y2) - (Settings.HEIGHT)));
-        gameView.addColorStringToCanvas(canvasSegment,canvasRow,canvasColumn);
-    }
 }

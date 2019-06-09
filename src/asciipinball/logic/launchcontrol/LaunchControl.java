@@ -94,7 +94,7 @@ public class LaunchControl extends PolygonEntity implements Drawable {
     }
 
     @Override
-    public void addToCanvas(GameView gameView) {
-        lines[0].addToCanvas(gameView);
+    public char getColor() {
+        return 'B';
     }
 }

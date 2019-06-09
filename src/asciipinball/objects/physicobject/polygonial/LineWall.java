@@ -11,8 +11,9 @@ public class LineWall extends PolygonEntity{
         lines[0] = new Line(x1,y1,x2,y2);
     }
 
+
     @Override
-    public void addToCanvas(GameView gameView) {
-        lines[0].addToCanvas(gameView);
+    public char getColor() {
+        return 'B';
     }
 }

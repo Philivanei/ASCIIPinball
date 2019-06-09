@@ -9,7 +9,7 @@ import java.util.ArrayList;
 /**
  * This class creates a ball and simulates gravitation physics
  */
-public class Ball implements Drawable {
+public class Ball {
 
     //This coordinate system has it's origin in the bottom left - it gets converted for the printing to canvas process in addToCanvas()
     private float positionX;
@@ -250,31 +250,4 @@ public class Ball implements Drawable {
         }
     }
 
-
-    @Override
-    public void addToCanvas(GameView gameView) {
-
-        int diameter = Math.round(radius * 2);
-
-        char[][] canvasSegment = new char[diameter][diameter];
-
-        for(int column = 0; column < canvasSegment[0].length; column++){
-            for(int row = 0; row < canvasSegment.length; row++) {
-                float distanceCanvasMiddle = (float) Math.sqrt(Math.pow(((radius - 0.5) - column),2) + Math.pow(((radius - 0.5) - row),2));
-                //canvasSegment[row][column] = (distanceCanvasMiddle < radius) ? 'B' : ' ';
-                if(distanceCanvasMiddle <= radius){
-                    canvasSegment[row][column] = 'Y';
-                }
-                else{
-                    canvasSegment[row][column] = ' ';
-                }
-            }
-        }
-
-        int canvasRow = Settings.HEIGHT - Math.round(positionY + radius);
-        int canvasColumn = Math.round(positionX - radius) + Settings.OFFSET;
-
-        gameView.addColorStringToCanvas(canvasSegment,canvasRow,canvasColumn);
-
-    }
 }
