@@ -63,4 +63,9 @@ public class PlayerManager {
         }
         return isBallLeft;
     }
+
+    public String getCurrentPlayerScoreString(){
+
+        return "Player " + getCurrentPlayerNumber() + "\n " + getCurrentPlayer().getScore();
+    }
 }

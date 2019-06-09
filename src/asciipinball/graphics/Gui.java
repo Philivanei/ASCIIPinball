@@ -19,6 +19,10 @@ public class Gui {
         this.gameView = gameView;
     }
 
+    public void addStringToCanvas(String string, int row, int column){
+        gameView.addToCanvas(string, row, column);
+    }
+
     public void addToCanvas(GameOverScreen gameOverScreen){
         gameView.addToCanvas(gameOverScreen.getGameOverScreenString(), 10,10);
     }
