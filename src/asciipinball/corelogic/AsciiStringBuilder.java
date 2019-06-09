@@ -33,13 +33,6 @@ public class AsciiStringBuilder {
 
         char[][] returnArray = new char[totalRows][maxColumns];
 
-        for (char[] array: returnArray) {
-            for (char xyz: array) {
-                xyz = 'X';
-            }
-        }
-
-
         int columnTracker = 0;
         int rowTracker = 0;
         int maxRowCountSinceWordwrap = 0;
@@ -190,17 +183,12 @@ public class AsciiStringBuilder {
         char[][] returnCharArray = new char[countRows(string)][countColumns(string)];
 
         boolean wordwrapDetected;
-        int stringIterator = 0;
+        int stringIterator = -1;
 
         for (int row = 0; row < returnCharArray.length; row++) {
-            wordwrapDetected = false;
             for (int column = 0; column < returnCharArray[0].length; column++) {
                 stringIterator++;
                 if(stringIterator >= string.length()){
-                    continue;
-                }
-                if (wordwrapDetected) {
-                    returnCharArray[row][column] = ' ';
                     continue;
                 }
                 if (string.charAt(stringIterator) == '\n') {
@@ -231,6 +219,7 @@ public class AsciiStringBuilder {
             if (string.charAt(i) != '\n') {
                 columnsInCurrentRow++;
             } else {
+                columnsInCurrentRow++;
                 if (columnsInCurrentRow > maxColumns) {
                     maxColumns = columnsInCurrentRow;
                 }
