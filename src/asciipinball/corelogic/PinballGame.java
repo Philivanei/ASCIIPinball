@@ -164,7 +164,7 @@ public class PinballGame {
 
                 gui.addToCanvas(ball);
 
-                gui.addStringToCanvas(playerManager.getCurrentPlayerScoreString(), (int) Settings.HEIGHT/2, 10);;
+                gui.addStringToCanvas(playerManager.getCurrentPlayerScoreString(), (int) Settings.HEIGHT/2, 1);;
 
             }catch (Exception e){
                 e.printStackTrace();
