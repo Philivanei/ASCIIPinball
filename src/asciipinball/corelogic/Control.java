@@ -2,30 +2,32 @@ package asciipinball.corelogic;
 
 import asciipinball.GameView;
 import asciipinball.corelogic.launchcontrol.LaunchControl;
+import asciipinball.graphics.GameOverScreen;
 import asciipinball.graphics.StartScreen;
 import asciipinball.objects.flipperfinger.*;
 
-import java.awt.*;
 import java.awt.event.KeyEvent;
-import java.security.Key;
 
 public class Control {
 
     private LaunchControl launchControl;
     private FlipperFingerControl flipperFingerControl;
     private StartScreen startScreen;
+    private GameOverScreen gameOverScreen;
     private GameView gameView;
     private PinballGame pinballGame;
-    private boolean resetRequested;
+    private boolean skipRequested;
 
-    public Control(GameView gameView, FlipperFingerControl flipperFingerControl, LaunchControl launchControl, StartScreen startScreen, PinballGame pinballGame) {
+    public Control(GameView gameView, FlipperFingerControl flipperFingerControl, LaunchControl launchControl,
+                   StartScreen startScreen, GameOverScreen gameOverScreen, PinballGame pinballGame) {
 
         this.flipperFingerControl = flipperFingerControl;
         this.launchControl = launchControl;
         this.startScreen = startScreen;
         this.gameView = gameView;
         this.pinballGame = pinballGame;
-        resetRequested = false;
+        this.gameOverScreen = gameOverScreen;
+        skipRequested = false;
     }
 
     public void updateControls() {
@@ -38,21 +40,24 @@ public class Control {
 
                 if (keyEvent.getID() == KeyEvent.KEY_PRESSED) {
 
-                    //keys for FlipperFingers
+                    //keys for FlipperFingers and GameOverScreen
                     if (keyEvent.getKeyCode() == KeyEvent.VK_LEFT) {
 
                         flipperFingerControl.onLeftDown();
+                        gameOverScreen.arrowLeftPressed();
 
                     } else if (keyEvent.getKeyCode() == KeyEvent.VK_RIGHT) {
 
                         flipperFingerControl.onRightDown();
+                        gameOverScreen.arrowRightPressed();
+
 
                         //key for launchControl
                     } else if (keyEvent.getKeyCode() == KeyEvent.VK_SPACE) {
 
                         launchControl.onSpaceDown();
 
-                        //keys for StartScreen
+                        //keys for StartScreen and GameOverScreen
                     } else if (keyEvent.getKeyCode() == KeyEvent.VK_DOWN) {
 
                         startScreen.arrowDownPressed();
@@ -64,10 +69,11 @@ public class Control {
                     } else if (keyEvent.getKeyCode() == KeyEvent.VK_ENTER) {
 
                         startScreen.enterDownPressed();
+                        gameOverScreen.enterDownPressed();
 
                     } else if(keyEvent.getKeyCode() == KeyEvent.VK_R){
-                        if(!resetRequested){
-                            resetRequested = true;
+                        if(!skipRequested){
+                            skipRequested = true;
                             pinballGame.skipRound();
                         }
                     }
@@ -89,7 +95,7 @@ public class Control {
 
                         launchControl.onSpaceUp();
                     } else if(keyEvent.getKeyCode() == KeyEvent.VK_R){
-                        resetRequested = false;
+                        skipRequested = false;
                     }
                 }
             }

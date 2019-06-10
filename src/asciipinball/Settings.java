@@ -26,6 +26,9 @@ public abstract class Settings {
     public static final int PLAYER2_POSITION_Y = 70;
     public static final int PLAYER3_POSITION_Y = 80;
     public static final int PLAYER4_POSITION_Y = 90;
+    public static final int GAME_OVER_OPTIONS_POSITION_Y = 120;
+    public static final int GAME_OVER_OPTIONS_POSITION_X = 45;
+    public static final int GAME_OVER_OPTIONS_DISTANCE = 150;
 
 
     public static void initColorMap(GameView gameView) {

@@ -30,10 +30,11 @@ public class PinballGame {
     private NonPhysicEntity[] noPhysicEntities;
     private FlipperFingerControl flipperFinger;
     private StartScreen startScreen;
+    private GameOverScreen gameOverScreen;
     private Control control;
     private LaunchControl launchControl;
     private Gui gui;
-    private boolean gameOver = false;
+    private boolean gameOver;
     private PlayerManager playerManager;
     private LifeDisplay lifeDisplay;
 
@@ -48,35 +49,14 @@ public class PinballGame {
         /* Init Colormap */
         Settings.initColorMap(gameView);
 
-
-        /*Init Arrays and Values*/
-        playerManager = new PlayerManager();
-        startScreen = new StartScreen();
-        launchControl = new LaunchControl(playerManager, 20, 30, 50, Settings.BALL_RADIUS);
-        noPhysicEntities = new NonPhysicEntity[300];
-        flipperFinger = new FlipperFingerControl(playerManager, (((float) Settings.WIDTH / 2) - (Settings.HOLE_WIDTH / 2)),
-                15, (((float) Settings.WIDTH / 2) + (Settings.HOLE_WIDTH / 2)), 15,
-                11f, 45, 135);
-        control = new Control(gameView, flipperFinger, launchControl, startScreen, this);
-        gui = new Gui(gameView);
-        resetBall();
-        lifeDisplay = new LifeDisplay(playerManager, Settings.WIDTH + 10, 10 , 2.5f);
-        physicEntities = new PhysicEntity[300];
-        table = new Table(playerManager, Settings.WIDTH, Settings.HEIGHT, Settings.HOLE_WIDTH);
-
-
-        //TODO Remove before final release
-        //DEBUG STUFF REMOVE BEFORE RELEASE!
-        //physicEntities[0] = new LineWall(30, 30,50,0);
-        //physicEntities[0] = new Bumper(38, 30,4f);
-        physicEntities = new Levels(playerManager).getLevel1PhysicEntities();
-        noPhysicEntities = new Levels(playerManager).getLevel1NoPhysicEntities();
-
+        init();
     }
 
     public void simulateTick() {
 
         control.updateControls();
+
+        gameOverScreen.setActive(gameOver);
 
         if (startScreen.isPlayerNumberSelected()) {
 
@@ -106,6 +86,27 @@ public class PinballGame {
             }
             checkBallOutOfGame();
         }
+    }
+
+    public void init(){
+        /*Init Arrays and Values*/
+        gameOver = false;
+        playerManager = new PlayerManager();
+        startScreen = new StartScreen();
+        gameOverScreen = new GameOverScreen(playerManager, this);
+        launchControl = new LaunchControl(playerManager, 20, 30, 50, Settings.BALL_RADIUS);
+        lifeDisplay = new LifeDisplay(playerManager, Settings.WIDTH + 10, 10 , 2.5f);
+        flipperFinger = new FlipperFingerControl(playerManager, (((float) Settings.WIDTH / 2) - (Settings.HOLE_WIDTH / 2)),
+                15, (((float) Settings.WIDTH / 2) + (Settings.HOLE_WIDTH / 2)), 15,
+                11f, 45, 135);
+        control = new Control(gameView, flipperFinger, launchControl, startScreen,gameOverScreen, this);
+        gui = new Gui(gameView);
+
+        resetBall();
+        table = new Table(playerManager, Settings.WIDTH, Settings.HEIGHT, Settings.HOLE_WIDTH);
+
+        physicEntities = new Levels(playerManager).getLevel1PhysicEntities();
+        noPhysicEntities = new Levels(playerManager).getLevel1NoPhysicEntities();
     }
 
     private void checkBallOutOfGame() {
@@ -208,7 +209,7 @@ public class PinballGame {
                 e.printStackTrace();
             }
         } else {
-            new GameOverScreen(playerManager).printGameOverScreen(gui);
+            gameOverScreen.printGameOverScreen(gui);
         }
         gameView.printCanvas();
     }
