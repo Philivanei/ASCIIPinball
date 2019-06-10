@@ -14,6 +14,8 @@ import asciipinball.objects.physicobject.polygonial.PolygonEntity;
 import asciipinball.shapes.Circle;
 import asciipinball.shapes.Line;
 
+import java.util.List;
+
 public class Gui {
 
     private GameView gameView;
@@ -22,8 +24,12 @@ public class Gui {
         this.gameView = gameView;
     }
 
+    public void addAsciiStringToCanvas(String string, int row, int column, AsciiStringContainer font){
+        gameView.addToCanvas(new AsciiStringBuilder<>(font).buildAsciiString(string),row,column);
+    }
+
     public void addStringToCanvas(String string, int row, int column){
-        gameView.addToCanvas(new AsciiStringBuilder(new FontStraight()).buildAsciiString(string), row, column);
+        gameView.addToCanvas(string, row, column);
     }
 
     public void addArrayToCanvas(char[][] array, int row, int column){

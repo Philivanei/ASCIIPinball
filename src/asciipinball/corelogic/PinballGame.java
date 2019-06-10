@@ -5,6 +5,8 @@ import asciipinball.corelogic.launchcontrol.LaunchControl;
 import asciipinball.corelogic.players.Player;
 import asciipinball.corelogic.players.PlayerManager;
 import asciipinball.Settings;
+import asciipinball.fonts.FontElectronic;
+import asciipinball.fonts.FontStraight;
 import asciipinball.graphics.GameOverScreen;
 import asciipinball.graphics.Gui;
 import asciipinball.graphics.StartScreen;
@@ -167,13 +169,13 @@ public class PinballGame {
 
                 gui.addToCanvas(ball);
 
-                gui.addStringToCanvas(playerManager.getCurrentPlayerScoreString(), (int) Settings.HEIGHT/2, 1);;
+                gui.addAsciiStringToCanvas(playerManager.getCurrentPlayerScoreString(), (int) Settings.HEIGHT/2, 1, new FontStraight());
 
             }catch (Exception e){
                 e.printStackTrace();
             }
         } else {
-            gui.addToCanvas(new GameOverScreen());
+            gui.addAsciiStringToCanvas(new GameOverScreen().getGameOverScreenString(),10,10, new FontElectronic());
         }
         gameView.printCanvas();
     }
