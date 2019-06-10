@@ -12,7 +12,7 @@ import java.util.ArrayList;
 public class PointDoor extends NonPhysicEntity implements Drawable {
 
     private ArrayList<PointDoor> linkedPointDoors;
-    private boolean status;
+    private boolean[] status;
     private PlayerManager playerManager;
     private int score;
     private long deadTimer = 0;
@@ -22,12 +22,16 @@ public class PointDoor extends NonPhysicEntity implements Drawable {
         circles = new Circle[1];
         circles[0] = new Circle(coordinate.getX(), coordinate.getY(), radius);
         this.playerManager = playerManager;
-        status = false;
+        status = new boolean[4];
+        status[0] = false;
+        status[1] = false;
+        status[2] = false;
+        status[3] = false;
         score = scoreIfToggled;
     }
 
     public boolean getStatus(){
-        return status;
+        return status[playerManager.getCurrentPlayerId()];
     }
 
     public void addLink(PointDoor pointDoor){
@@ -35,7 +39,7 @@ public class PointDoor extends NonPhysicEntity implements Drawable {
     }
 
     private boolean areAllOn(){
-        boolean areAllOn = status;
+        boolean areAllOn = status[playerManager.getCurrentPlayerId()];
         for (PointDoor pointDoor : linkedPointDoors) {
             //if only one is off then areAllOn will be false
             areAllOn &= pointDoor.getStatus();
@@ -52,7 +56,7 @@ public class PointDoor extends NonPhysicEntity implements Drawable {
 
     public void reset(){
         deadTimer = System.currentTimeMillis();
-        status = false;
+        status[playerManager.getCurrentPlayerId()] = false;
     }
 
     @Override
@@ -63,7 +67,7 @@ public class PointDoor extends NonPhysicEntity implements Drawable {
             float distancePointBall = (float) Math.sqrt(Math.pow((ball.getPositionX() - circles[0].getX()), 2) + Math.pow((ball.getPositionY() - circles[0].getY()), 2));
 
             if (distancePointBall < circles[0].getRadius() + ball.getRadius()) {
-                status = true;
+                status[playerManager.getCurrentPlayerId()] = true;
             }
 
             if (areAllOn()) {
@@ -77,7 +81,7 @@ public class PointDoor extends NonPhysicEntity implements Drawable {
 
     @Override
     public char getColor() {
-        if(status){
+        if(status[playerManager.getCurrentPlayerId()]){
             return 'O';
         }
         else{
