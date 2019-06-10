@@ -10,7 +10,7 @@ import asciipinball.shapes.Line;
 
 public class LaunchControl extends PolygonEntity implements Drawable {
 
-    private float sizeOfBall;
+    private float width;
     private float maxHeight;
     private float minHeight;
     private MoveStatus moveStatus;
@@ -21,12 +21,14 @@ public class LaunchControl extends PolygonEntity implements Drawable {
     private long pressStartTime;
     private boolean isFinished;
     private boolean isSpaceBlocked;
+    private float tiltOffset;
 
-    public LaunchControl(PlayerManager playerManager, float x, float minHeight, float maxHeight, float radiusOfBall) {
+    public LaunchControl(PlayerManager playerManager, float x, float minHeight, float maxHeight, float width, float tiltOffset) {
         super(playerManager);
+        this.tiltOffset = tiltOffset;
         lines = new Line[1];
         //diameter of ball to calculate width of the launcherline
-        sizeOfBall = radiusOfBall * 2 + 2;
+        this.width = width;
         this.minHeight = minHeight;
         this.maxHeight = maxHeight;
         this.x = x;
@@ -61,7 +63,6 @@ public class LaunchControl extends PolygonEntity implements Drawable {
             pressTime = System.currentTimeMillis() - pressStartTime;
             upStartTime = System.currentTimeMillis();
             isClicked = true;
-            calculateVelocityBoost();
         }
     }
 
@@ -71,10 +72,10 @@ public class LaunchControl extends PolygonEntity implements Drawable {
 
         if (y >= maxHeight) {
             //moving the launcher diagonally
-            lines[0] = new Line(x, maxHeight, x + sizeOfBall, y);
+            lines[0] = new Line(x, maxHeight, x + width, y);
         } else {
             //moving the launcher up (horizontal)
-            lines[0] = new Line(x, y, x + sizeOfBall, y);
+            lines[0] = new Line(x, y, x + width, y);
         }
     }
 
@@ -83,9 +84,9 @@ public class LaunchControl extends PolygonEntity implements Drawable {
     private float calculateHeightUp(long timeSinceStart) {
 
         float result = (maxHeight - minHeight) / Settings.TIME_FOR_JUMP * timeSinceStart + minHeight;
-        if (result > (maxHeight + Settings.TILT_Y_OFFSET)) {
+        if (result > (maxHeight + tiltOffset)) {
             //change movestatus
-            result = maxHeight + Settings.TILT_Y_OFFSET;
+            result = maxHeight + tiltOffset;
             moveStatus = MoveStatus.STOP;
             isFinished = true;
         } else {
@@ -127,10 +128,12 @@ public class LaunchControl extends PolygonEntity implements Drawable {
         Ball returnBall = super.interactWithBall(ball);
         if (moveStatus != MoveStatus.STOP) {
             returnBall = new Ball(returnBall.getPositionX(), returnBall.getPositionY(), returnBall.getRadius(),
-                    90, returnBall.getVelocity());
-            returnBall.addVelocity(calculateVelocityBoost());
-
+                    90, calculateVelocityBoost());
         }
+
+        System.out.println(returnBall.getVelocity());
+
+        returnBall.jumpToFuture(75);
         return returnBall;
     }
 

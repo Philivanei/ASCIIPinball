@@ -17,8 +17,8 @@ public abstract class Settings {
     public static final float TILT_Y_OFFSET = 5;
     public static final float BALL_RADIUS = 2.5f;
     public static final float MAX_LAUNCH_PRESS_TIME = 1000;
-    public static final float MIN_LAUNCH_VELOCITY = 0.01f;
-    public static final float MAX_LAUNCH_VELOCITY = 0.08f;
+    public static final float MIN_LAUNCH_VELOCITY = 0.04f;
+    public static final float MAX_LAUNCH_VELOCITY = 0.09f;
     public static final int PLAYER_POSITION_X = HEIGHT / 2 + 10;
     //please configure if the steps between the players have been changed
     public static final int PLAYER_DISTANCE = 10;

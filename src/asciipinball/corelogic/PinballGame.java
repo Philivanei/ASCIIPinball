@@ -94,7 +94,7 @@ public class PinballGame {
         playerManager = new PlayerManager();
         startScreen = new StartScreen();
         gameOverScreen = new GameOverScreen(playerManager, this);
-        launchControl = new LaunchControl(playerManager, 20, 30, 50, Settings.BALL_RADIUS);
+        launchControl = new LaunchControl(playerManager, 90, 0, 25.01f, 10, 3);
         lifeDisplay = new LifeDisplay(playerManager, Settings.WIDTH + 10, 10 , 2.5f);
         flipperFinger = new FlipperFingerControl(playerManager, (((float) Settings.WIDTH / 2) - (Settings.HOLE_WIDTH / 2)),
                 15, (((float) Settings.WIDTH / 2) + (Settings.HOLE_WIDTH / 2)), 15,
@@ -105,7 +105,7 @@ public class PinballGame {
         resetBall();
         table = new Table(playerManager, Settings.WIDTH, Settings.HEIGHT, Settings.HOLE_WIDTH);
 
-        physicEntities = new Levels(playerManager).getLevel1PhysicEntities();
+        physicEntities = new Levels(playerManager).getLevel2PhysicEntities();
         noPhysicEntities = new Levels(playerManager).getLevel1NoPhysicEntities();
     }
 
@@ -126,7 +126,7 @@ public class PinballGame {
     }
 
     private void resetBall() {
-        ball = new Ball(90f, 30f, Settings.BALL_RADIUS, 100, 0.05f);
+        ball = new Ball(95f, 5f, Settings.BALL_RADIUS);
         launchControl.reset();
     }
 
