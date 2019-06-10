@@ -7,6 +7,7 @@ import asciipinball.Settings;
 import asciipinball.fonts.FontStraight;
 import asciipinball.graphics.GameOverScreen;
 import asciipinball.graphics.Gui;
+import asciipinball.graphics.LifeDisplay;
 import asciipinball.graphics.StartScreen;
 import asciipinball.levels.Levels;
 import asciipinball.objects.flipperfinger.FlipperFingerControl;
@@ -34,6 +35,7 @@ public class PinballGame {
     private Gui gui;
     private boolean gameOver = false;
     private PlayerManager playerManager;
+    private LifeDisplay lifeDisplay;
 
     public PinballGame() {
 
@@ -57,9 +59,8 @@ public class PinballGame {
                 11f, 45, 135);
         control = new Control(gameView, flipperFinger, launchControl, startScreen, this);
         gui = new Gui(gameView);
-
-
         resetBall();
+        lifeDisplay = new LifeDisplay(playerManager, Settings.WIDTH + 10, 10 , 2.5f);
         physicEntities = new PhysicEntity[300];
         table = new Table(playerManager, Settings.WIDTH, Settings.HEIGHT, Settings.HOLE_WIDTH);
 
@@ -192,6 +193,8 @@ public class PinballGame {
                         gui.addToCanvas(noPhysicEntity);
                     }
                 }
+
+                gui.addToCanvas(lifeDisplay.getDisplay(), lifeDisplay.getColor());
 
                 gui.addToCanvas(launchControl);
 

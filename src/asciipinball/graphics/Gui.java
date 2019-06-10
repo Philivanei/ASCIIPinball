@@ -25,6 +25,7 @@ public class Gui {
         this.gameView = gameView;
     }
 
+
     public void addAsciiStringToCanvas(String string, int row, int column, AsciiStringContainer font){
         char[][] charArray = new AsciiStringBuilder<>(font).buildAsciiString(string);
         int newRow = (row - (charArray.length/2));
@@ -56,15 +57,6 @@ public class Gui {
         }
     }
 
-    public void addToCanvas(NonPhysicEntity entity){
-        Circle[] circles = entity.getCircles();
-        if(circles.length != 0){
-            for(Circle circle : circles){
-                addCircleToCanvas(circle, entity.getColor());
-            }
-        }
-    }
-
     public void addToCanvas(PolygonEntity entity){
         Line[] lines = entity.getLines();
         if(lines.length != 0){
@@ -74,11 +66,18 @@ public class Gui {
         }
     }
 
+    public void addToCanvas(NonPhysicEntity entity){
+        addToCanvas(entity.getCircles(), entity.getColor());
+    }
+
     public void addToCanvas(CircleEntity entity){
-        Circle[] circles = entity.getCircles();
+        addToCanvas(entity.getCircles(), entity.getColor());
+    }
+
+    public void addToCanvas(Circle[] circles, char color){
         if(circles.length != 0){
             for(Circle circle : circles){
-                addCircleToCanvas(circle, entity.getColor());
+                addCircleToCanvas(circle, color);
             }
         }
     }
