@@ -7,6 +7,7 @@ import asciipinball.Settings;
 import asciipinball.fonts.FontStraight;
 import asciipinball.graphics.GameOverScreen;
 import asciipinball.graphics.Gui;
+import asciipinball.graphics.LifeDisplay;
 import asciipinball.graphics.StartScreen;
 import asciipinball.levels.Levels;
 import asciipinball.objects.flipperfinger.FlipperFingerControl;
@@ -35,6 +36,7 @@ public class PinballGame {
     private Gui gui;
     private boolean gameOver;
     private PlayerManager playerManager;
+    private LifeDisplay lifeDisplay;
 
     public PinballGame() {
 
@@ -93,23 +95,16 @@ public class PinballGame {
         startScreen = new StartScreen();
         gameOverScreen = new GameOverScreen(playerManager, this);
         launchControl = new LaunchControl(playerManager, 20, 30, 50, Settings.BALL_RADIUS);
-        noPhysicEntities = new NonPhysicEntity[300];
+        lifeDisplay = new LifeDisplay(playerManager, Settings.WIDTH + 10, 10 , 2.5f);
         flipperFinger = new FlipperFingerControl(playerManager, (((float) Settings.WIDTH / 2) - (Settings.HOLE_WIDTH / 2)),
                 15, (((float) Settings.WIDTH / 2) + (Settings.HOLE_WIDTH / 2)), 15,
                 11f, 45, 135);
         control = new Control(gameView, flipperFinger, launchControl, startScreen,gameOverScreen, this);
         gui = new Gui(gameView);
 
-
         resetBall();
-        physicEntities = new PhysicEntity[300];
         table = new Table(playerManager, Settings.WIDTH, Settings.HEIGHT, Settings.HOLE_WIDTH);
 
-
-        //TODO Remove before final release
-        //DEBUG STUFF REMOVE BEFORE RELEASE!
-        //physicEntities[0] = new LineWall(30, 30,50,0);
-        //physicEntities[0] = new Bumper(38, 30,4f);
         physicEntities = new Levels(playerManager).getLevel1PhysicEntities();
         noPhysicEntities = new Levels(playerManager).getLevel1NoPhysicEntities();
     }
@@ -199,6 +194,8 @@ public class PinballGame {
                         gui.addToCanvas(noPhysicEntity);
                     }
                 }
+
+                gui.addToCanvas(lifeDisplay.getDisplay(), lifeDisplay.getColor());
 
                 gui.addToCanvas(launchControl);
 
