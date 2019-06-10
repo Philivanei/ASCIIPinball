@@ -15,6 +15,7 @@ public class PointDoor extends NonPhysicEntity implements Drawable {
     private boolean status;
     private PlayerManager playerManager;
     private int score;
+    private long deadTimer = 0;
 
     public PointDoor(PlayerManager playerManager, Coordinate coordinate, float radius, int scoreIfToggled){
         linkedPointDoors = new ArrayList<>();
@@ -50,21 +51,25 @@ public class PointDoor extends NonPhysicEntity implements Drawable {
     }
 
     public void reset(){
+        deadTimer = System.currentTimeMillis();
         status = false;
     }
 
     @Override
     public void updateEntity(Ball ball) {
 
-        float distancePointBall = (float) Math.sqrt(Math.pow((ball.getPositionX() - circles[0].getX()),2) + Math.pow((ball.getPositionY() - circles[0].getY()),2));
+        if(System.currentTimeMillis() - deadTimer > 200) {
 
-        if(distancePointBall < circles[0].getRadius() + ball.getRadius()){
-            status = true;
-        }
+            float distancePointBall = (float) Math.sqrt(Math.pow((ball.getPositionX() - circles[0].getX()), 2) + Math.pow((ball.getPositionY() - circles[0].getY()), 2));
 
-        if(areAllOn()){
-            resetAll();
-            playerManager.getCurrentPlayer().addToScore(score);
+            if (distancePointBall < circles[0].getRadius() + ball.getRadius()) {
+                status = true;
+            }
+
+            if (areAllOn()) {
+                resetAll();
+                playerManager.getCurrentPlayer().addToScore(score);
+            }
         }
 
     }
