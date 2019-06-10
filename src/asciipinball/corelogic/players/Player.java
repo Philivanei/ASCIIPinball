@@ -7,7 +7,7 @@ public class Player {
 
     public Player() {
         score = 0;
-        ballLifes = 2;
+        ballLifes = -1;
     }
 
     public int getScore() {

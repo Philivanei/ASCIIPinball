@@ -14,6 +14,8 @@ import asciipinball.objects.physicobject.polygonial.PolygonEntity;
 import asciipinball.shapes.Circle;
 import asciipinball.shapes.Line;
 
+import java.util.List;
+
 public class Gui {
 
     private GameView gameView;
@@ -22,16 +24,19 @@ public class Gui {
         this.gameView = gameView;
     }
 
+    public void addAsciiStringToCanvas(String string, int row, int column, AsciiStringContainer font){
+        char[][] charArray = new AsciiStringBuilder<>(font).buildAsciiString(string);
+        int newRow = (row - (charArray.length/2));
+        int newColumn = (column - (charArray[0].length/2));
+        gameView.addToCanvas(charArray,newRow,newColumn);
+    }
+
     public void addStringToCanvas(String string, int row, int column){
-        gameView.addToCanvas(new AsciiStringBuilder(new FontStraight()).buildAsciiString(string), row, column);
+        gameView.addToCanvas(string, row, column);
     }
 
     public void addArrayToCanvas(char[][] array, int row, int column){
         gameView.addToCanvas(array,row,column);
-    }
-
-    public void addToCanvas(GameOverScreen gameOverScreen){
-        gameView.addToCanvas(gameOverScreen.getGameOverScreenString(), 10,10);
     }
 
     public void addToCanvas(FlipperFingerControl flipperFingerControl){
