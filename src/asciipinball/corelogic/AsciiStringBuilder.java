@@ -210,6 +210,9 @@ public class AsciiStringBuilder<Font extends AsciiStringContainer> {
             case ' ':
                 return font.getSPACE();
 
+            case '-':
+                return font.getARROW();
+
             default:
                 return font.getSPACE();
 

@@ -369,4 +369,14 @@ public class FontBig extends AsciiStringContainer {
                 " \n" +
                 "  ";
     }
+
+    @Override
+    public String getARROW(){
+        return "     __   \n" +
+                "     \\ \\  \n" +
+                " _____\\ \\ \n" +
+                "|______> >\n" +
+                "      / / \n" +
+                "     /_/  ";
+    }
 }

@@ -19,6 +19,14 @@ public abstract class Settings {
     public static final float MAX_LAUNCH_PRESS_TIME = 1000;
     public static final float MIN_LAUNCH_VELOCITY = 0.01f;
     public static final float MAX_LAUNCH_VELOCITY = 0.08f;
+    public static final int PLAYER_POSITION_X = HEIGHT / 2 + 10;
+    //please configure if the steps between the players have been changed
+    public static final int PLAYER_DISTANCE = 10;
+    public static final int PLAYER1_POSITION_Y = 60;
+    public static final int PLAYER2_POSITION_Y = 70;
+    public static final int PLAYER3_POSITION_Y = 80;
+    public static final int PLAYER4_POSITION_Y = 90;
+
 
     public static void initColorMap(GameView gameView) {
         HashMap<Character, Color> colormap = new HashMap<>();
