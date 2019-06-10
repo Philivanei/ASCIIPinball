@@ -25,7 +25,10 @@ public class Gui {
     }
 
     public void addAsciiStringToCanvas(String string, int row, int column, AsciiStringContainer font){
-        gameView.addToCanvas(new AsciiStringBuilder<>(font).buildAsciiString(string),row,column);
+        char[][] charArray = new AsciiStringBuilder<>(font).buildAsciiString(string);
+        int newRow = (row - (charArray.length/2));
+        int newColumn = (column - (charArray[0].length/2));
+        gameView.addToCanvas(charArray,newRow,newColumn);
     }
 
     public void addStringToCanvas(String string, int row, int column){
@@ -34,10 +37,6 @@ public class Gui {
 
     public void addArrayToCanvas(char[][] array, int row, int column){
         gameView.addToCanvas(array,row,column);
-    }
-
-    public void addToCanvas(GameOverScreen gameOverScreen){
-        gameView.addToCanvas(gameOverScreen.getGameOverScreenString(), 10,10);
     }
 
     public void addToCanvas(FlipperFingerControl flipperFingerControl){

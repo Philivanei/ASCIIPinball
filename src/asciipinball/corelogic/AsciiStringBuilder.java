@@ -12,6 +12,7 @@ public class AsciiStringBuilder<Font extends AsciiStringContainer> {
 
     public char[][] buildAsciiString(String string) {
         int maxColumns = 0;
+        int currentColumns = 0;
         int maxRows = 0;
         int currentRows = 0;
         int totalRows = 0;
@@ -20,9 +21,11 @@ public class AsciiStringBuilder<Font extends AsciiStringContainer> {
 
             if (string.charAt(i) == '\n') {
                 totalRows += maxRows;
+                currentColumns = 0;
                 maxRows = 0;
             } else {
-                maxColumns += countColumns(getString(string.charAt(i)));
+                currentColumns += countColumns(getString(string.charAt(i)));
+                maxColumns = currentColumns > maxColumns ? currentColumns : maxColumns;
                 currentRows = countRows(getString(string.charAt(i)));
                 if (currentRows > maxRows) {
                     maxRows = currentRows;

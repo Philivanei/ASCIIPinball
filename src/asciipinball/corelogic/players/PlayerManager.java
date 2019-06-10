@@ -33,6 +33,21 @@ public class PlayerManager {
         return currentPlayerId + 1;
     }
 
+    public int getWinningPlayerNumber(){
+        int maxScore = -1;
+        int winningPlayerID = -1;
+        for (int i = 0; i < players.length; i++) {
+            if(players[i] != null){
+                if(players[i].getScore() > maxScore){
+                    maxScore = players[i].getScore();
+                    winningPlayerID = i;
+                }
+            }
+        }
+
+        return  winningPlayerID+1;
+    }
+
     public Player[] getAllPlayer(){
         Player[] returnPlayers = new Player[playerCount];
 

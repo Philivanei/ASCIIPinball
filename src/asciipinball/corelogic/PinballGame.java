@@ -42,7 +42,7 @@ public class PinballGame {
     public PinballGame() {
 
         /* Init GameView */
-        gameView = new GameView(Settings.HEIGHT, 240, "Pinball");
+        gameView = new GameView(Settings.HEIGHT, Settings.GAMEVIEW_WIDTH, "ASCII Pinball");
         gameView.setWindowsSize(GameView.WINDOWSIZE_LARGE);
         gameView.show();
 
@@ -53,7 +53,7 @@ public class PinballGame {
 
         /*Init Arrays and Values*/
         try {
-            playerManager = new PlayerManager((byte) 1);
+            playerManager = new PlayerManager((byte) 2);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -175,7 +175,7 @@ public class PinballGame {
                 e.printStackTrace();
             }
         } else {
-            gui.addAsciiStringToCanvas(new GameOverScreen().getGameOverScreenString(),10,10, new FontElectronic());
+            new GameOverScreen(playerManager).printGameOverScreen(gui);
         }
         gameView.printCanvas();
     }
