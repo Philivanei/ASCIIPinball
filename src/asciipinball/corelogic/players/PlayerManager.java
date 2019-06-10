@@ -39,6 +39,10 @@ public class PlayerManager {
         return players[currentPlayerId];
     }
 
+    public int getCurrentPlayerId(){
+        return currentPlayerId;
+    }
+
     public int getCurrentPlayerNumber(){
         return currentPlayerId + 1;
     }

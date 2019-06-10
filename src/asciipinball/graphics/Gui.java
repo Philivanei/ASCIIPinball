@@ -8,6 +8,7 @@ import asciipinball.fonts.AsciiStringContainer;
 import asciipinball.fonts.FontStraight;
 import asciipinball.objects.Ball;
 import asciipinball.objects.flipperfinger.FlipperFingerControl;
+import asciipinball.objects.nophysicsobject.NonPhysicEntity;
 import asciipinball.objects.physicobject.PhysicEntity;
 import asciipinball.objects.physicobject.circular.CircleEntity;
 import asciipinball.objects.physicobject.polygonial.PolygonEntity;
@@ -52,6 +53,15 @@ public class Gui {
         }
         else {
             throw new ClassNotSupportedException(entity);
+        }
+    }
+
+    public void addToCanvas(NonPhysicEntity entity){
+        Circle[] circles = entity.getCircles();
+        if(circles.length != 0){
+            for(Circle circle : circles){
+                addCircleToCanvas(circle, entity.getColor());
+            }
         }
     }
 

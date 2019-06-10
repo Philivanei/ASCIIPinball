@@ -5,6 +5,7 @@ import asciipinball.corelogic.players.PlayerManager;
 import asciipinball.interfaces.Drawable;
 import asciipinball.objects.Ball;
 import asciipinball.objects.physicobject.PhysicEntity;
+import asciipinball.objects.physicobject.circular.JointCover;
 import asciipinball.shapes.Line;
 
 import java.util.ArrayList;
@@ -119,12 +120,16 @@ public abstract class PolygonEntity extends PhysicEntity implements Drawable {
                 //bumpedIntoEdge = true
                 //finalAngle = calculateBallAngleFromGradient(ball, -1/collisionLine.getM());
                 collisionGradient = -1/((ball.getPositionY() - collisionLine.getY2()) / (ball.getPositionX() - collisionLine.getX2())); //Has to be Y2 & X2 because y1 & x1 are FURTHER away than length
+                ball.addVelocity(0.005f);
                 //collisionGradient = -1/collisionLine.getM();
             }else if(collisionPointDistanceB >= collisionLine.getLength()) {
                 collisionGradient = -1/((ball.getPositionY() - collisionLine.getY1()) / (ball.getPositionX() - collisionLine.getX1()));
+                ball.addVelocity(0.005f);
             }
 
             finalAngle = calculateBallAngleFromGradient(ball, collisionGradient);
+
+            System.out.println(ball.getDirection() + " -> " + finalAngle);
 
             Ball ballToAdd = new Ball(ball.getPositionX(),ball.getPositionY(), ball.getRadius(),finalAngle,ball.getVelocity());
             ballToAdd.jumpToFuture(2);

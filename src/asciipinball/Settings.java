@@ -42,6 +42,7 @@ public abstract class Settings {
         colormap.put('M', Color.MAGENTA);
         colormap.put('O', Color.ORANGE);
         colormap.put('W', Color.WHITE);
+        colormap.put('S', Color.LIGHT_GRAY);
 
         gameView.setColormap(colormap);
     }
