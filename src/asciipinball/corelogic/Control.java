@@ -15,13 +15,17 @@ public class Control {
     private FlipperFingerControl flipperFingerControl;
     private StartScreen startScreen;
     private GameView gameView;
+    private PinballGame pinballGame;
+    private boolean resetRequested;
 
-    public Control(GameView gameView, FlipperFingerControl flipperFingerControl, LaunchControl launchControl, StartScreen startScreen) {
+    public Control(GameView gameView, FlipperFingerControl flipperFingerControl, LaunchControl launchControl, StartScreen startScreen, PinballGame pinballGame) {
 
         this.flipperFingerControl = flipperFingerControl;
         this.launchControl = launchControl;
         this.startScreen = startScreen;
         this.gameView = gameView;
+        this.pinballGame = pinballGame;
+        resetRequested = false;
     }
 
     public void updateControls() {
@@ -61,6 +65,11 @@ public class Control {
 
                         startScreen.enterDownPressed();
 
+                    } else if(keyEvent.getKeyCode() == KeyEvent.VK_R){
+                        if(!resetRequested){
+                            resetRequested = true;
+                            pinballGame.skipRound();
+                        }
                     }
 
 
@@ -79,6 +88,8 @@ public class Control {
                     } else if (keyEvent.getKeyCode() == KeyEvent.VK_SPACE) {
 
                         launchControl.onSpaceUp();
+                    } else if(keyEvent.getKeyCode() == KeyEvent.VK_R){
+                        resetRequested = false;
                     }
                 }
             }

@@ -55,7 +55,7 @@ public class PinballGame {
         flipperFinger = new FlipperFingerControl(playerManager, (((float) Settings.WIDTH / 2) - (Settings.HOLE_WIDTH / 2)),
                 15, (((float) Settings.WIDTH / 2) + (Settings.HOLE_WIDTH / 2)), 15,
                 11f, 45, 135);
-        control = new Control(gameView, flipperFinger, launchControl, startScreen);
+        control = new Control(gameView, flipperFinger, launchControl, startScreen, this);
         gui = new Gui(gameView);
 
 
@@ -115,6 +115,12 @@ public class PinballGame {
         }
 
         gameOver = !playerManager.isBallLeft();
+    }
+
+    public void skipRound(){
+        if(playerManager.isInitialized()){
+            ball = new Ball(10, -10, Settings.BALL_RADIUS, -90, 0.05f);
+        }
     }
 
     private void resetBall() {
