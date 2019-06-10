@@ -48,6 +48,10 @@ public class PlayerManager {
         return  winningPlayerID+1;
     }
 
+    public int getWinningScore(){
+        return players[getWinningPlayerNumber()-1].getScore();
+    }
+
     public Player[] getAllPlayer(){
         Player[] returnPlayers = new Player[playerCount];
 
