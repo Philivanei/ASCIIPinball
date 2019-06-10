@@ -5,6 +5,7 @@ import asciipinball.Settings;
 import asciipinball.corelogic.AsciiStringBuilder;
 import asciipinball.exceptions.ClassNotSupportedException;
 import asciipinball.fonts.AsciiStringContainer;
+import asciipinball.fonts.FontStraight;
 import asciipinball.objects.Ball;
 import asciipinball.objects.flipperfinger.FlipperFingerControl;
 import asciipinball.objects.physicobject.PhysicEntity;
@@ -22,7 +23,7 @@ public class Gui {
     }
 
     public void addStringToCanvas(String string, int row, int column){
-        gameView.addToCanvas(new AsciiStringBuilder(new AsciiStringContainer()).buildAsciiString(string), row, column);
+        gameView.addToCanvas(new AsciiStringBuilder(new FontStraight()).buildAsciiString(string), row, column);
     }
 
     public void addArrayToCanvas(char[][] array, int row, int column){
