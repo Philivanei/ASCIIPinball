@@ -7,12 +7,14 @@ import asciipinball.corelogic.players.PlayerManager;
 import asciipinball.Settings;
 import asciipinball.graphics.GameOverScreen;
 import asciipinball.graphics.Gui;
+import asciipinball.graphics.StartScreen;
 import asciipinball.levels.Levels;
 import asciipinball.objects.flipperfinger.FlipperFingerControl;
 import asciipinball.objects.Ball;
 import asciipinball.objects.physicobject.PhysicEntity;
 import asciipinball.objects.physicobject.polygonial.Table;
 
+import java.awt.*;
 import java.util.ArrayList;
 
 public class PinballGame {
@@ -27,6 +29,7 @@ public class PinballGame {
     private Table table;
     private PhysicEntity[] physicEntities;
     private FlipperFingerControl flipperFinger;
+    private StartScreen startScreen;
     private Control control;
     private LaunchControl launchControl;
     private Gui gui;
@@ -52,15 +55,15 @@ public class PinballGame {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        launchControl = new LaunchControl(playerManager,20,30, 50, Settings.BALL_RADIUS);
+        launchControl = new LaunchControl(playerManager, 20, 30, 50, Settings.BALL_RADIUS);
         resetBall();
         players = new Player[4];
         physicEntities = new PhysicEntity[300];
         table = new Table(playerManager, Settings.WIDTH, Settings.HEIGHT, Settings.HOLE_WIDTH);
-        flipperFinger = new FlipperFingerControl(playerManager, (((float)Settings.WIDTH/2) - (Settings.HOLE_WIDTH/2)),
-                15, (((float)Settings.WIDTH/2) + (Settings.HOLE_WIDTH/2)), 15,
+        flipperFinger = new FlipperFingerControl(playerManager, (((float) Settings.WIDTH / 2) - (Settings.HOLE_WIDTH / 2)),
+                15, (((float) Settings.WIDTH / 2) + (Settings.HOLE_WIDTH / 2)), 15,
                 11f, 45, 135);
-        control = new Control(flipperFinger, launchControl);
+        control = new Control(flipperFinger, launchControl, startScreen);
         gui = new Gui(gameView);
         //TODO Playernumber selection
 
@@ -73,9 +76,9 @@ public class PinballGame {
 
     }
 
-    public void simulateTick(){
+    public void simulateTick() {
 
-        if(!gameOver){
+        if (!gameOver) {
 
             ball.calculateFuture(Settings.GRAVITATION);
 
@@ -85,17 +88,17 @@ public class PinballGame {
 
             Ball newBall = updateAll();
 
-            if(newBall != null){
+            if (newBall != null) {
                 ball.updateBall(newBall);
-            }else{
+            } else {
                 ball.updateBall();
             }
             checkBallOutOfGame();
         }
     }
 
-    private void checkBallOutOfGame(){
-        if(ball.getPositionY() < -10){
+    private void checkBallOutOfGame() {
+        if (ball.getPositionY() < -10) {
             playerManager.currentPlayerLoseRound();
             playerManager.nextPlayer();
             resetBall();
@@ -104,51 +107,51 @@ public class PinballGame {
         gameOver = !playerManager.isBallLeft();
     }
 
-    private void resetBall(){
-        ball = new Ball(90f,30f,Settings.BALL_RADIUS,100,0.05f);
+    private void resetBall() {
+        ball = new Ball(90f, 30f, Settings.BALL_RADIUS, 100, 0.05f);
         launchControl.reset();
     }
 
-    private Ball updateAll(){
+    private Ball updateAll() {
 
         ArrayList<Ball> collisionBalls = new ArrayList<>();
 
         for (PhysicEntity physicEntity : physicEntities) {
-            if(physicEntity != null){
+            if (physicEntity != null) {
                 Ball physicEntityBall = physicEntity.updateEntity(ball);
-                if(physicEntityBall != null){
+                if (physicEntityBall != null) {
                     collisionBalls.add(physicEntityBall);
                 }
             }
         }
 
         Ball tableBall = table.updateEntity(ball);
-        if(tableBall != null){
+        if (tableBall != null) {
             collisionBalls.add(tableBall);
         }
 
         Ball flipperBall = flipperFinger.updateEntity(ball);
-        if(flipperBall != null){
+        if (flipperBall != null) {
             collisionBalls.add(flipperBall);
         }
 
         Ball launchBall = launchControl.updateEntity(ball);
-        if(launchBall != null){
+        if (launchBall != null) {
             collisionBalls.add(launchBall);
         }
 
-        if(collisionBalls.isEmpty()){
+        if (collisionBalls.isEmpty()) {
             return null;
         }
 
-        return  ball.joinBalls(collisionBalls);
+        return ball.joinBalls(collisionBalls);
 
     }
 
-    public void printAll(){
+    public void printAll() {
 
         gameView.clearCanvas();
-        if(!gameOver){
+        if (!gameOver) {
             try {
                 gui.addToCanvas(table);
 
@@ -169,7 +172,7 @@ public class PinballGame {
             }catch (Exception e){
                 e.printStackTrace();
             }
-        } else{
+        } else {
             gui.addToCanvas(new GameOverScreen());
         }
         gameView.printCanvas();
