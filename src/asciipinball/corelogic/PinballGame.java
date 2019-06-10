@@ -2,10 +2,8 @@ package asciipinball.corelogic;
 
 import asciipinball.GameView;
 import asciipinball.corelogic.launchcontrol.LaunchControl;
-import asciipinball.corelogic.players.Player;
 import asciipinball.corelogic.players.PlayerManager;
 import asciipinball.Settings;
-import asciipinball.fonts.FontElectronic;
 import asciipinball.fonts.FontStraight;
 import asciipinball.graphics.GameOverScreen;
 import asciipinball.graphics.Gui;
@@ -17,7 +15,6 @@ import asciipinball.objects.nophysicsobject.NonPhysicEntity;
 import asciipinball.objects.physicobject.PhysicEntity;
 import asciipinball.objects.physicobject.polygonial.Table;
 
-import java.awt.*;
 import java.util.ArrayList;
 
 public class PinballGame {
@@ -26,9 +23,7 @@ public class PinballGame {
 
     /*IMPORTANT: Max Koordinate is WIDTH/HEIGHT -1*/
 
-
     private Ball ball;
-    private Player[] players;
     private Table table;
     private PhysicEntity[] physicEntities;
     private NonPhysicEntity[] noPhysicEntities;
@@ -38,7 +33,6 @@ public class PinballGame {
     private LaunchControl launchControl;
     private Gui gui;
     private boolean gameOver = false;
-    private Player currentPlayer;
     private PlayerManager playerManager;
 
     public PinballGame() {
@@ -54,23 +48,21 @@ public class PinballGame {
 
 
         /*Init Arrays and Values*/
-        try {
-            playerManager = new PlayerManager((byte) 2);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        playerManager = new PlayerManager();
+        startScreen = new StartScreen();
         launchControl = new LaunchControl(playerManager, 20, 30, 50, Settings.BALL_RADIUS);
-        resetBall();
-        players = new Player[4];
-        physicEntities = new PhysicEntity[300];
         noPhysicEntities = new NonPhysicEntity[300];
-        table = new Table(playerManager, Settings.WIDTH, Settings.HEIGHT, Settings.HOLE_WIDTH);
         flipperFinger = new FlipperFingerControl(playerManager, (((float) Settings.WIDTH / 2) - (Settings.HOLE_WIDTH / 2)),
                 15, (((float) Settings.WIDTH / 2) + (Settings.HOLE_WIDTH / 2)), 15,
                 11f, 45, 135);
-        control = new Control(flipperFinger, launchControl, startScreen);
+        control = new Control(gameView, flipperFinger, launchControl, startScreen);
         gui = new Gui(gameView);
-        //TODO Playernumber selection
+
+
+        resetBall();
+        physicEntities = new PhysicEntity[300];
+        table = new Table(playerManager, Settings.WIDTH, Settings.HEIGHT, Settings.HOLE_WIDTH);
+
 
         //TODO Remove before final release
         //DEBUG STUFF REMOVE BEFORE RELEASE!
@@ -78,18 +70,30 @@ public class PinballGame {
         //physicEntities[0] = new Bumper(38, 30,4f);
         physicEntities = new Levels(playerManager).getLevel1PhysicEntities();
         noPhysicEntities = new Levels(playerManager).getLevel1NoPhysicEntities();
-        currentPlayer = new Player();
 
     }
 
     public void simulateTick() {
 
-        if (!gameOver) {
+        control.updateControls();
+
+        if (startScreen.isPlayerNumberSelected()) {
+
+            if (!playerManager.isInitialized()) {
+                try {
+                    playerManager.init(startScreen.getPlayerNumber());
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+
+        }
+
+        if (!gameOver && playerManager.isInitialized()) {
 
             ball.calculateFuture(Settings.GRAVITATION);
-
             launchControl.updateLaunchControl();
-            control.updateControls(gameView);
+
             flipperFinger.updateFlipperFinger();
 
             Ball newBall = updateAll();
@@ -164,7 +168,10 @@ public class PinballGame {
     public void printAll() {
 
         gameView.clearCanvas();
-        if (!gameOver) {
+
+        if (!startScreen.isPlayerNumberSelected()) {
+            startScreen.printStartScreen(gui);
+        } else if (!gameOver) {
             try {
                 gui.addToCanvas(table);
 
@@ -186,9 +193,9 @@ public class PinballGame {
 
                 gui.addToCanvas(ball);
 
-                gui.addAsciiStringToCanvas(playerManager.getCurrentPlayerScoreString(), (int) Settings.HEIGHT/2, 35, new FontStraight());
+                gui.addAsciiStringToCanvas(playerManager.getCurrentPlayerScoreString(), (int) Settings.HEIGHT / 2, 35, new FontStraight());
 
-            }catch (Exception e){
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         } else {

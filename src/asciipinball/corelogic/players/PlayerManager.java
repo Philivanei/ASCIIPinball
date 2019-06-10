@@ -4,11 +4,20 @@ public class PlayerManager {
     Player[] players;
     byte playerCount;
     byte currentPlayerId;
+    boolean isInitialized;
 
-    public PlayerManager(byte numberOfPlayers) throws Exception {
+    public PlayerManager(){
         players = new Player[4];
-        playerCount = numberOfPlayers;
         currentPlayerId = 0;
+        isInitialized = false;
+    }
+
+    public boolean isInitialized() {
+        return isInitialized;
+    }
+
+    public void init(byte numberOfPlayers) throws Exception{
+        playerCount = numberOfPlayers;
         switch (numberOfPlayers){
             //breaks are left out on purpose to avoid reoccurring code
             case 4:
@@ -23,6 +32,7 @@ public class PlayerManager {
             default:
                 throw new Exception("There can't be 0 or more than 4 players");
         }
+        isInitialized = true;
     }
 
     public Player getCurrentPlayer(){

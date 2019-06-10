@@ -14,15 +14,17 @@ public class Control {
     private LaunchControl launchControl;
     private FlipperFingerControl flipperFingerControl;
     private StartScreen startScreen;
+    private GameView gameView;
 
-    public Control(FlipperFingerControl flipperFingerControl, LaunchControl launchControl, StartScreen startScreen) {
+    public Control(GameView gameView, FlipperFingerControl flipperFingerControl, LaunchControl launchControl, StartScreen startScreen) {
 
         this.flipperFingerControl = flipperFingerControl;
         this.launchControl = launchControl;
         this.startScreen = startScreen;
+        this.gameView = gameView;
     }
 
-    public void updateControls(GameView gameView) {
+    public void updateControls() {
 
         KeyEvent[] keyEvents = gameView.getKeyEvents();
 
@@ -47,11 +49,11 @@ public class Control {
                         launchControl.onSpaceDown();
 
                         //keys for StartScreen
-                    } else if (keyEvent.getKeyCode() == KeyEvent.VK_S) {
+                    } else if (keyEvent.getKeyCode() == KeyEvent.VK_DOWN) {
 
                         startScreen.arrowDownPressed();
 
-                    } else if (keyEvent.getKeyCode() == KeyEvent.VK_W) {
+                    } else if (keyEvent.getKeyCode() == KeyEvent.VK_UP) {
 
                         startScreen.arrowUpPressed();
 
@@ -60,6 +62,8 @@ public class Control {
                         startScreen.enterDownPressed();
 
                     }
+
+
                 } else if (keyEvent.getID() == KeyEvent.KEY_RELEASED) {
 
                     //keys for FlipperFingers

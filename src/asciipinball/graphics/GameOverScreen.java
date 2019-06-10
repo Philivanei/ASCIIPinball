@@ -8,7 +8,7 @@ import asciipinball.fonts.FontStraight;
 
 public class GameOverScreen {
 
-    PlayerManager playerManager;
+    private PlayerManager playerManager;
 
     public GameOverScreen(PlayerManager playerManager){
         this.playerManager = playerManager;
