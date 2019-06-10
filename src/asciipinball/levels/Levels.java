@@ -1,8 +1,12 @@
 package asciipinball.levels;
 
+import asciipinball.Coordinate;
 import asciipinball.corelogic.players.PlayerManager;
 import asciipinball.Settings;
 import asciipinball.interfaces.Coverable;
+import asciipinball.objects.nophysicsobject.NonPhysicEntity;
+import asciipinball.objects.nophysicsobject.pointdoor.PointDoor;
+import asciipinball.objects.nophysicsobject.pointdoor.PointDoorFactory;
 import asciipinball.objects.physicobject.PhysicEntity;
 import asciipinball.objects.physicobject.circular.Bumper;
 import asciipinball.objects.physicobject.circular.JointCover;
@@ -21,7 +25,7 @@ public class Levels {
         this.playerManager = playerManager;
     }
 
-    public PhysicEntity[] getLevel1(){
+    public PhysicEntity[] getLevel1PhysicEntities(){
         return addJointCovers(new PhysicEntity[]{
                 new LineWall(playerManager, 20,60,40,40),
                 new LineWall(playerManager, 80,60,60,40),
@@ -38,6 +42,21 @@ public class Levels {
                 //new Bumper((((float)Settings.WIDTH/2) - (Settings.HOLE_WIDTH/2)), 15,2),
                 //new Bumper((((float)Settings.WIDTH/2) + (Settings.HOLE_WIDTH/2)), 15,2)
         });
+    }
+
+    public NonPhysicEntity[] getLevel1NoPhysicEntities(){
+
+        Coordinate[] coordinates = new Coordinate[]{
+                    new Coordinate(25, 100),
+                    new Coordinate(50, 120),
+                    new Coordinate(75, 100)};
+        PointDoor[] pointDoors = PointDoorFactory.createPointDoors(playerManager, coordinates, 3, 1000);
+
+        return new NonPhysicEntity[]{
+                pointDoors[0],
+                pointDoors[1],
+                pointDoors[2],
+        };
     }
 
     public PhysicEntity[] addJointCovers(PhysicEntity[] physicEntities){
