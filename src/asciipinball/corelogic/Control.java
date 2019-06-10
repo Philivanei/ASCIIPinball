@@ -1,7 +1,7 @@
 package asciipinball.corelogic;
 
 import asciipinball.GameView;
-import asciipinball.corelogic.launchcontrol.LaunchControl;
+import asciipinball.objects.launchcontrol.LaunchControl;
 import asciipinball.graphics.GameOverScreen;
 import asciipinball.graphics.StartScreen;
 import asciipinball.objects.flipperfinger.*;

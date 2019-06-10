@@ -1,7 +1,7 @@
 package asciipinball.corelogic;
 
 import asciipinball.GameView;
-import asciipinball.corelogic.launchcontrol.LaunchControl;
+import asciipinball.objects.launchcontrol.LaunchControl;
 import asciipinball.corelogic.players.PlayerManager;
 import asciipinball.Settings;
 import asciipinball.fonts.FontStraight;

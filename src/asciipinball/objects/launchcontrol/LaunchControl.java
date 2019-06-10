@@ -1,4 +1,4 @@
-package asciipinball.corelogic.launchcontrol;
+package asciipinball.objects.launchcontrol;
 
 import asciipinball.Settings;
 import asciipinball.corelogic.players.PlayerManager;
