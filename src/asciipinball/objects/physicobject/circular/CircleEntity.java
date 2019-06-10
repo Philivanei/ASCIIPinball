@@ -48,7 +48,7 @@ public abstract class CircleEntity extends PhysicEntity implements Drawable {
 
     @Override
     protected Ball interactWithBall(Ball ball) {
-        ArrayList<Ball> ballList = new ArrayList<Ball>();
+        ArrayList<Ball> ballList = new ArrayList<>();
 
         while(!collisionList.isEmpty()) {
 
