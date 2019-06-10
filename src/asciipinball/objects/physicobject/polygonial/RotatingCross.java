@@ -2,6 +2,7 @@ package asciipinball.objects.physicobject.polygonial;
 
 import asciipinball.Coordinate;
 import asciipinball.corelogic.players.PlayerManager;
+import asciipinball.interfaces.Coverable;
 import asciipinball.objects.Ball;
 import asciipinball.shapes.Line;
 
