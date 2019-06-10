@@ -13,6 +13,7 @@ import asciipinball.graphics.StartScreen;
 import asciipinball.levels.Levels;
 import asciipinball.objects.flipperfinger.FlipperFingerControl;
 import asciipinball.objects.Ball;
+import asciipinball.objects.nophysicsobject.NonPhysicEntity;
 import asciipinball.objects.physicobject.PhysicEntity;
 import asciipinball.objects.physicobject.polygonial.Table;
 
@@ -30,6 +31,7 @@ public class PinballGame {
     private Player[] players;
     private Table table;
     private PhysicEntity[] physicEntities;
+    private NonPhysicEntity[] noPhysicEntities;
     private FlipperFingerControl flipperFinger;
     private StartScreen startScreen;
     private Control control;
@@ -61,6 +63,7 @@ public class PinballGame {
         resetBall();
         players = new Player[4];
         physicEntities = new PhysicEntity[300];
+        noPhysicEntities = new NonPhysicEntity[300];
         table = new Table(playerManager, Settings.WIDTH, Settings.HEIGHT, Settings.HOLE_WIDTH);
         flipperFinger = new FlipperFingerControl(playerManager, (((float) Settings.WIDTH / 2) - (Settings.HOLE_WIDTH / 2)),
                 15, (((float) Settings.WIDTH / 2) + (Settings.HOLE_WIDTH / 2)), 15,
@@ -73,7 +76,8 @@ public class PinballGame {
         //DEBUG STUFF REMOVE BEFORE RELEASE!
         //physicEntities[0] = new LineWall(30, 30,50,0);
         //physicEntities[0] = new Bumper(38, 30,4f);
-        physicEntities = new Levels(playerManager).getLevel1();
+        physicEntities = new Levels(playerManager).getLevel1PhysicEntities();
+        noPhysicEntities = new Levels(playerManager).getLevel1NoPhysicEntities();
         currentPlayer = new Player();
 
     }
@@ -115,6 +119,13 @@ public class PinballGame {
     }
 
     private Ball updateAll() {
+
+        for(NonPhysicEntity entity : noPhysicEntities){
+            if(entity != null){
+                entity.updateEntity(ball);
+            }
+        }
+
 
         ArrayList<Ball> collisionBalls = new ArrayList<>();
 
@@ -160,6 +171,12 @@ public class PinballGame {
                 for (PhysicEntity physicEntity : physicEntities) {
                     if (physicEntity != null) {
                         gui.addToCanvas(physicEntity);
+                    }
+                }
+
+                for (NonPhysicEntity noPhysicEntity : noPhysicEntities) {
+                    if (noPhysicEntity != null) {
+                        gui.addToCanvas(noPhysicEntity);
                     }
                 }
 
