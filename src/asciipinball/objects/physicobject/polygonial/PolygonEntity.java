@@ -9,6 +9,9 @@ import asciipinball.shapes.Line;
 
 import java.util.ArrayList;
 
+/**
+ * Eine Abstrakte Oberklasse für Entities die aus Linien bestehen
+ */
 public abstract class PolygonEntity extends PhysicEntity implements Drawable {
 
     protected Line[] lines;
@@ -17,10 +20,19 @@ public abstract class PolygonEntity extends PhysicEntity implements Drawable {
         super(playerManager);
     }
 
+    /**
+     * Gibt alle Linien zurück aus der die Polygon Entity besteht
+     * @return alle Linien
+     */
     public Line[] getLines() {
         return lines;
     }
 
+    /**
+     * Stellt fest ob der Ball kollidiert und Speichert ggf. den Punkt der Collision sowie die konkrete Linie mit der Kollidiert wurde.
+     * @param ball Ball für den die Kollisionsabfrage durchgefüht wird.
+     * @return Boolscher ausdruck ob eine Collision gefunden wurde.
+     */
     @Override
     protected boolean isCollided(Ball ball) {
 
@@ -60,8 +72,6 @@ public abstract class PolygonEntity extends PhysicEntity implements Drawable {
                 distanceToBall = Math.abs(ball.getFuturePositionX() - line.getX1());
             }
 
-            //System.out.println(distanceToBall + " " + Boolean.toString(Float.isInfinite(mLine)));
-
             distanceToA = (float) (Math.sqrt(Math.pow((x - line.getX1()), 2) +
                     Math.pow((y - line.getY1()), 2)));
             distanceToB = (float) (Math.sqrt(Math.pow((x - line.getX2()), 2) +
@@ -91,6 +101,11 @@ public abstract class PolygonEntity extends PhysicEntity implements Drawable {
     }
 
 
+    /**
+     * Gibt ball nach Collision zurück
+     * @param ball Ball der kollidiert
+     * @return Ball nach kollision
+     */
     @Override
     protected Ball interactWithBall(Ball ball) {
 

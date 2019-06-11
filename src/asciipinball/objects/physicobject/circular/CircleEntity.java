@@ -9,6 +9,9 @@ import asciipinball.shapes.Circle;
 
 import java.util.ArrayList;
 
+/**
+ * Eine Abstrakte Oberklasse für Entities die aus Kreisen bestehen
+ */
 public abstract class CircleEntity extends PhysicEntity implements Drawable {
 
     protected Circle[] circles;
