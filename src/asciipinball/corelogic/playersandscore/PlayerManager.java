@@ -43,7 +43,7 @@ public class PlayerManager {
         return currentPlayerId;
     }
 
-    public int getCurrentPlayerNumber(){
+    private int getCurrentPlayerNumber(){
         return currentPlayerId + 1;
     }
 
@@ -81,6 +81,7 @@ public class PlayerManager {
     }
 
     public Player[] getAllPlayer(){
+
         Player[] returnPlayers = new Player[playerCount];
 
         for(int i = 0; i < playerCount; i++){
