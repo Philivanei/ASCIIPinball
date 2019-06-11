@@ -1,6 +1,6 @@
 package asciipinball.objects.physicobject.polygonial;
 
-import asciipinball.corelogic.players.PlayerManager;
+import asciipinball.corelogic.playersandscore.PlayerManager;
 import asciipinball.interfaces.Coverable;
 import asciipinball.shapes.Line;
 

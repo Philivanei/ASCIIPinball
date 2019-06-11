@@ -1,7 +1,6 @@
 package asciipinball.objects.flipperfinger;
 
-import asciipinball.corelogic.players.PlayerManager;
-import asciipinball.interfaces.Coverable;
+import asciipinball.corelogic.playersandscore.PlayerManager;
 import asciipinball.objects.Ball;
 import asciipinball.objects.physicobject.polygonial.PolygonEntity;
 import asciipinball.shapes.Line;

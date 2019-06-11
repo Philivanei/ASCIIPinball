@@ -1,6 +1,6 @@
 package asciipinball.graphics;
 
-import asciipinball.corelogic.players.PlayerManager;
+import asciipinball.corelogic.playersandscore.PlayerManager;
 import asciipinball.interfaces.Drawable;
 import asciipinball.shapes.Circle;
 

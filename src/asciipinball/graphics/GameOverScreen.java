@@ -2,7 +2,7 @@ package asciipinball.graphics;
 
 import asciipinball.Settings;
 import asciipinball.corelogic.PinballGame;
-import asciipinball.corelogic.players.PlayerManager;
+import asciipinball.corelogic.playersandscore.PlayerManager;
 import asciipinball.fonts.FontBig;
 import asciipinball.fonts.FontElectronic;
 

@@ -1,7 +1,7 @@
 package asciipinball.levels;
 
 import asciipinball.Coordinate;
-import asciipinball.corelogic.players.PlayerManager;
+import asciipinball.corelogic.playersandscore.PlayerManager;
 import asciipinball.Settings;
 import asciipinball.interfaces.Coverable;
 import asciipinball.objects.nophysicsobject.NonPhysicEntity;
@@ -15,7 +15,6 @@ import asciipinball.objects.physicobject.polygonial.RotatingCross;
 import asciipinball.shapes.Line;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class Levels {
 

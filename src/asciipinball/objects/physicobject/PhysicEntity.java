@@ -1,9 +1,9 @@
 package asciipinball.objects.physicobject;
 
 import asciipinball.CollisionData;
-import asciipinball.corelogic.players.PlayerManager;
+import asciipinball.corelogic.playersandscore.PlayerManager;
 import asciipinball.objects.Ball;
-import asciipinball.corelogic.players.Player;
+import asciipinball.corelogic.playersandscore.Player;
 
 import java.util.ArrayList;
 
