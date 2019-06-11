@@ -9,18 +9,34 @@ import asciipinball.shapes.Line;
 
 import java.util.ArrayList;
 
+/**
+ * Eine Abstrakte Oberklasse für Entities die aus Linien bestehen
+ */
 public abstract class PolygonEntity extends PhysicEntity implements Drawable {
 
     protected Line[] lines;
 
+    /**
+     *
+     * @param playerManager playerManager des Spiels
+     */
     public PolygonEntity(PlayerManager playerManager) {
         super(playerManager);
     }
 
+    /**
+     * Gibt alle Linien zurück aus der die Polygon Entity besteht
+     * @return alle Linien
+     */
     public Line[] getLines() {
         return lines;
     }
 
+    /**
+     * Stellt fest ob der Ball kollidiert und Speichert ggf. den Punkt der Collision sowie die konkrete Linie mit der Kollidiert wurde.
+     * @param ball Ball für den die Kollisionsabfrage durchgefüht wird.
+     * @return Boolscher ausdruck ob eine Collision gefunden wurde.
+     */
     @Override
     protected boolean isCollided(Ball ball) {
 
@@ -38,29 +54,27 @@ public abstract class PolygonEntity extends PhysicEntity implements Drawable {
                 float bLine = line.getB();
                 float mVertical = -1 / mLine;
                 if (Float.isFinite(mVertical)) {
-                    float bVertical = ball.getFuturePositionY() - mVertical * ball.getFuturePositionX();
+                    float bVertical = ball.getFutureY() - mVertical * ball.getFutureX();
 
                     x = (bLine - bVertical) / (mVertical - mLine);
                     y = mVertical * x + bVertical;
                     //calc distance Ball to perpendicular
-                    distanceToBall = (float) Math.sqrt(Math.pow((x - ball.getFuturePositionX()), 2) + Math.pow((y - ball.getFuturePositionY()), 2));
+                    distanceToBall = (float) Math.sqrt(Math.pow((x - ball.getFutureX()), 2) + Math.pow((y - ball.getFutureY()), 2));
                 } else { //if Line is 0° horizontal
-                    x = ball.getFuturePositionX();
+                    x = ball.getFutureX();
                     y = line.getY1();
 
-                    distanceToBall = Math.abs(y - ball.getFuturePositionY());
+                    distanceToBall = Math.abs(y - ball.getFutureY());
                 }
 
 
             } else { // If the line is 90° straight (up)
 
                 x = line.getX1();
-                y = ball.getFuturePositionY();
+                y = ball.getFutureY();
 
-                distanceToBall = Math.abs(ball.getFuturePositionX() - line.getX1());
+                distanceToBall = Math.abs(ball.getFutureX() - line.getX1());
             }
-
-            //System.out.println(distanceToBall + " " + Boolean.toString(Float.isInfinite(mLine)));
 
             distanceToA = (float) (Math.sqrt(Math.pow((x - line.getX1()), 2) +
                     Math.pow((y - line.getY1()), 2)));
@@ -91,6 +105,11 @@ public abstract class PolygonEntity extends PhysicEntity implements Drawable {
     }
 
 
+    /**
+     * Gibt ball nach Collision zurück
+     * @param ball Ball der kollidiert
+     * @return Ball nach kollision
+     */
     @Override
     protected Ball interactWithBall(Ball ball) {
 
@@ -117,11 +136,11 @@ public abstract class PolygonEntity extends PhysicEntity implements Drawable {
                 System.out.println("Bumped into Edge");
                 //bumpedIntoEdge = true
                 //finalAngle = calculateBallAngleFromGradient(ball, -1/collisionLine.getM());
-                collisionGradient = -1 / ((ball.getPositionY() - collisionLine.getY2()) / (ball.getPositionX() - collisionLine.getX2())); //Has to be Y2 & X2 because y1 & x1 are FURTHER away than length
+                collisionGradient = -1 / ((ball.getY() - collisionLine.getY2()) / (ball.getX() - collisionLine.getX2())); //Has to be Y2 & X2 because y1 & x1 are FURTHER away than length
                 ball.addVelocity(0.005f);
                 //collisionGradient = -1/collisionLine.getM();
             } else if (collisionPointDistanceB >= collisionLine.getLength()) {
-                collisionGradient = -1 / ((ball.getPositionY() - collisionLine.getY1()) / (ball.getPositionX() - collisionLine.getX1()));
+                collisionGradient = -1 / ((ball.getY() - collisionLine.getY1()) / (ball.getX() - collisionLine.getX1()));
                 ball.addVelocity(0.005f);
             }
 
@@ -129,7 +148,7 @@ public abstract class PolygonEntity extends PhysicEntity implements Drawable {
 
             System.out.println(ball.getDirection() + " -> " + finalAngle);
 
-            Ball ballToAdd = new Ball(ball.getPositionX(), ball.getPositionY(), ball.getRadius(), finalAngle, ball.getVelocity());
+            Ball ballToAdd = new Ball(ball.getX(), ball.getY(), ball.getRadius(), finalAngle, ball.getVelocity());
             ballToAdd.jumpToFuture(2);
             ballList.add(ballToAdd);
 

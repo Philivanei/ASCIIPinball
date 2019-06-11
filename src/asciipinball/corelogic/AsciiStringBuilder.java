@@ -14,7 +14,7 @@ public class AsciiStringBuilder<Font extends AsciiStringContainer> {
         int maxColumns = 0;
         int currentColumns = 0;
         int maxRows = 0;
-        int currentRows = 0;
+        int currentRows;
         int totalRows = 0;
 
         for (int i = 0; i < string.length(); i++) {
@@ -71,7 +71,7 @@ public class AsciiStringBuilder<Font extends AsciiStringContainer> {
         return returnArray;
     }
 
-    public String getString(char c) {
+    private String getString(char c) {
         switch (c) {
             case 'A':
             case 'a':
@@ -219,7 +219,7 @@ public class AsciiStringBuilder<Font extends AsciiStringContainer> {
         }
     }
 
-    public char[][] convertStringToArray(String string) {
+    private char[][] convertStringToArray(String string) {
 
         char[][] returnCharArray = new char[countRows(string)][countColumns(string)];
 

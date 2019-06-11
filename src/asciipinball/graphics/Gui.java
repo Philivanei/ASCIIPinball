@@ -5,7 +5,6 @@ import asciipinball.Settings;
 import asciipinball.corelogic.AsciiStringBuilder;
 import asciipinball.exceptions.ClassNotSupportedException;
 import asciipinball.fonts.AsciiStringContainer;
-import asciipinball.fonts.FontStraight;
 import asciipinball.objects.Ball;
 import asciipinball.objects.flipperfinger.FlipperFingerControl;
 import asciipinball.objects.nophysicsobject.NonPhysicEntity;
@@ -14,8 +13,6 @@ import asciipinball.objects.physicobject.circular.CircleEntity;
 import asciipinball.objects.physicobject.polygonial.PolygonEntity;
 import asciipinball.shapes.Circle;
 import asciipinball.shapes.Line;
-
-import java.util.List;
 
 public class Gui {
 
@@ -100,8 +97,8 @@ public class Gui {
             }
         }
 
-        int canvasRow = Settings.HEIGHT - Math.round(ball.getPositionY() + ball.getRadius());
-        int canvasColumn = Math.round(ball.getPositionX() - ball.getRadius()) + Settings.OFFSET;
+        int canvasRow = Settings.HEIGHT - Math.round(ball.getY() + ball.getRadius());
+        int canvasColumn = Math.round(ball.getX() - ball.getRadius()) + Settings.OFFSET;
 
         gameView.addColorStringToCanvas(canvasSegment,canvasRow,canvasColumn);
     }
