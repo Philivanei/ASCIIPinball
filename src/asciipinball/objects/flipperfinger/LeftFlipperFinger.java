@@ -3,11 +3,23 @@ package asciipinball.objects.flipperfinger;
 import asciipinball.corelogic.playersandscore.PlayerManager;
 import asciipinball.shapes.Line;
 
+/**
+ * Zuständig für den linken Flipper Finger
+ */
 public class LeftFlipperFinger extends FlipperFinger {
 
-
+    /**
+     * Erzeugt einen FliperFinger auf der linken Seite
+     *
+     * @param playerManager PlayerManager des Spiels
+     * @param x             x-Koordinate des linken Flipper Fingers
+     * @param y             y-Koordinate des linken Flipper Fingers
+     * @param length        Länge des linken Flipper Fingers
+     * @param minAngle      Legt die MinimalHöhe der FlipperFinger fest.
+     * @param maxAngle      Legt die MaximalHöhe der FlipperFinger fest.
+     */
     public LeftFlipperFinger(PlayerManager playerManager, float x, float y, float length, float minAngle, float maxAngle) {
-        super(playerManager, x, y, length , minAngle, maxAngle);
+        super(playerManager, x, y, length, minAngle, maxAngle);
     }
 
 
