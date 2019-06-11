@@ -1,0 +1,17 @@
+asciipinball
+asciipinball.corelogic
+asciipinball.corelogic.playersandscore
+asciipinball.exceptions
+asciipinball.fonts
+asciipinball.graphics
+asciipinball.interfaces
+asciipinball.levels
+asciipinball.objects
+asciipinball.objects.flipperfinger
+asciipinball.objects.launchcontrol
+asciipinball.objects.nophysicsobject
+asciipinball.objects.nophysicsobject.pointdoor
+asciipinball.objects.physicobject
+asciipinball.objects.physicobject.circular
+asciipinball.objects.physicobject.polygonial
+asciipinball.shapes

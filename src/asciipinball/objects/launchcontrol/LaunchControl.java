@@ -8,6 +8,9 @@ import asciipinball.objects.flipperfinger.MoveStatus;
 import asciipinball.objects.physicobject.polygonial.PolygonEntity;
 import asciipinball.shapes.Line;
 
+/**
+ * Eine Abschussvorrichtung
+ */
 public class LaunchControl extends PolygonEntity implements Drawable {
 
     private float width;
@@ -23,11 +26,20 @@ public class LaunchControl extends PolygonEntity implements Drawable {
     private boolean isSpaceBlocked;
     private float tiltOffset;
 
+    /**
+     * Erzeugt eine Abschussvorrichtung für den Start des Balls
+     *
+     * @param playerManager Playermanager des Spiels
+     * @param x             x-Koordinate der Abschussvorrichtung
+     * @param minHeight     Minimalhöhe der Abschussvorrichtung (Ausgangsposition)
+     * @param maxHeight     Maximalhöhe der Abschussvorrichtung (Endposition)
+     * @param width         Breite der Abschussvorrichtung
+     * @param tiltOffset    Zusatzhöhe der rechten Seite zum Schrägstellen der Abschussvorrichtung.
+     */
     public LaunchControl(PlayerManager playerManager, float x, float minHeight, float maxHeight, float width, float tiltOffset) {
         super(playerManager);
         this.tiltOffset = tiltOffset;
         lines = new Line[1];
-        //diameter of ball to calculate width of the launcher line
         this.width = width;
         this.minHeight = minHeight;
         this.maxHeight = maxHeight;
@@ -39,7 +51,9 @@ public class LaunchControl extends PolygonEntity implements Drawable {
         generateLines(minHeight);
     }
 
-
+    /**
+     * Setzt die Abschussvorrichtung zurück
+     */
     //new game/ ball gets lost --> reset everything
     public void reset() {
         isClicked = false;
@@ -49,6 +63,9 @@ public class LaunchControl extends PolygonEntity implements Drawable {
         generateLines(minHeight);
     }
 
+    /**
+     * Bewegt die Abschussvorrichtung nach oben.
+     */
     //key reaction
     public void onSpaceDown() {
         if (!isSpaceBlocked) {
@@ -57,6 +74,9 @@ public class LaunchControl extends PolygonEntity implements Drawable {
         isSpaceBlocked = true;
     }
 
+    /**
+     * Stellt fest, wie lange die Taste gedrückt wurde, um den Ball je nach Dauer schwach oder stark abzustoßen.
+     */
     //key reaction to get velocity dependent to time
     public void onSpaceUp() {
         if (!isClicked) {
@@ -66,7 +86,11 @@ public class LaunchControl extends PolygonEntity implements Drawable {
         }
     }
 
-
+    /**
+     * Zeichnet die Abschussvorrichtung.
+     *
+     * @param y y-Koordinate der Abschussvorrichtung
+     */
     //creates the lines for animating them
     private void generateLines(float y) {
 
@@ -79,7 +103,12 @@ public class LaunchControl extends PolygonEntity implements Drawable {
         }
     }
 
-
+    /**
+     * Animiert die Bewegung nach oben
+     *
+     * @param timeSinceStart Zeit seit Aktivierung der Abschussvorrichtung
+     * @return Dynamische y-Koordinate der Abschussvorrichtung
+     */
     //calculating the animation for moving the launcher up
     private float calculateHeightUp(long timeSinceStart) {
 
@@ -95,6 +124,9 @@ public class LaunchControl extends PolygonEntity implements Drawable {
         return result;
     }
 
+    /**
+     * Berechnet die Abschussvorrichtung anhand der dynamisch y-Koordinate
+     */
     //sets the lines to the wanted positions
     public void updateLaunchControl() {
 
@@ -107,6 +139,11 @@ public class LaunchControl extends PolygonEntity implements Drawable {
         }
     }
 
+    /**
+     * Berechnet die Stärke des Abschusses
+     *
+     * @return Geschwindigkeitsschub beim Abschuss
+     */
     //the longer you hold space the stronger is the velocity
     private float calculateVelocityBoost() {
 

@@ -1,5 +1,8 @@
 package asciipinball.fonts;
 
+/**
+ * Eine Schriftart für den AsciiStringBuilder
+ */
 public class FontStraight extends AsciiStringContainer {
     @Override
     public String getA() {
@@ -211,7 +214,7 @@ public class FontStraight extends AsciiStringContainer {
 
     @Override
     public String get0() {
-        return  "  __  \n" +
+        return "  __  \n" +
                 " /  \\ \n" +
                 " \\__/ \n" +
                 "      ";
@@ -219,7 +222,7 @@ public class FontStraight extends AsciiStringContainer {
 
     @Override
     public String get1() {
-        return  "    \n" +
+        return "    \n" +
                 " /| \n" +
                 "  | \n" +
                 "      ";
@@ -227,7 +230,7 @@ public class FontStraight extends AsciiStringContainer {
 
     @Override
     public String get2() {
-        return  " __ \n" +
+        return " __ \n" +
                 "  _)\n" +
                 " /__\n" +
                 "      ";
@@ -235,7 +238,7 @@ public class FontStraight extends AsciiStringContainer {
 
     @Override
     public String get3() {
-        return  " __ \n" +
+        return " __ \n" +
                 "  _)\n" +
                 " __)\n" +
                 "     ";
@@ -243,7 +246,7 @@ public class FontStraight extends AsciiStringContainer {
 
     @Override
     public String get4() {
-        return  "     \n" +
+        return "     \n" +
                 " |__|\n" +
                 "    |\n" +
                 "      ";
@@ -251,7 +254,7 @@ public class FontStraight extends AsciiStringContainer {
 
     @Override
     public String get5() {
-        return  "  __\n" +
+        return "  __\n" +
                 " |_ \n" +
                 " __)\n" +
                 "      ";
@@ -259,7 +262,7 @@ public class FontStraight extends AsciiStringContainer {
 
     @Override
     public String get6() {
-        return  "  __ \n" +
+        return "  __ \n" +
                 " /__ \n" +
                 " \\__)\n" +
                 "      ";
@@ -267,7 +270,7 @@ public class FontStraight extends AsciiStringContainer {
 
     @Override
     public String get7() {
-        return  " ___\n" +
+        return " ___\n" +
                 "   /\n" +
                 "  / \n" +
                 "     ";
@@ -275,7 +278,7 @@ public class FontStraight extends AsciiStringContainer {
 
     @Override
     public String get8() {
-        return  "  __ \n" +
+        return "  __ \n" +
                 " (__)\n" +
                 " (__)\n" +
                 "      ";
@@ -283,7 +286,7 @@ public class FontStraight extends AsciiStringContainer {
 
     @Override
     public String get9() {
-        return  "  __ \n" +
+        return "  __ \n" +
                 " (__\\\n" +
                 "  __/\n" +
                 "      ";

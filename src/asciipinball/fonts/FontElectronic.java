@@ -1,5 +1,8 @@
 package asciipinball.fonts;
 
+/**
+ * Eine Schriftart für den AsciiStringBuilder
+ */
 public class FontElectronic extends AsciiStringContainer {
     @Override
     public String getA() {
@@ -93,7 +96,7 @@ public class FontElectronic extends AsciiStringContainer {
 
     @Override
     public String getG() {
-        return  " ▄▄▄▄▄▄▄▄▄▄▄ \n" +
+        return " ▄▄▄▄▄▄▄▄▄▄▄ \n" +
                 "▐░░░░░░░░░░░▌\n" +
                 "▐░█▀▀▀▀▀▀▀▀▀ \n" +
                 "▐░▌          \n" +

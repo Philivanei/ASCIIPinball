@@ -6,6 +6,9 @@ import asciipinball.corelogic.playersandscore.PlayerManager;
 import asciipinball.fonts.FontBig;
 import asciipinball.fonts.FontElectronic;
 
+/**
+ * Ein Fenster, das den Endbildschrim des Spiels ausgibt.
+ */
 public class GameOverScreen {
 
     private PlayerManager playerManager;
@@ -13,6 +16,12 @@ public class GameOverScreen {
     private int countArrowColumns;
     private boolean isActive;
 
+    /**
+     * Erstellt einen GameOverScreen.
+     *
+     * @param playerManager PlayerManager des Spiels
+     * @param pinballGame   Referenz auf Hauptlogik des Spiels
+     */
     public GameOverScreen(PlayerManager playerManager, PinballGame pinballGame) {
         isActive = false;
         this.playerManager = playerManager;
@@ -20,6 +29,9 @@ public class GameOverScreen {
         countArrowColumns = Settings.GAME_OVER_OPTIONS_POSITION_X;
     }
 
+    /**
+     * Bewegt den Pfeil nach links.
+     */
     public void arrowLeftPressed() {
         if (isActive) {
             countArrowColumns -= Settings.GAME_OVER_OPTIONS_DISTANCE;
@@ -29,6 +41,9 @@ public class GameOverScreen {
         }
     }
 
+    /**
+     * Bewegt den Pfeil nach rechts.
+     */
     public void arrowRightPressed() {
         if (isActive) {
             countArrowColumns += Settings.GAME_OVER_OPTIONS_DISTANCE;
@@ -38,6 +53,10 @@ public class GameOverScreen {
         }
     }
 
+
+    /**
+     * Schließt oder startet das Spiel neu, abhängig von der aktuellen Cursor Position
+     */
     //closes the program in the GameOverScreen when Quit is selected
     //restarts the game when Retry is selected
     public void enterDownPressed() {
@@ -51,10 +70,19 @@ public class GameOverScreen {
         }
     }
 
+    /**
+     * Aktiviert den GameOverScreen.
+     *
+     * @param isActive Sichtbarkeit des GamOverScreens
+     */
     public void setActive(boolean isActive) {
         this.isActive = isActive;
     }
 
+    /**
+     * Gibt die verschiedenen Elemente an der gesetzten Position auf dem GameOverScreen aus.
+     * @param gui Referenz auf das GUI Objekt des Spiels
+     */
     public void printGameOverScreen(Gui gui) {
         gui.addAsciiStringToCanvas("GAME OVER", Settings.HEIGHT / 2 - 10, Settings.GAME_VIEW_WIDTH / 2, new FontElectronic());
         gui.addAsciiStringToCanvas("Winner\nPlayer " + playerManager.getWinningPlayerNumber() + "\n\n" + playerManager.getWinningScore(), Settings.HEIGHT / 2 + 10, Settings.GAME_VIEW_WIDTH / 2, new FontBig());
