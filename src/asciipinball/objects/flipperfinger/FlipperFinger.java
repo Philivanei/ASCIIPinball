@@ -9,13 +9,13 @@ public abstract class FlipperFinger extends PolygonEntity {
 
     protected float x;
     protected float y;
-    protected float minAngle;
-    protected float maxAngle;
+    private float minAngle;
+    private float maxAngle;
     protected float length;
-    protected static final float TIME_FOR_FLIP = 250;
-    protected MoveStatus moveStatus = MoveStatus.STOP;
+    private static final float TIME_FOR_FLIP = 250;
+    private MoveStatus moveStatus = MoveStatus.STOP;
 
-    public FlipperFinger(PlayerManager playerManager, float x, float y, float length , float minAngle, float maxAngle){
+    public FlipperFinger(PlayerManager playerManager, float x, float y, float length, float minAngle, float maxAngle) {
         super(playerManager);
         lines = new Line[1];
         this.minAngle = minAngle;
@@ -30,10 +30,10 @@ public abstract class FlipperFinger extends PolygonEntity {
     protected abstract void generateLine(float angle);
 
 
-    public float calculateAngleUp(long startTime, long timeSinceDown){
+    public float calculateAngleUp(long startTime, long timeSinceDown) {
 
         float startShift = (TIME_FOR_FLIP - timeSinceDown);
-        if(startShift < 0){
+        if (startShift < 0) {
             startShift = 0;
         }
 
@@ -43,15 +43,16 @@ public abstract class FlipperFinger extends PolygonEntity {
         if (result > maxAngle) {
             moveStatus = MoveStatus.STOP;
             result = maxAngle;
-        }else{
+        } else {
             moveStatus = MoveStatus.UP;
         }
         return result;
     }
-    public float calculateAngleDown(long startTime, long timeSinceUp){
+
+    public float calculateAngleDown(long startTime, long timeSinceUp) {
 
         float startShift = (TIME_FOR_FLIP - timeSinceUp);
-        if(startShift < 0){
+        if (startShift < 0) {
             startShift = 0;
         }
 
@@ -61,7 +62,7 @@ public abstract class FlipperFinger extends PolygonEntity {
         if (result < minAngle) {
             moveStatus = MoveStatus.STOP;
             result = minAngle;
-        }else{
+        } else {
             moveStatus = MoveStatus.DOWN;
         }
         return result;
@@ -70,10 +71,10 @@ public abstract class FlipperFinger extends PolygonEntity {
     @Override
     public Ball updateEntity(Ball ball) {
         Ball unmodifiedBall = super.updateEntity(ball);
-        if(unmodifiedBall != null) {
+        if (unmodifiedBall != null) {
             if (moveStatus == MoveStatus.UP) {
                 unmodifiedBall.addVelocity(0.03f);
-            }else if(moveStatus == MoveStatus.DOWN){
+            } else if (moveStatus == MoveStatus.DOWN) {
                 unmodifiedBall.addVelocity(-0.006f);
             }
             unmodifiedBall.jumpToFuture(75);

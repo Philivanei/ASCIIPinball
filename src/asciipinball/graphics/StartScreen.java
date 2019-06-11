@@ -60,7 +60,7 @@ public class StartScreen {
     }
 
 
-    //StartScreen appeareance
+    //StartScreen appearance
     public void printStartScreen(Gui gui) {
 
         gui.addAsciiStringToCanvas("ASCII PINBALL", Settings.HEIGHT / 2 - 40, Settings.GAME_VIEW_WIDTH / 2, new FontBig());

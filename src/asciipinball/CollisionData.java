@@ -2,11 +2,11 @@ package asciipinball;
 
 import asciipinball.shapes.Shapes;
 
-public class CollisionData implements Comparable<CollisionData>{
-    Shapes collisionShape;
-    float collisionX;
-    float collisionY;
-    float distanceToBall;
+public class CollisionData implements Comparable<CollisionData> {
+    private Shapes collisionShape;
+    private float collisionX;
+    private float collisionY;
+    private float distanceToBall;
 
     public CollisionData(float collisionX, float collisionY, Shapes collisionShape, float distanceToBall) {
         this.collisionShape = collisionShape;

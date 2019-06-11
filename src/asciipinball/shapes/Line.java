@@ -1,11 +1,6 @@
 package asciipinball.shapes;
 
 import asciipinball.Coordinate;
-import asciipinball.GameView;
-import asciipinball.Settings;
-import asciipinball.interfaces.Drawable;
-
-import java.awt.*;
 
 public class Line extends Shapes {
     private float x1;
