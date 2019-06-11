@@ -127,7 +127,7 @@ public class LaunchControl extends PolygonEntity implements Drawable {
     protected Ball interactWithBall(Ball ball) {
         Ball returnBall = super.interactWithBall(ball);
         if (moveStatus != MoveStatus.STOP) {
-            returnBall = new Ball(returnBall.getPositionX(), returnBall.getPositionY(), returnBall.getRadius(),
+            returnBall = new Ball(returnBall.getX(), returnBall.getY(), returnBall.getRadius(),
                     90, calculateVelocityBoost());
         }
 

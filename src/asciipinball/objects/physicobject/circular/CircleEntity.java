@@ -43,13 +43,13 @@ public abstract class CircleEntity extends PhysicEntity implements Drawable {
         boolean collisionDetected = false;
 
         for (Circle circle : circles) {
-            float distanceToBall = (float) (Math.sqrt(Math.pow((circle.getX() - ball.getPositionX()), 2) +
-                    Math.pow((circle.getY() - ball.getPositionY()), 2)));
+            float distanceToBall = (float) (Math.sqrt(Math.pow((circle.getX() - ball.getX()), 2) +
+                    Math.pow((circle.getY() - ball.getY()), 2)));
 
             if (distanceToBall <= (circle.getRadius() + ball.getRadius())) {
 
                 collisionDetected = true;
-                float angleToCollisionPoint = (float) (Math.atan((circle.getY() - ball.getPositionY()) / (circle.getX() - ball.getPositionX())));
+                float angleToCollisionPoint = (float) (Math.atan((circle.getY() - ball.getY()) / (circle.getX() - ball.getX())));
 
                 float collisionPositionX = (float) (Math.cos(angleToCollisionPoint) * circle.getRadius()) + circle.getX();
                 float collisionPositionY = (float) (Math.sin(angleToCollisionPoint) * circle.getRadius()) + circle.getY();
@@ -89,7 +89,7 @@ public abstract class CircleEntity extends PhysicEntity implements Drawable {
 
             float newAngle = calculateBallAngleFromGradient(ball,tangentGradient);
 
-            ballList.add(new Ball(ball.getPositionX(),ball.getPositionY(), ball.getRadius(), newAngle ,ball.getVelocity()));
+            ballList.add(new Ball(ball.getX(),ball.getY(), ball.getRadius(), newAngle ,ball.getVelocity()));
 
         }
 
