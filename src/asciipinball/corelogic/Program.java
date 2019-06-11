@@ -1,7 +1,5 @@
 package asciipinball.corelogic;
 
-import asciipinball.corelogic.PinballGame;
-
 public class Program {
     public static void main (String[] args){
         PinballGame pinballGame = new PinballGame();

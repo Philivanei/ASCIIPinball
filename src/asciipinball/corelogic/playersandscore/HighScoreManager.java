@@ -1,7 +1,5 @@
 package asciipinball.corelogic.playersandscore;
 
-import asciipinball.GameView;
-
 import java.io.*;
 
 import org.json.simple.JSONObject;
@@ -10,13 +8,13 @@ import org.json.simple.parser.ParseException;
 
 public class HighScoreManager {
 
-    String pathToFile = "res/highscore.json";
+    private String pathToFile = "res/highscore.json";
 
     public HighScoreManager(){
 
     }
 
-    public JSONObject getJsonObject(){
+    private JSONObject getJsonObject(){
 
         String fileString = "";
         BufferedReader br = null;
@@ -27,7 +25,13 @@ public class HighScoreManager {
         }
         try {
             StringBuilder sb = new StringBuilder();
-            String line = br.readLine();
+            String line = null;
+            if(br != null){
+                line = br.readLine();
+            }else{
+                throw new Exception("BufferedReader is null");
+            }
+
 
             while (line != null) {
                 sb.append(line);
@@ -36,10 +40,12 @@ public class HighScoreManager {
             }
             fileString = sb.toString();
         } catch (Exception e){
-
+            e.printStackTrace();
         }finally {
             try {
-                br.close();
+                if(br != null){
+                    br.close();
+                }
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -65,6 +71,7 @@ public class HighScoreManager {
         return (String) getJsonObject().get("name");
     }
 
+    @SuppressWarnings("unchecked")
     public void setHighScore(Player player, String name){
 
         JSONObject jsonObject = new JSONObject();

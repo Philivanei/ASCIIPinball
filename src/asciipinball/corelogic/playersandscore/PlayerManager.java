@@ -43,7 +43,7 @@ public class PlayerManager {
         return currentPlayerId;
     }
 
-    public int getCurrentPlayerNumber(){
+    private int getCurrentPlayerNumber(){
         return currentPlayerId + 1;
     }
 
@@ -70,8 +70,6 @@ public class PlayerManager {
 
         int winningPlayerId = getWinningPlayerNumber() - 1;
 
-        System.out.println(new HighScoreManager().getHighScore());
-
         if(players[winningPlayerId].getScore() > new HighScoreManager().getHighScore()){
             new HighScoreManager().setHighScore(players[winningPlayerId], "");
         }
@@ -81,6 +79,7 @@ public class PlayerManager {
     }
 
     public Player[] getAllPlayer(){
+
         Player[] returnPlayers = new Player[playerCount];
 
         for(int i = 0; i < playerCount; i++){

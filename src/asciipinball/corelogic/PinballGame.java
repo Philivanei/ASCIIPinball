@@ -52,7 +52,7 @@ public class PinballGame {
         init();
     }
 
-    protected void simulateTick() {
+    public void simulateTick() {
 
         control.updateControls();
 
@@ -119,7 +119,7 @@ public class PinballGame {
         gameOver = !playerManager.isBallLeft();
     }
 
-    protected void skipRound(){
+    public void skipRound(){
         if(playerManager.isInitialized()){
             ball = new Ball(10, -10, Settings.BALL_RADIUS, -90, 0.05f);
         }
@@ -173,7 +173,7 @@ public class PinballGame {
 
     }
 
-    protected void printAll() {
+    public void printAll() {
 
         gameView.clearCanvas();
 
