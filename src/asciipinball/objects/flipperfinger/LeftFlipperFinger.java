@@ -15,8 +15,8 @@ public class LeftFlipperFinger extends FlipperFinger {
      * @param x             x-Koordinate des linken Flipper Fingers
      * @param y             y-Koordinate des linken Flipper Fingers
      * @param length        Länge des linken Flipper Fingers
-     * @param minAngle      Legt die MinimalHöhe der FlipperFinger fest.
-     * @param maxAngle      Legt die MaximalHöhe der FlipperFinger fest.
+     * @param minAngle      Legt die MinimalHöhe des linken FlipperFinger fest.
+     * @param maxAngle      Legt die MaximalHöhe des linken FlipperFinger fest.
      */
     public LeftFlipperFinger(PlayerManager playerManager, float x, float y, float length, float minAngle, float maxAngle) {
         super(playerManager, x, y, length, minAngle, maxAngle);
