@@ -1,5 +1,8 @@
 package asciipinball.fonts;
 
+/**
+ * Eine Schriftart für den AsciiStringBuilder
+ */
 public class FontBig extends AsciiStringContainer {
     @Override
     public String getA() {
