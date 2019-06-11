@@ -41,7 +41,7 @@ public class PinballGame {
     public PinballGame() {
 
         /* Init GameView */
-        gameView = new GameView(Settings.HEIGHT, Settings.GAMEVIEW_WIDTH, "ASCII Pinball");
+        gameView = new GameView(Settings.HEIGHT, Settings.GAME_VIEW_WIDTH, "ASCII Pinball");
         gameView.setWindowsSize(GameView.WINDOWSIZE_LARGE);
         gameView.show();
 
@@ -52,7 +52,7 @@ public class PinballGame {
         init();
     }
 
-    public void simulateTick() {
+    protected void simulateTick() {
 
         control.updateControls();
 
@@ -105,7 +105,7 @@ public class PinballGame {
         resetBall();
         table = new Table(playerManager, Settings.WIDTH, Settings.HEIGHT, Settings.HOLE_WIDTH);
 
-        physicEntities = new Levels(playerManager).getLevel2PhysicEntities();
+        physicEntities = new Levels(playerManager).getLevel1PhysicEntities();
         noPhysicEntities = new Levels(playerManager).getLevel1NoPhysicEntities();
     }
 
@@ -119,7 +119,7 @@ public class PinballGame {
         gameOver = !playerManager.isBallLeft();
     }
 
-    public void skipRound(){
+    protected void skipRound(){
         if(playerManager.isInitialized()){
             ball = new Ball(10, -10, Settings.BALL_RADIUS, -90, 0.05f);
         }
@@ -173,7 +173,7 @@ public class PinballGame {
 
     }
 
-    public void printAll() {
+    protected void printAll() {
 
         gameView.clearCanvas();
 

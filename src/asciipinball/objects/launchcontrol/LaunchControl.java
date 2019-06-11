@@ -27,7 +27,7 @@ public class LaunchControl extends PolygonEntity implements Drawable {
         super(playerManager);
         this.tiltOffset = tiltOffset;
         lines = new Line[1];
-        //diameter of ball to calculate width of the launcherline
+        //diameter of ball to calculate width of the launcher line
         this.width = width;
         this.minHeight = minHeight;
         this.maxHeight = maxHeight;
@@ -68,7 +68,7 @@ public class LaunchControl extends PolygonEntity implements Drawable {
 
 
     //creates the lines for animating them
-    public void generateLines(float y) {
+    private void generateLines(float y) {
 
         if (y >= maxHeight) {
             //moving the launcher diagonally
@@ -85,7 +85,7 @@ public class LaunchControl extends PolygonEntity implements Drawable {
 
         float result = (maxHeight - minHeight) / Settings.TIME_FOR_JUMP * timeSinceStart + minHeight;
         if (result > (maxHeight + tiltOffset)) {
-            //change movestatus
+            //change moveStatus
             result = maxHeight + tiltOffset;
             moveStatus = MoveStatus.STOP;
             isFinished = true;
