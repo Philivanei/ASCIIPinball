@@ -4,7 +4,7 @@ import asciipinball.corelogic.playersandscore.PlayerManager;
 import asciipinball.shapes.Line;
 
 /**
- * Zuständig für den linken Flipper Finger
+ * Linker Flipper Finger
  */
 public class LeftFlipperFinger extends FlipperFinger {
 
