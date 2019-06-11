@@ -7,16 +7,29 @@ import asciipinball.corelogic.playersandscore.Player;
 
 import java.util.ArrayList;
 
+
+/**
+ * Eine abstrakte Oberklasse für Physik Objekte.
+ */
 public abstract class PhysicEntity {
 
     protected ArrayList<CollisionData> collisionList = new ArrayList<>();
     protected int score = 0;
     protected PlayerManager playerManager;
 
+    /**
+     * Meldet den playerManager in Entity an
+     * @param playerManager Entity übergreifender playerManager
+     */
     public PhysicEntity(PlayerManager playerManager){
         this.playerManager = playerManager;
     }
 
+    /**
+     * Sucht nach kollisionen mit dem Ball und gibt einen Ball mit neuer Richtung & Geschwindigkeit (nach Aufprall) zurück. Addiert bei Collision dem aktuellen Spieler einen Entity spezifischen Score hinzu
+     * @param ball Ball auf den eine kollisionsabfrage durchgeführt werden soll
+     * @return Ball nach Aufprall. Wenn kein Aufprall erkannt wurde gibt die Funktion null zurück
+     */
     public Ball updateEntity(Ball ball){
         if(isCollided(ball)){
             if(score != 0){
@@ -28,7 +41,9 @@ public abstract class PhysicEntity {
         }
     }
 
-    //Deletes all Collisions except the nearest
+    /**
+     * Entfernt alle erkannten kollisionen aus der Liste bis auf den nächsten (Relevant für Entities die aus mehr als einer Linie/Kreis bestehen)
+     */
     protected void cleanupCollisionList(){
 
         if(!collisionList.isEmpty() && collisionList.size() > 1){
@@ -46,6 +61,13 @@ public abstract class PhysicEntity {
 
     }
 
+
+    /**
+     * Berechte Winkel nach Aufprall aus ball und Steigung der Abprall Linie
+     * @param ball Ball der abprallt
+     * @param gradient Steigung der Abprall linie
+     * @return Winkel als float des Balles nach Aufprall
+     */
     protected float calculateBallAngleFromGradient(Ball ball, float gradient) {
         float angleToLine;
 
@@ -63,14 +85,7 @@ public abstract class PhysicEntity {
         //float finalAngle = ball.convertDirection((-ball.convertDirection((ball.getDirection() + 90 - angleToLine)))  - (90 - angleToLine)); //double conversion is necessary if -ball.convertDirection results in -180°
     }
 
-
-
     protected abstract boolean isCollided(Ball ball);
     protected abstract Ball interactWithBall(Ball ball);
-    public void setScore(Player player){
-        if(score != 0){
-            player.addToScore(score);
-        }
-    }
 
 }
