@@ -61,5 +61,8 @@ public class GameOverScreen {
         gui.addAsciiStringToCanvas("Quit", Settings.GAME_OVER_OPTIONS_POSITION_Y, Settings.GAME_OVER_OPTIONS_POSITION_X + Settings.GAME_OVER_OPTIONS_DISTANCE, new FontBig());
         gui.addAsciiStringToCanvas("Retry", Settings.GAME_OVER_OPTIONS_POSITION_Y, Settings.GAME_OVER_OPTIONS_POSITION_X, new FontBig());
         gui.addAsciiStringToCanvas("-", Settings.GAME_OVER_OPTIONS_POSITION_Y, countArrowColumns - 35, new FontBig());
+        gui.addAsciiStringToCanvas(Long.toString(playerManager.getHighScore()), 30, Settings.GAME_VIEW_WIDTH / 2, new FontBig());
+        gui.addAsciiStringToCanvas("HighScore", 20, Settings.GAME_VIEW_WIDTH / 2, new FontBig());
+
     }
 }
