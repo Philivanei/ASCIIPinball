@@ -33,7 +33,7 @@ public class Line extends Shapes {
      * @param p2 Koordinate 2
      */
     public Line(Coordinate p1, Coordinate p2) {
-        this(p1.getX(), p1.getY(), p2.getX(), p2.getX());
+        this(p1.getX(), p1.getY(), p2.getX(), p2.getY());
     }
 
     /**
