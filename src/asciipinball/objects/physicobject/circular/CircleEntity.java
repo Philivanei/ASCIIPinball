@@ -20,10 +20,19 @@ public abstract class CircleEntity extends PhysicEntity implements Drawable {
         super(playerManager);
     }
 
+    /**
+     * Gibt alle Kreise zurück aus der die CircularEntity besteht
+     * @return alle Linien
+     */
     public Circle[] getCircles() {
         return circles;
     }
 
+    /**
+     * Stellt fest ob der Ball kollidiert und Speichert ggf. den Punkt der Collision sowie den konkreten Kreis mit der Kollidiert wurde.
+     * @param ball Ball für den die Kollisionsabfrage durchgefüht wird.
+     * @return Boolscher ausdruck ob eine Collision gefunden wurde.
+     */
     @Override
     protected boolean isCollided(Ball ball) {
 
@@ -49,6 +58,11 @@ public abstract class CircleEntity extends PhysicEntity implements Drawable {
         return collisionDetected;
     }
 
+    /**
+     * Gibt ball nach Collision zurück
+     * @param ball Ball der kollidiert
+     * @return Ball nach kollision
+     */
     @Override
     protected Ball interactWithBall(Ball ball) {
         ArrayList<Ball> ballList = new ArrayList<>();
@@ -70,7 +84,6 @@ public abstract class CircleEntity extends PhysicEntity implements Drawable {
 
 
             float newAngle = calculateBallAngleFromGradient(ball,tangentGradient);
-            //System.out.println(ball.getDirection() + " -> " + newAngle);
 
             ballList.add(new Ball(ball.getPositionX(),ball.getPositionY(), ball.getRadius(), newAngle ,ball.getVelocity()));
 
