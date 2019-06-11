@@ -62,6 +62,10 @@ public class PlayerManager {
         return  winningPlayerID+1;
     }
 
+    public long getHighScore(){
+        return new HighScoreManager().getHighScore();
+    }
+
     public int getWinningScore(){
 
         int winningPlayerId = getWinningPlayerNumber() - 1;
