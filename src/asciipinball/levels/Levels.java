@@ -45,7 +45,7 @@ public class Levels {
                 new LineWall(playerManager, new Coordinate(90, 1), new Coordinate(100, 1)),
 
                 //Bumper in the middle
-                new Bumper(playerManager, Settings.WIDTH / 2, Settings.HEIGHT / 2, 4),
+                new Bumper(playerManager, new Coordinate(Settings.WIDTH / 2, Settings.HEIGHT / 2), 4),
 
                 //rotating cross on the left side up
                 new RotatingCross(playerManager, new Coordinate(30, 105), 8, 0.0008f, false),
@@ -83,8 +83,8 @@ public class Levels {
                     Line[] linesToCover = ((Coverable) entity).getAllLines();
 
                     for (Line line : linesToCover) {
-                        arrayList.add(new JointCover(playerManager, line.getX1(), line.getY1()));
-                        arrayList.add(new JointCover(playerManager, line.getX2(), line.getY2()));
+                        arrayList.add(new JointCover(playerManager, new Coordinate(line.getX1(), line.getY1())));
+                        arrayList.add(new JointCover(playerManager, new Coordinate(line.getX2(), line.getY2())));
                     }
 
 
