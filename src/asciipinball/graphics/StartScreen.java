@@ -4,27 +4,44 @@ package asciipinball.graphics;
 import asciipinball.Settings;
 import asciipinball.fonts.FontBig;
 
+/**
+ * Ein Fenster, das den Startbildschrim des Spiels ausgibt.
+ */
 public class StartScreen {
     private int countArrowRows;
     private byte playerNumber;
 
+    /**
+     * Erzeugt einen StartScreen.
+     */
     public StartScreen() {
 
         playerNumber = 0;
         countArrowRows = Settings.PLAYER1_POSITION_Y;
     }
 
-
+    /**
+     * Gibt die Anzahl der gewünschten Spieler zurück.
+     *
+     * @return Anzahl der Spieler
+     */
     //recognization which player has been selected
     public byte getPlayerNumber() {
         return playerNumber;
     }
 
+    /**
+     * Gibt zurück, ob eine Spieleranzahl ausgewählt wurde.
+     *
+     * @return Boolscher Ausdruck, ob Spieler ausgewählt wurden.
+     */
     public boolean isPlayerNumberSelected() {
         return playerNumber != 0;
     }
 
-
+    /**
+     * Erkennt, an welcher Stelle die Enter-Taste gedrückt wurde und setzt dementsprechend die Spieleranzahl.
+     */
     //controls for the StartScreen
     public void enterDownPressed() {
         //logic which player has been selected
@@ -42,7 +59,9 @@ public class StartScreen {
         }
     }
 
-
+    /**
+     * Wird aufgerufen, wenn die Pfeil nach unten Taste betätigt wurde und bewegt den Pfeil nach unten.
+     */
     //moving an arrow up/ down to choose a player number
     public void arrowDownPressed() {
         countArrowRows += Settings.PLAYER_DISTANCE;
@@ -51,6 +70,9 @@ public class StartScreen {
         }
     }
 
+    /**
+     * Wird aufgerufen, wenn die Pfeil nach oben Taste betätigt wurde und bewegt den Pfeil nach oben.
+     */
     public void arrowUpPressed() {
         countArrowRows -= Settings.PLAYER_DISTANCE;
         if (countArrowRows < Settings.PLAYER1_POSITION_Y) {
@@ -59,7 +81,9 @@ public class StartScreen {
 
     }
 
-
+    /**
+     * Gibt die verschiedenen Elemente an der gesetzten Position auf dem Startbildschirm aus.
+     */
     //StartScreen appearance
     public void printStartScreen(Gui gui) {
 
