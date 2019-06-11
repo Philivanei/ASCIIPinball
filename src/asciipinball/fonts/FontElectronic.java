@@ -96,7 +96,7 @@ public class FontElectronic extends AsciiStringContainer {
 
     @Override
     public String getG() {
-        return  " ▄▄▄▄▄▄▄▄▄▄▄ \n" +
+        return " ▄▄▄▄▄▄▄▄▄▄▄ \n" +
                 "▐░░░░░░░░░░░▌\n" +
                 "▐░█▀▀▀▀▀▀▀▀▀ \n" +
                 "▐░▌          \n" +

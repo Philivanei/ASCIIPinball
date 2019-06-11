@@ -374,7 +374,7 @@ public class FontBig extends AsciiStringContainer {
     }
 
     @Override
-    public String getARROW(){
+    public String getARROW() {
         return "     __   \n" +
                 "     \\ \\  \n" +
                 " _____\\ \\ \n" +
