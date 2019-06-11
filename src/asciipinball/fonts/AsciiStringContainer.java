@@ -1,9 +1,12 @@
 package asciipinball.fonts;
 
+/**
+ * Eine Schriftart für den AsciiStringBuilder
+ */
 public class AsciiStringContainer {
 
     /**
-     * Erstellt ein Font-Objekt.
+     * Erstellt ein Font-Objekt im Standard-Font.
      */
     public AsciiStringContainer() {
 
