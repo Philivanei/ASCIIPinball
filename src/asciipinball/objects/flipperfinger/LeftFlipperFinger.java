@@ -10,6 +10,7 @@ public class LeftFlipperFinger extends FlipperFinger {
         super(playerManager, x, y, length , minAngle, maxAngle);
     }
 
+
     @Override
     public void generateLine(float angle) {
         float adjacentSide = ((float) Math.cos(Math.toRadians(angle))) * length;
