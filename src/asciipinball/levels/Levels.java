@@ -1,7 +1,7 @@
 package asciipinball.levels;
 
 import asciipinball.Coordinate;
-import asciipinball.corelogic.players.PlayerManager;
+import asciipinball.corelogic.playersandscore.PlayerManager;
 import asciipinball.Settings;
 import asciipinball.interfaces.Coverable;
 import asciipinball.objects.nophysicsobject.NonPhysicEntity;

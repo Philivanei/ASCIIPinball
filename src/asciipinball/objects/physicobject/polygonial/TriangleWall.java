@@ -1,7 +1,7 @@
 package asciipinball.objects.physicobject.polygonial;
 
 import asciipinball.Coordinate;
-import asciipinball.corelogic.players.PlayerManager;
+import asciipinball.corelogic.playersandscore.PlayerManager;
 import asciipinball.shapes.Line;
 
 public class TriangleWall extends PolygonEntity {

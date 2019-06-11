@@ -1,10 +1,10 @@
-package asciipinball.corelogic.players;
+package asciipinball.corelogic.playersandscore;
 
 public class PlayerManager {
-    Player[] players;
-    byte playerCount;
-    byte currentPlayerId;
-    boolean isInitialized;
+    private Player[] players;
+    private byte playerCount;
+    private byte currentPlayerId;
+    private boolean isInitialized;
 
     public PlayerManager(){
         players = new Player[4];
@@ -30,7 +30,7 @@ public class PlayerManager {
                 players[0] = new Player();
                 break;
             default:
-                throw new Exception("There can't be 0 or more than 4 players");
+                throw new Exception("There can't be 0 or more than 4 playersandscore");
         }
         isInitialized = true;
     }
@@ -63,7 +63,17 @@ public class PlayerManager {
     }
 
     public int getWinningScore(){
-        return players[getWinningPlayerNumber()-1].getScore();
+
+        int winningPlayerId = getWinningPlayerNumber() - 1;
+
+        System.out.println(new HighScoreManager().getHighScore());
+
+        if(players[winningPlayerId].getScore() > new HighScoreManager().getHighScore()){
+            new HighScoreManager().setHighScore(players[winningPlayerId], "");
+        }
+
+
+        return players[winningPlayerId].getScore();
     }
 
     public Player[] getAllPlayer(){

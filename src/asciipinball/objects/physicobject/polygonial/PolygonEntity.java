@@ -1,11 +1,10 @@
 package asciipinball.objects.physicobject.polygonial;
 
 import asciipinball.CollisionData;
-import asciipinball.corelogic.players.PlayerManager;
+import asciipinball.corelogic.playersandscore.PlayerManager;
 import asciipinball.interfaces.Drawable;
 import asciipinball.objects.Ball;
 import asciipinball.objects.physicobject.PhysicEntity;
-import asciipinball.objects.physicobject.circular.JointCover;
 import asciipinball.shapes.Line;
 
 import java.util.ArrayList;

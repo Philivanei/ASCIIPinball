@@ -1,8 +1,7 @@
 package asciipinball.objects.nophysicsobject.pointdoor;
 
 import asciipinball.Coordinate;
-import asciipinball.corelogic.players.PlayerManager;
-import asciipinball.objects.nophysicsobject.pointdoor.PointDoor;
+import asciipinball.corelogic.playersandscore.PlayerManager;
 
 public abstract class PointDoorFactory {
 
