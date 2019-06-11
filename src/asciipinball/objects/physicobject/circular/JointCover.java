@@ -1,6 +1,6 @@
 package asciipinball.objects.physicobject.circular;
 
-import asciipinball.corelogic.players.PlayerManager;
+import asciipinball.corelogic.playersandscore.PlayerManager;
 import asciipinball.exceptions.NotConnectedLinesException;
 import asciipinball.objects.Ball;
 import asciipinball.shapes.Circle;

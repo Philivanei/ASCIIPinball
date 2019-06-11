@@ -1,4 +1,4 @@
-package asciipinball.corelogic.players;
+package asciipinball.corelogic.playersandscore;
 
 public class Player {
 

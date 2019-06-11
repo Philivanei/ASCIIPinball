@@ -1,7 +1,7 @@
 package asciipinball.objects.nophysicsobject.pointdoor;
 
 import asciipinball.Coordinate;
-import asciipinball.corelogic.players.PlayerManager;
+import asciipinball.corelogic.playersandscore.PlayerManager;
 import asciipinball.interfaces.Drawable;
 import asciipinball.objects.Ball;
 import asciipinball.objects.nophysicsobject.NonPhysicEntity;

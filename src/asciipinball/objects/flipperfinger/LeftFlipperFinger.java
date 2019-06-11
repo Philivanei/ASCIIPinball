@@ -1,6 +1,6 @@
 package asciipinball.objects.flipperfinger;
 
-import asciipinball.corelogic.players.PlayerManager;
+import asciipinball.corelogic.playersandscore.PlayerManager;
 import asciipinball.shapes.Line;
 
 public class LeftFlipperFinger extends FlipperFinger {
