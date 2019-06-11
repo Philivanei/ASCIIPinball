@@ -20,18 +20,17 @@ public class RotatingCross extends PolygonEntity {
     /**
      * Erstellt ein rotierendes Kreuz
      * @param playerManager playerManager des Spiels
-     * @param x X Koordinate
-     * @param y Y Koordinate
+     * @param coordinate Koordinate des Mittelpunktes des Kreuzes
      * @param radius Länge der Rotoren
      * @param speed Rotationsgeschwindigkeit
      * @param turnClockWise Drehrichtung
      */
-    public RotatingCross(PlayerManager playerManager, float x, float y, float radius , float speed, boolean turnClockWise) {
+    public RotatingCross(PlayerManager playerManager, Coordinate coordinate, float radius , float speed, boolean turnClockWise) {
         super(playerManager);
         lines = new Line[2];
         generateLines();
-        this.x = x;
-        this.y = y;
+        this.x = coordinate.getX();
+        this.y = coordinate.getY();
         this.speed = speed;
         this.radius = radius;
         this.turnClockWise = turnClockWise;

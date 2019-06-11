@@ -48,9 +48,9 @@ public class Levels {
                 new Bumper(playerManager, Settings.WIDTH / 2, Settings.HEIGHT / 2, 4),
 
                 //rotating cross on the left side up
-                new RotatingCross(playerManager, 30, 105, 8, 0.0008f, false),
+                new RotatingCross(playerManager, new Coordinate(30, 105), 8, 0.0008f, false),
                 //rotating cross on the right side up
-                new RotatingCross(playerManager, 70, 105, 8, 0.0008f, true)
+                new RotatingCross(playerManager, new Coordinate(70, 105), 8, 0.0008f, true)
 
         });
     }
