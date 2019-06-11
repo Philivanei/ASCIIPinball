@@ -29,7 +29,7 @@ public class JointCover extends CircleEntity {
         returnBall.addVelocity(0.01f);
         return returnBall;
     }
-    
+
     @Override
     public char getColor() {
         return ' ';

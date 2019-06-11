@@ -18,8 +18,8 @@ public abstract class PhysicEntity {
     protected PlayerManager playerManager;
 
     /**
-     * Meldet den playerManager in Entity an
-     * @param playerManager Entity übergreifender playerManager
+     * Registriert den playerManager in Entity an
+     * @param playerManager playerManager des Spiels
      */
     public PhysicEntity(PlayerManager playerManager){
         this.playerManager = playerManager;

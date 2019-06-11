@@ -5,8 +5,17 @@ import asciipinball.corelogic.playersandscore.PlayerManager;
 import asciipinball.objects.Ball;
 import asciipinball.shapes.Circle;
 
+/**
+ * Ein Bumper der den Ball von sich abstößt
+ */
 public class Bumper extends CircleEntity {
 
+    /**
+     * Erstellt einen Bumper
+     * @param playerManager playerManager des Spiels
+     * @param coordinate Koordinate des Mittelpunkts des Bumpers
+     * @param radius Radius des Bumpers
+     */
     public Bumper(PlayerManager playerManager, Coordinate coordinate, float radius){
         super(playerManager);
         score = 150;
