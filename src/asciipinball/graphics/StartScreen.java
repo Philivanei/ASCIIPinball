@@ -81,8 +81,10 @@ public class StartScreen {
 
     }
 
+
     /**
      * Gibt die verschiedenen Elemente an der gesetzten Position auf dem Startbildschirm aus.
+     * @param gui Referenz auf das GUI Objekt des Spiels
      */
     //StartScreen appearance
     public void printStartScreen(Gui gui) {
