@@ -21,7 +21,7 @@ public class Ball {
     private float radius;
     private boolean isInfluencedByPhysics;
 
-    public Ball(Ball ball){
+    public Ball(Ball ball) {
         positionX = ball.getPositionX();
         positionY = ball.getPositionY();
         futurePositionX = ball.futurePositionX;
@@ -52,7 +52,7 @@ public class Ball {
         isInfluencedByPhysics = velocity != 0;
     }
 
-    public boolean isInfluencedByPhysics() {
+    private boolean isInfluencedByPhysics() {
         return isInfluencedByPhysics;
     }
 
@@ -105,15 +105,13 @@ public class Ball {
     }
 
     public float convertDirection(float direction) {
-        float result = direction;
+        float result;
 
         if (direction > -180 && direction <= 180) {
             result = direction;
         } else {
 
-            float clippedDirection = 0;
-
-            clippedDirection = direction % 360;
+            float clippedDirection = direction % 360;
 
             if (clippedDirection > 180) {
                 result = clippedDirection - 360;
@@ -152,11 +150,7 @@ public class Ball {
     }
 
 
-    /**
-     * calculate Future takes a float gravitation value and simulates the behaviour of the ball per tick(call).
-     *
-     * @param gravitationPerTick
-     */
+    //calculate Future takes a float gravitation value and simulates the behaviour of the ball per tick(call).
     public void calculateFuture(float gravitationPerTick) {
 
         float xSpeed = getXSpeed();
@@ -164,7 +158,7 @@ public class Ball {
 
         calculateFuturePosition(xSpeed, ySpeed);
 
-        if(isInfluencedByPhysics){
+        if (isInfluencedByPhysics) {
             //Simulate gravitation
             ySpeed -= gravitationPerTick;
             //System.out.println("XSpeed: " + xSpeed + " YSpeed: " + ySpeed);
@@ -173,13 +167,9 @@ public class Ball {
 
             calculateFutureDirection(xSpeed, ySpeed);
             calculateFutureVelocity(xSpeed, ySpeed);
-        }else{
+        } else {
             isInfluencedByPhysics = velocity != 0;
         }
-
-
-
-
 
 
     }
@@ -208,8 +198,8 @@ public class Ball {
         this.velocity = ball.getVelocity();
     }
 
-    public void jumpToFuture(int numberOfSteps){
-        for(int i = 0; i < numberOfSteps; i++){
+    public void jumpToFuture(int numberOfSteps) {
+        for (int i = 0; i < numberOfSteps; i++) {
             calculateFuture(Settings.GRAVITATION);
             positionX = futurePositionX;
             positionY = futurePositionY;
@@ -221,42 +211,34 @@ public class Ball {
 
     public Ball joinBalls(ArrayList<Ball> balls) {
         // calculate average if a ball hits a top or a corner
-        // Philivanei was here
-        //float twoBallsDirection;
-        //twoBallsDirection = ((((ball1.getDirection() + 360) % 360) + ((ball2.getDirection() + 360) % 360)) / 2);
 
         int arrayLength = balls.size();
 
-        if(balls.isEmpty()){
+        if (balls.isEmpty()) {
             return null;
-        }else if(arrayLength == 1){
+        } else if (arrayLength == 1) {
             return balls.get(0);
-        }else if(arrayLength == 2){
+        } else if (arrayLength == 2) {
             Ball ball1 = balls.get(0);
             Ball ball2 = balls.get(1);
             float newDirection = ball1.convertDirection((((ball1.getDirection() + 360) % 360) + ((ball2.getDirection() + 360) % 360)) / 2);
-            //TODO calculate a new velocity
-            System.out.println("There were two Collisions");
-            Ball returnBall = new Ball(ball1.positionX,ball1.positionY,ball1.radius,newDirection,ball1.getVelocity());
-            return returnBall;
+            return new Ball(ball1.positionX, ball1.positionY, ball1.radius, newDirection, ball1.getVelocity());
 
-        }else{
-            //TODO implement support for more than 2 Collision
-            System.out.println("MORE THAN TWO COLLISIONS ARE NOT SUPPORTET AT THIS POINT");
+        } else {
             Ball ball1 = balls.get(0);
             Ball ball2 = balls.get(1);
             float newDirection = ball1.convertDirection((((ball1.getDirection() + 360) % 360) + ((ball2.getDirection() + 360) % 360)) / 2);
-            return new Ball(ball1.positionX,ball1.positionY,ball1.radius,newDirection,ball1.getVelocity());
+            return new Ball(ball1.positionX, ball1.positionY, ball1.radius, newDirection, ball1.getVelocity());
         }
     }
 
-    public void addVelocity(float velocityAdd){
+    public void addVelocity(float velocityAdd) {
         float newVelocity = velocity + velocityAdd;
-        if(newVelocity > Settings.MIN_SPEED && newVelocity < Settings.MAX_SPEED){
+        if (newVelocity > Settings.MIN_SPEED && newVelocity < Settings.MAX_SPEED) {
             velocity = newVelocity;
-        }else if(newVelocity > Settings.MAX_SPEED){
+        } else if (newVelocity > Settings.MAX_SPEED) {
             velocity = Settings.MAX_SPEED;
-        }else if(newVelocity < Settings.MIN_SPEED){
+        } else if (newVelocity < Settings.MIN_SPEED) {
             velocity = Settings.MIN_SPEED;
         }
     }

@@ -85,7 +85,7 @@ public class FlipperFingerControl implements Drawable {
 
     public Ball updateEntity(Ball ball){
 
-        ArrayList<Ball> flipperBalls = new ArrayList<Ball>();
+        ArrayList<Ball> flipperBalls = new ArrayList<>();
 
         Ball leftBall = leftFlipperFinger.updateEntity(ball);
         Ball rightBall = rightFlipperFinger.updateEntity(ball);

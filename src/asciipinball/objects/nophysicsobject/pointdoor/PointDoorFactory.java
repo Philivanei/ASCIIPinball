@@ -18,9 +18,9 @@ public abstract class PointDoorFactory {
 
         int returnPointDoorsIterator = 0;
 
-        for(int i = 0; i < coordinates.length; i++){
-            if(coordinates[i] != null){
-                returnPointDoors[returnPointDoorsIterator] = new PointDoor(playerManager, coordinates[i], radius, scoreIfTriggered);
+        for (Coordinate coordinate : coordinates) {
+            if (coordinate != null) {
+                returnPointDoors[returnPointDoorsIterator] = new PointDoor(playerManager, coordinate, radius, scoreIfTriggered);
                 returnPointDoorsIterator++;
             }
         }
@@ -30,10 +30,10 @@ public abstract class PointDoorFactory {
         return  returnPointDoors;
     }
 
-    public static void linkAll(PointDoor[] pointDoors){
+    private static void linkAll(PointDoor[] pointDoors){
         for(int i = 0; i < pointDoors.length; i++){
             for(int j = 0; j < pointDoors.length; j++){
-                if(i != j){ //This is used so the point Door doesnt links himself
+                if(i != j){ //This is used so the point Door does not links himself
                     pointDoors[i].addLink(pointDoors[j]);
                 }
             }

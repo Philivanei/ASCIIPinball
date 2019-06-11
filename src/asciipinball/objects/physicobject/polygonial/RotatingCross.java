@@ -7,12 +7,12 @@ import asciipinball.shapes.Line;
 
 public class RotatingCross extends PolygonEntity {
 
-    float x;
-    float y;
-    float speed;
-    float radius;
-    float step;
-    boolean turnClockWise;
+    private float x;
+    private float y;
+    private float speed;
+    private float radius;
+    private float step;
+    private boolean turnClockWise;
 
     public RotatingCross(PlayerManager playerManager, float x, float y, float radius , float speed, boolean turnClockWise) {
         super(playerManager);
