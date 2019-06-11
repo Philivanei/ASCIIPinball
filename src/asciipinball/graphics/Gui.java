@@ -5,7 +5,6 @@ import asciipinball.Settings;
 import asciipinball.corelogic.AsciiStringBuilder;
 import asciipinball.exceptions.ClassNotSupportedException;
 import asciipinball.fonts.AsciiStringContainer;
-import asciipinball.fonts.FontStraight;
 import asciipinball.objects.Ball;
 import asciipinball.objects.flipperfinger.FlipperFingerControl;
 import asciipinball.objects.nophysicsobject.NonPhysicEntity;
@@ -14,8 +13,6 @@ import asciipinball.objects.physicobject.circular.CircleEntity;
 import asciipinball.objects.physicobject.polygonial.PolygonEntity;
 import asciipinball.shapes.Circle;
 import asciipinball.shapes.Line;
-
-import java.util.List;
 
 public class Gui {
 
