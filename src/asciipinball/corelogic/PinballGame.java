@@ -41,7 +41,7 @@ public class PinballGame {
     public PinballGame() {
 
         /* Init GameView */
-        gameView = new GameView(Settings.HEIGHT, Settings.GAMEVIEW_WIDTH, "ASCII Pinball");
+        gameView = new GameView(Settings.HEIGHT, Settings.GAME_VIEW_WIDTH, "ASCII Pinball");
         gameView.setWindowsSize(GameView.WINDOWSIZE_LARGE);
         gameView.show();
 
@@ -52,7 +52,7 @@ public class PinballGame {
         init();
     }
 
-    public void simulateTick() {
+    protected void simulateTick() {
 
         control.updateControls();
 
@@ -94,7 +94,7 @@ public class PinballGame {
         playerManager = new PlayerManager();
         startScreen = new StartScreen();
         gameOverScreen = new GameOverScreen(playerManager, this);
-        launchControl = new LaunchControl(playerManager, 20, 30, 50, Settings.BALL_RADIUS);
+        launchControl = new LaunchControl(playerManager, 90, 0, 25.01f, 10, 3);
         lifeDisplay = new LifeDisplay(playerManager, Settings.WIDTH + 10, 10 , 2.5f);
         flipperFinger = new FlipperFingerControl(playerManager, (((float) Settings.WIDTH / 2) - (Settings.HOLE_WIDTH / 2)),
                 15, (((float) Settings.WIDTH / 2) + (Settings.HOLE_WIDTH / 2)), 15,
@@ -119,14 +119,14 @@ public class PinballGame {
         gameOver = !playerManager.isBallLeft();
     }
 
-    public void skipRound(){
+    protected void skipRound(){
         if(playerManager.isInitialized()){
             ball = new Ball(10, -10, Settings.BALL_RADIUS, -90, 0.05f);
         }
     }
 
     private void resetBall() {
-        ball = new Ball(90f, 30f, Settings.BALL_RADIUS, 100, 0.05f);
+        ball = new Ball(95f, 5f, Settings.BALL_RADIUS);
         launchControl.reset();
     }
 
@@ -173,7 +173,7 @@ public class PinballGame {
 
     }
 
-    public void printAll() {
+    protected void printAll() {
 
         gameView.clearCanvas();
 

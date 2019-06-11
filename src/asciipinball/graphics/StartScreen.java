@@ -63,7 +63,7 @@ public class StartScreen {
     //StartScreen appeareance
     public void printStartScreen(Gui gui) {
 
-        gui.addAsciiStringToCanvas("ASCII PINBALL", Settings.HEIGHT / 2 - 40, Settings.GAMEVIEW_WIDTH / 2, new FontBig());
+        gui.addAsciiStringToCanvas("ASCII PINBALL", Settings.HEIGHT / 2 - 40, Settings.GAME_VIEW_WIDTH / 2, new FontBig());
         gui.addAsciiStringToCanvas("Player 1", Settings.PLAYER1_POSITION_Y, Settings.PLAYER_POSITION_X, new FontBig());
         gui.addAsciiStringToCanvas("Player 2", Settings.PLAYER2_POSITION_Y, Settings.PLAYER_POSITION_X, new FontBig());
         gui.addAsciiStringToCanvas("Player 3", Settings.PLAYER3_POSITION_Y, Settings.PLAYER_POSITION_X, new FontBig());
