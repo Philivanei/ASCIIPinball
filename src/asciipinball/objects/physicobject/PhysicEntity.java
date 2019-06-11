@@ -26,8 +26,8 @@ public abstract class PhysicEntity {
     }
 
     /**
-     * Sucht nach kollisionen mit dem Ball und gibt im falle einer Kollision interactWithBall() (Ball nach kollision),
-     * bei keiner kollision null zurück. Addiert bei Collision dem aktuellen Spieler einen Entity spezifischen Score hinzu.
+     * Sucht nach Kollisionen mit dem Ball und gibt im Falle einer Kollision interactWithBall() (Ball nach Kollision),
+     * bei keiner Kollision null zurück. Fügt bei Kollision dem aktuellen Spieler einen Entity spezifischen Score hinzu.
      * @param ball Ball auf den eine kollisionsabfrage durchgeführt werden soll
      * @return Ball nach Aufprall
      */
