@@ -97,8 +97,8 @@ public class Gui {
             }
         }
 
-        int canvasRow = Settings.HEIGHT - Math.round(ball.getPositionY() + ball.getRadius());
-        int canvasColumn = Math.round(ball.getPositionX() - ball.getRadius()) + Settings.OFFSET;
+        int canvasRow = Settings.HEIGHT - Math.round(ball.getY() + ball.getRadius());
+        int canvasColumn = Math.round(ball.getX() - ball.getRadius()) + Settings.OFFSET;
 
         gameView.addColorStringToCanvas(canvasSegment,canvasRow,canvasColumn);
     }

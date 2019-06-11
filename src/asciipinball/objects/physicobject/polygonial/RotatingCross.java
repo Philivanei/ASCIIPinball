@@ -5,6 +5,9 @@ import asciipinball.corelogic.playersandscore.PlayerManager;
 import asciipinball.objects.Ball;
 import asciipinball.shapes.Line;
 
+/**
+ * Ein rotierendes Kreuz
+ */
 public class RotatingCross extends PolygonEntity {
 
     private float x;
@@ -14,18 +17,29 @@ public class RotatingCross extends PolygonEntity {
     private float step;
     private boolean turnClockWise;
 
-    public RotatingCross(PlayerManager playerManager, float x, float y, float radius , float speed, boolean turnClockWise) {
+    /**
+     * Erstellt ein rotierendes Kreuz
+     * @param playerManager playerManager des Spiels
+     * @param coordinate Koordinate des Mittelpunktes des Kreuzes
+     * @param radius Länge der Rotoren
+     * @param speed Rotationsgeschwindigkeit
+     * @param turnClockWise Drehrichtung
+     */
+    public RotatingCross(PlayerManager playerManager, Coordinate coordinate, float radius , float speed, boolean turnClockWise) {
         super(playerManager);
         lines = new Line[2];
         generateLines();
-        this.x = x;
-        this.y = y;
+        this.x = coordinate.getX();
+        this.y = coordinate.getY();
         this.speed = speed;
         this.radius = radius;
         this.turnClockWise = turnClockWise;
         step = 0;
     }
 
+    /**
+     * Erstellt 2 Linien aus denen das Kreuz besteht
+     */
     private void generateLines(){
         byte factor = -1;
         if(turnClockWise){
@@ -42,11 +56,21 @@ public class RotatingCross extends PolygonEntity {
 
     }
 
+    /**
+     * Dreht das Kreuz
+     */
     private void updateRotation(){
         step += speed;
         generateLines();
     }
 
+    /**
+     * Sucht nach Kollisionen mit dem Ball und gibt im Falle einer Kollision interactWithBall() (Ball nach Kollision),
+     * bei keiner Kollision null zurück. Fügt bei Kollision dem aktuellen Spieler einen Entity spezifischen Score hinzu.
+     * Ruft die Methode zur Kreuz rotation auf.
+     * @param ball Ball auf den eine kollisionsabfrage durchgeführt werden soll.
+     * @return Ball nach Aufprall
+     */
     @Override
     public Ball updateEntity(Ball ball) {
         updateRotation();

@@ -1,17 +1,26 @@
 package asciipinball.objects.physicobject.polygonial;
 
+import asciipinball.Coordinate;
 import asciipinball.corelogic.playersandscore.PlayerManager;
 import asciipinball.interfaces.Coverable;
 import asciipinball.shapes.Line;
 
+/**
+ * Eine wand die lediglich aus einer Linie besteht
+ */
 public class LineWall extends PolygonEntity implements Coverable {
 
-
-    public LineWall(PlayerManager playerManager, float x1, float y1, float x2, float y2){
+    /**
+     * Erstellt eine Linien Wand
+     * @param playerManager playerManager des Spiels
+     * @param a Koordinaten des ersten Punktes der die Linie beschreibt
+     * @param b Koordinaten des zweiten Punktes der die Linie beschreibt
+     */
+    public LineWall(PlayerManager playerManager, Coordinate a, Coordinate b){
         super(playerManager);
         score = 0;
         lines = new Line[1];
-        lines[0] = new Line(x1,y1,x2,y2);
+        lines[0] = new Line(a,b);
     }
 
     @Override

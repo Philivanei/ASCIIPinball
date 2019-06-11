@@ -5,15 +5,15 @@ import asciipinball.Settings;
 import java.util.ArrayList;
 
 /**
- * This class creates a ball and simulates gravitation physics
+ * Ein Ball
  */
 public class Ball {
 
     //This coordinate system has it's origin in the bottom left - it gets converted for the printing to canvas process in addToCanvas()
-    private float positionX;
-    private float positionY;
-    private float futurePositionX;
-    private float futurePositionY;
+    private float x;
+    private float y;
+    private float futureX;
+    private float futureY;
     private float futureDirection;
     private float futureVelocity;
     private float direction;
@@ -21,11 +21,15 @@ public class Ball {
     private float radius;
     private boolean isInfluencedByPhysics;
 
+    /**
+     * Erstellt ein abbild eines Balles.
+     * @param ball Ball der Kopiert werden soll
+     */
     public Ball(Ball ball) {
-        positionX = ball.getPositionX();
-        positionY = ball.getPositionY();
-        futurePositionX = ball.futurePositionX;
-        futurePositionY = ball.futurePositionY;
+        x = ball.getX();
+        y = ball.getY();
+        futureX = ball.futureX;
+        futureY = ball.futureY;
         futureDirection = ball.futureDirection;
         futureVelocity = ball.futureVelocity;
         direction = ball.direction;
@@ -34,76 +38,123 @@ public class Ball {
         isInfluencedByPhysics = ball.isInfluencedByPhysics();
     }
 
+    /**
+     * Erstellt einen stillstehenden Ball.
+     * @param x X Koordinate des Balls
+     * @param y Y Koordinate des Balls
+     * @param radius radius des Balls
+     */
     public Ball(float x, float y, float radius) {
-        positionX = x;
-        positionY = y;
+        this.x = x;
+        this.y = y;
         this.radius = radius;
         direction = 0; //0° = right -> 90° = up -> 180° = left -> -90°/270° = down
         velocity = 0;
         isInfluencedByPhysics = false;
     }
 
+    /**
+     * Erstellt einen Ball mit einer Geschwindikeit und Richtung
+     * @param x X Koordinate des Balls
+     * @param y Y Koordinate des Balls
+     * @param radius Radius des Balls
+     * @param direction Richtung des Balls
+     * @param velocity Geschwindigkeit des Balls
+     */
     public Ball(float x, float y, float radius, float direction, float velocity) {
-        positionX = x;
-        positionY = y;
+        this.x = x;
+        this.y = y;
         this.radius = radius;
         this.direction = convertDirection(direction);
         this.velocity = velocity;
         isInfluencedByPhysics = velocity != 0;
     }
 
+    /**
+     * Gibt isInfluencedByPhysics zurück
+     * @return isInfluencedByPhysics
+     */
     private boolean isInfluencedByPhysics() {
         return isInfluencedByPhysics;
     }
 
+    /**
+     * Gibt den Radius zurück
+     * @return Radius des Balls
+     */
     public float getRadius() {
         return radius;
     }
 
-    public float getPositionX() {
-        return positionX;
+    /**
+     * Gibt die X Koordinate zurück
+     * @return X Koordinate des Balls
+     */
+    public float getX() {
+        return x;
     }
 
-    public float getPositionY() {
-        return positionY;
+    /**
+     * Gibt die Y Koordinate zurücl
+     * @return Y Koordinate des Balls
+     */
+    public float getY() {
+        return y;
     }
 
-    public float getFuturePositionX() {
-        return futurePositionX;
+    /**
+     * Gibt die errechnete zulünftige X Koordinate aus
+     * @return zukünftige X Koordinate des Balls
+     */
+    public float getFutureX() {
+        return futureX;
     }
 
-    public float getFuturePositionY() {
-        return futurePositionY;
+    /*'
+     * Gibt die errechnete zulünftige Y Koordinate aus
+     * @return zukünftige Y Koordinate des Balls
+     */
+    public float getFutureY() {
+        return futureY;
     }
 
-    public float getFutureDirection() {
-        return futureDirection;
-    }
-
-    public float getFutureVelocity() {
-        return futureVelocity;
-    }
-
+    /**
+     * Gibt die Richtung zurück
+     * @return Richtung des Balls
+     */
     public float getDirection() {
         return direction;
     }
 
+    /**
+     * Gibt die Geschwindigkeit zurück
+     * @return Geschwindigkeit des Balls
+     */
     public float getVelocity() {
         return velocity;
     }
 
+    /**
+     * Berechnet die Geschwindigkeit in x-Richtung
+     * @return Geschwindikeit in x-Richtung
+     */
     private float getXSpeed() {
-
         return (float) Math.cos(Math.toRadians(direction)) * velocity;
-
     }
 
+    /**
+     * Berechnet die Geschwindigkeit in y-Richtung
+     *@return Geschwindikeit in y-Richtung
+     */
     private float getYSpeed() {
-
         return (float) Math.sin(Math.toRadians(direction)) * velocity;
-
     }
 
+    /**
+     * Rechnet eine übergebene Richtung um auf einen Bereich von -180° - 180°
+     * @param direction zu umrechnende Richtung
+     * @return umgerechnete Richtung
+     */
     public float convertDirection(float direction) {
         float result;
 
@@ -122,9 +173,12 @@ public class Ball {
         return result;
     }
 
-
+    /**
+     * Berechnet die zukünftige Richtung des Balls
+     * @param xSpeed Geschwindigkeit in x Richtung
+     * @param ySpeed Geschwindigkeit in y Richtung
+     */
     private void calculateFutureDirection(float xSpeed, float ySpeed) {
-
         if (xSpeed >= 0) {
             futureDirection = convertDirection((float) Math.toDegrees(Math.atan(ySpeed / xSpeed)));
         } else if (xSpeed < 0 && ySpeed >= 0) {
@@ -132,25 +186,34 @@ public class Ball {
         } else if (xSpeed < 0 && ySpeed < 0) {
             futureDirection = convertDirection((float) (Math.abs(Math.toDegrees(Math.atan(ySpeed / xSpeed)))) - 180);
         }
-
-
     }
 
+    /**
+     * Berechnet die zukünftige (gesamt) Geschwindigkeit
+     * @param xSpeed Geschwindigkeit in x-Richtung
+     * @param ySpeed Geschwindigkeit in y-Richtung
+     */
     private void calculateFutureVelocity(float xSpeed, float ySpeed) {
-
         futureVelocity = (float) Math.sqrt(xSpeed * xSpeed + ySpeed * ySpeed);
-
     }
 
+    /**
+     * Berechnet die zukünftige Position des Balls
+     * @param xSpeed Geschwindigkeit in x-Richtung
+     * @param ySpeed Geschwindigkeit in y-Richtung
+     */
     private void calculateFuturePosition(float xSpeed, float ySpeed) {
-
-        futurePositionX = positionX + xSpeed;
-        futurePositionY = positionY + ySpeed;
-
+        futureX = x + xSpeed;
+        futureY = y + ySpeed;
     }
 
 
     //calculate Future takes a float gravitation value and simulates the behaviour of the ball per tick(call).
+
+    /**
+     * Berechnet den zukünftigen Zustand des Balles unter Berücksichtigung von Gravitation und Reibung.
+     * @param gravitationPerTick Gravitation die pro Berechnungsschritt wirken soll
+     */
     public void calculateFuture(float gravitationPerTick) {
 
         float xSpeed = getXSpeed();
@@ -174,41 +237,49 @@ public class Ball {
 
     }
 
+    /**
+     * Setzt die aktuelle Position auf den zukunfts Positions wert
+     */
     public void updateBall() {
-        positionX = futurePositionX;
-        positionY = futurePositionY;
+        x = futureX;
+        y = futureY;
         velocity = futureVelocity;
         direction = futureDirection;
     }
 
+    /**
+     * Setzt die aktuelle Position auf den zukunfts Positions wert des übergebenen Balls (Ball nach Abprall)
+     * @param ball Ball nach Abprall
+     */
     public void updateBall(Ball ball) {
-
-       /* Ball ballCopy = new Ball(ball);
-
-        for(int i = 0; i < 2; i++){
-            ballCopy = new Ball(ballCopy.getFuturePositionX(), ballCopy.getFuturePositionY(), ballCopy.getRadius(), ball.getDirection(), ball.getVelocity());
-            ballCopy.calculateFuture(Settings.GRAVITATION);
-        }*/
 
         ball.calculateFuture(Settings.GRAVITATION);
 
-        this.positionX = ball.getFuturePositionX();
-        this.positionY = ball.getFuturePositionY();
+        this.x = ball.getFutureX();
+        this.y = ball.getFutureY();
         this.direction = ball.getDirection();
         this.velocity = ball.getVelocity();
     }
 
+    /**
+     * Springt numberOfSteps Schritte in die Zukunft ohne Kollisions abfrage
+     * @param numberOfSteps anzahl der Schritte in die Zukunft
+     */
     public void jumpToFuture(int numberOfSteps) {
         for (int i = 0; i < numberOfSteps; i++) {
             calculateFuture(Settings.GRAVITATION);
-            positionX = futurePositionX;
-            positionY = futurePositionY;
+            x = futureX;
+            y = futureY;
             velocity = futureVelocity;
             direction = futureDirection;
         }
-
     }
 
+    /**
+     * Führt eine Liste aus Bällen zu einem Ball zusammen
+     * @param balls Liste an Bällen
+     * @return zusammengeführter Ball
+     */
     public Ball joinBalls(ArrayList<Ball> balls) {
         // calculate average if a ball hits a top or a corner
 
@@ -222,16 +293,20 @@ public class Ball {
             Ball ball1 = balls.get(0);
             Ball ball2 = balls.get(1);
             float newDirection = ball1.convertDirection((((ball1.getDirection() + 360) % 360) + ((ball2.getDirection() + 360) % 360)) / 2);
-            return new Ball(ball1.positionX, ball1.positionY, ball1.radius, newDirection, ball1.getVelocity());
+            return new Ball(ball1.x, ball1.y, ball1.radius, newDirection, ball1.getVelocity());
 
         } else {
             Ball ball1 = balls.get(0);
             Ball ball2 = balls.get(1);
             float newDirection = ball1.convertDirection((((ball1.getDirection() + 360) % 360) + ((ball2.getDirection() + 360) % 360)) / 2);
-            return new Ball(ball1.positionX, ball1.positionY, ball1.radius, newDirection, ball1.getVelocity());
+            return new Ball(ball1.x, ball1.y, ball1.radius, newDirection, ball1.getVelocity());
         }
     }
 
+    /**
+     * Fügt/zieht dem Ball eine Velocity bis zu einem minimal bzw maximal Wert zu/ab.
+     * @param velocityAdd Geschwindigkeit die aufaddiert werden soll
+     */
     public void addVelocity(float velocityAdd) {
         float newVelocity = velocity + velocityAdd;
         if (newVelocity > Settings.MIN_SPEED && newVelocity < Settings.MAX_SPEED) {

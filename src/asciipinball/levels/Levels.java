@@ -29,28 +29,28 @@ public class Levels {
         return addJointCovers(new PhysicEntity[]{
 
                 //diagonal lines in the middle
-                new LineWall(playerManager, 20, 60, 40, 40),
-                new LineWall(playerManager, 80, 60, 60, 40),
+                new LineWall(playerManager, new Coordinate(20,60), new Coordinate(40,40)),
+                new LineWall(playerManager, new Coordinate(80, 60), new Coordinate(60, 40)),
 
                 //lines on the upper edges
-                new LineWall(playerManager, 80, 135, 100, 115),
-                new LineWall(playerManager, 20, 135, 0, 115),
+                new LineWall(playerManager, new Coordinate(80, 135) , new Coordinate(100, 115)),
+                new LineWall(playerManager, new Coordinate(20, 135), new Coordinate(0, 115)),
 
                 //lines next to the FlipperFingers
-                new LineWall(playerManager, 10, 25, (((float) Settings.WIDTH / 2) - (Settings.HOLE_WIDTH / 2)), 15),
-                new LineWall(playerManager, 90, 25, (((float) Settings.WIDTH / 2) + (Settings.HOLE_WIDTH / 2)), 15),
+                new LineWall(playerManager, new Coordinate(10, 25), new Coordinate((((float) Settings.WIDTH / 2) - (Settings.HOLE_WIDTH / 2)), 15)),
+                new LineWall(playerManager, new Coordinate(90, 25), new Coordinate((((float) Settings.WIDTH / 2) + (Settings.HOLE_WIDTH / 2)), 15)),
 
                 //lines where the ball starts at the right side
-                new LineWall(playerManager, 90, 25, 90, 0),
-                new LineWall(playerManager, 90, 1, 100, 1),
+                new LineWall(playerManager, new Coordinate(90, 25), new Coordinate (90, 0)),
+                new LineWall(playerManager, new Coordinate(90, 1), new Coordinate(100, 1)),
 
                 //Bumper in the middle
-                new Bumper(playerManager, Settings.WIDTH / 2, Settings.HEIGHT / 2, 4),
+                new Bumper(playerManager, new Coordinate(Settings.WIDTH / 2, Settings.HEIGHT / 2), 4),
 
                 //rotating cross on the left side up
-                new RotatingCross(playerManager, 30, 105, 8, 0.0008f, false),
+                new RotatingCross(playerManager, new Coordinate(30, 105), 8, 0.0008f, false),
                 //rotating cross on the right side up
-                new RotatingCross(playerManager, 70, 105, 8, 0.0008f, true)
+                new RotatingCross(playerManager, new Coordinate(70, 105), 8, 0.0008f, true)
 
         });
     }
@@ -83,8 +83,8 @@ public class Levels {
                     Line[] linesToCover = ((Coverable) entity).getAllLines();
 
                     for (Line line : linesToCover) {
-                        arrayList.add(new JointCover(playerManager, line.getX1(), line.getY1()));
-                        arrayList.add(new JointCover(playerManager, line.getX2(), line.getY2()));
+                        arrayList.add(new JointCover(playerManager, new Coordinate(line.getX1(), line.getY1())));
+                        arrayList.add(new JointCover(playerManager, new Coordinate(line.getX2(), line.getY2())));
                     }
 
 

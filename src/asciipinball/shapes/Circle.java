@@ -1,5 +1,7 @@
 package asciipinball.shapes;
 
+import asciipinball.Coordinate;
+
 public class Circle extends Shapes {
     private float radius;
     private float x;
@@ -9,6 +11,10 @@ public class Circle extends Shapes {
         this.radius = radius;
         this.x = x;
         this.y = y;
+    }
+
+    public Circle(Coordinate cor, float radius){
+        this(cor.getX(),cor.getY(),radius);
     }
 
     public float getRadius() {

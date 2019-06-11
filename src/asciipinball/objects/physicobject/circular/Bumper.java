@@ -1,16 +1,26 @@
 package asciipinball.objects.physicobject.circular;
 
+import asciipinball.Coordinate;
 import asciipinball.corelogic.playersandscore.PlayerManager;
 import asciipinball.objects.Ball;
 import asciipinball.shapes.Circle;
 
+/**
+ * Ein Bumper der den Ball von sich abstößt
+ */
 public class Bumper extends CircleEntity {
 
-    public Bumper(PlayerManager playerManager, float x, float y, float radius){
+    /**
+     * Erstellt einen Bumper
+     * @param playerManager playerManager des Spiels
+     * @param coordinate Koordinate des Mittelpunkts des Bumpers
+     * @param radius Radius des Bumpers
+     */
+    public Bumper(PlayerManager playerManager, Coordinate coordinate, float radius){
         super(playerManager);
         score = 150;
         circles = new Circle[1];
-        circles[0] = new Circle(x,y,radius);
+        circles[0] = new Circle(coordinate,radius);
     }
 
     @Override

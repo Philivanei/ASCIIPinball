@@ -103,14 +103,14 @@ public class PinballGame {
         gui = new Gui(gameView);
 
         resetBall();
-        table = new Table(playerManager, Settings.WIDTH, Settings.HEIGHT, Settings.HOLE_WIDTH);
+        table = new Table(playerManager, Settings.WIDTH, Settings.HEIGHT);
 
         physicEntities = new Levels(playerManager).getLevel1PhysicEntities();
         noPhysicEntities = new Levels(playerManager).getLevel1NoPhysicEntities();
     }
 
     private void checkBallOutOfGame() {
-        if (ball.getPositionY() < -10) {
+        if (ball.getY() < -10) {
             playerManager.currentPlayerLoseRound();
             playerManager.nextPlayer();
             resetBall();

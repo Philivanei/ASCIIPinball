@@ -3,8 +3,19 @@ package asciipinball.objects.nophysicsobject.pointdoor;
 import asciipinball.Coordinate;
 import asciipinball.corelogic.playersandscore.PlayerManager;
 
+/**
+ * Fabrik für PointDoors
+ */
 public abstract class PointDoorFactory {
 
+    /**
+     * Erstellt eine anzahl an PointDoors die sich gegenseitig kennen
+     * @param playerManager playerManager des Spiels
+     * @param coordinates Koordinaten an denen Point doors erstellt werden sollen.
+     * @param radius Radius der Pointdoors
+     * @param scoreIfTriggered Punkte die dem Spieler hinzugefügt werden sollen, wenn er alle zusammengehörigen Pointdoors eingesammelt hat
+     * @return
+     */
     public static PointDoor[] createPointDoors(PlayerManager playerManager, Coordinate[] coordinates, float radius , int scoreIfTriggered){
 
         int numberOfPointDoorsToGenerate = 0;
@@ -30,6 +41,10 @@ public abstract class PointDoorFactory {
         return  returnPointDoors;
     }
 
+    /**
+     * Teilt jeder PointDoor aus pointDoors alle anderen PointDoors aus pointDoors mit
+     * @param pointDoors Array an pointDoors die sich gegenseitig kennen sollen
+     */
     private static void linkAll(PointDoor[] pointDoors){
         for(int i = 0; i < pointDoors.length; i++){
             for(int j = 0; j < pointDoors.length; j++){
