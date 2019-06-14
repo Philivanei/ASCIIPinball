@@ -8,6 +8,5 @@ public class NotSupportedNumberOfPlayersException extends RuntimeException {
 
     public NotSupportedNumberOfPlayersException(String message) {
         super(message);
-
     }
 }
