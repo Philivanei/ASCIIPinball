@@ -20,7 +20,35 @@ public class HighScoreManager {
 
     }
 
-    private JSONObject getJsonObject(){
+
+
+    /**
+     * Ließt den Highscore aus Highscore Datei ein
+     * @return gespeicherter HighScore
+     */
+    public long getHighScore(){
+        JSONObject jsonObject = getJsonObjectFromFile();
+
+        if(jsonObject == null){
+            return 0;
+        }
+        return (long) getJsonObjectFromFile().get("score");
+    }
+
+    /**
+     * Ließt den Namen aus Highscore Datei ein
+     * @return gespeicherter Name
+     */
+    public String getHighScoreName(){
+        JSONObject jsonObject = getJsonObjectFromFile();
+
+        if(jsonObject == null){
+            return "";
+        }
+        return (String) getJsonObjectFromFile().get("name");
+    }
+
+    private JSONObject getJsonObjectFromFile(){
 
         System.out.println("OPENIING");
 
@@ -38,7 +66,7 @@ public class HighScoreManager {
         } catch (FileNotFoundException e) {
             new File(System.getProperty("user.home")+"/.ASCIIPinball").mkdir();
             setHighScore(new Player(),"");
-            getJsonObject();
+            getJsonObjectFromFile();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -56,34 +84,6 @@ public class HighScoreManager {
         // typecasting obj to JSONObject
         return (JSONObject) obj;
     }
-
-    /**
-     * Ließt den Highscore aus Highscore Datei ein
-     * @return gespeicherter HighScore
-     */
-    public long getHighScore(){
-        JSONObject jsonObject = getJsonObject();
-
-        if(jsonObject == null){
-            return 0;
-        }
-        return (long) getJsonObject().get("score");
-    }
-
-    /**
-     * Ließt den Namen aus Highscore Datei ein
-     * @return gespeicherter Name
-     */
-    public String getHighScoreName(){
-        JSONObject jsonObject = getJsonObject();
-
-        if(jsonObject == null){
-            return "";
-        }
-        return (String) getJsonObject().get("name");
-    }
-
-
 
     /**
      * Speichert den übergebenen Spieler in die Highscoredatei
