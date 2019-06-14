@@ -6,7 +6,7 @@ import asciipinball.corelogic.AsciiStringBuilder;
 import asciipinball.exceptions.ClassNotSupportedException;
 import asciipinball.fonts.AsciiStringContainer;
 import asciipinball.objects.Ball;
-import asciipinball.objects.flipperfinger.FlipperFingerControl;
+import asciipinball.objects.flipperfinger.FlipperFingerManager;
 import asciipinball.objects.nophysicsobject.NonPhysicEntity;
 import asciipinball.objects.physicobject.PhysicEntity;
 import asciipinball.objects.physicobject.circular.CircleEntity;
@@ -38,9 +38,9 @@ public class Gui {
         gameView.addToCanvas(array,row,column);
     }
 
-    public void addToCanvas(FlipperFingerControl flipperFingerControl){
-        addToCanvas(flipperFingerControl.getLeftFlipperFinger());
-        addToCanvas(flipperFingerControl.getRightFlipperFinger());
+    public void addToCanvas(FlipperFingerManager flipperFingerManager){
+        addToCanvas(flipperFingerManager.getLeftFlipperFinger());
+        addToCanvas(flipperFingerManager.getRightFlipperFinger());
     }
 
     public void addToCanvas(PhysicEntity entity) throws ClassNotSupportedException {

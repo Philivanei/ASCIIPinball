@@ -9,7 +9,7 @@ import java.util.ArrayList;
 /**
  * Steuerung der Flipper Finger.
  */
-public class FlipperFingerControl implements Drawable {
+public class FlipperFingerManager implements Drawable {
 
     private LeftFlipperFinger leftFlipperFinger;
     private RightFlipperFinger rightFlipperFinger;
@@ -33,7 +33,7 @@ public class FlipperFingerControl implements Drawable {
      * @param minAngle            Legt die MinimalHöhe der FlipperFinger fest.
      * @param maxAngle            Legt die MaximalHöhe der FlipperFinger fest.
      */
-    public FlipperFingerControl(PlayerManager playerManager, float xLeftFlipperFinger, float yLeftFlipperFinger, float xRightFlipperFinger,
+    public FlipperFingerManager(PlayerManager playerManager, float xLeftFlipperFinger, float yLeftFlipperFinger, float xRightFlipperFinger,
                                 float yRightFlipperFinger, float length, float minAngle, float maxAngle) {
         leftFlipperFinger = new LeftFlipperFinger(playerManager, xLeftFlipperFinger, yLeftFlipperFinger, length, minAngle, maxAngle);
         rightFlipperFinger = new RightFlipperFinger(playerManager, xRightFlipperFinger, yRightFlipperFinger, length, minAngle, maxAngle);

@@ -11,17 +11,17 @@ import java.awt.event.KeyEvent;
 public class Control {
 
     private LaunchControl launchControl;
-    private FlipperFingerControl flipperFingerControl;
+    private FlipperFingerManager flipperFingerManager;
     private StartScreen startScreen;
     private GameOverScreen gameOverScreen;
     private GameView gameView;
     private PinballGame pinballGame;
     private boolean skipRequested;
 
-    public Control(GameView gameView, FlipperFingerControl flipperFingerControl, LaunchControl launchControl,
+    public Control(GameView gameView, FlipperFingerManager flipperFingerManager, LaunchControl launchControl,
                    StartScreen startScreen, GameOverScreen gameOverScreen, PinballGame pinballGame) {
 
-        this.flipperFingerControl = flipperFingerControl;
+        this.flipperFingerManager = flipperFingerManager;
         this.launchControl = launchControl;
         this.startScreen = startScreen;
         this.gameView = gameView;
@@ -43,12 +43,12 @@ public class Control {
                     //keys for FlipperFingers and GameOverScreen
                     if (keyEvent.getKeyCode() == KeyEvent.VK_LEFT) {
 
-                        flipperFingerControl.onLeftDown();
+                        flipperFingerManager.onLeftDown();
                         gameOverScreen.arrowLeftPressed();
 
                     } else if (keyEvent.getKeyCode() == KeyEvent.VK_RIGHT) {
 
-                        flipperFingerControl.onRightDown();
+                        flipperFingerManager.onRightDown();
                         gameOverScreen.arrowRightPressed();
 
 
@@ -84,11 +84,11 @@ public class Control {
                     //keys for FlipperFingers
                     if (keyEvent.getKeyCode() == KeyEvent.VK_LEFT) {
 
-                        flipperFingerControl.onLeftUp();
+                        flipperFingerManager.onLeftUp();
 
                     } else if (keyEvent.getKeyCode() == KeyEvent.VK_RIGHT) {
 
-                        flipperFingerControl.onRightUp();
+                        flipperFingerManager.onRightUp();
 
                         //key for launchControl
                     } else if (keyEvent.getKeyCode() == KeyEvent.VK_SPACE) {
