@@ -79,6 +79,7 @@ public class GameOverScreen {
         this.isActive = isActive;
     }
 
+
     /**
      * Gibt die verschiedenen Elemente an der gesetzten Position auf dem GameOverScreen aus.
      * @param gui Referenz auf das GUI Objekt des Spiels

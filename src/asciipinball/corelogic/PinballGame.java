@@ -180,34 +180,29 @@ public class PinballGame {
         if (!startScreen.isPlayerNumberSelected()) {
             startScreen.printStartScreen(gui);
         } else if (!gameOver) {
-            try {
-                gui.addToCanvas(table);
+            gui.addToCanvas(table);
 
-                for (PhysicEntity physicEntity : physicEntities) {
-                    if (physicEntity != null) {
-                        gui.addToCanvas(physicEntity);
-                    }
+            for (PhysicEntity physicEntity : physicEntities) {
+                if (physicEntity != null) {
+                    gui.addToCanvas(physicEntity);
                 }
-
-                for (NonPhysicEntity noPhysicEntity : noPhysicEntities) {
-                    if (noPhysicEntity != null) {
-                        gui.addToCanvas(noPhysicEntity);
-                    }
-                }
-
-                gui.addToCanvas(lifeDisplay.getDisplay(), lifeDisplay.getColor());
-
-                gui.addToCanvas(launchControl);
-
-                gui.addToCanvas(flipperFinger);
-
-                gui.addToCanvas(ball);
-
-                gui.addAsciiStringToCanvas(playerManager.getCurrentPlayerScoreString(), (int) Settings.HEIGHT / 2, 35, new FontStraight());
-
-            } catch (Exception e) {
-                e.printStackTrace();
             }
+
+            for (NonPhysicEntity noPhysicEntity : noPhysicEntities) {
+                if (noPhysicEntity != null) {
+                    gui.addToCanvas(noPhysicEntity);
+                }
+            }
+
+            gui.addToCanvas(lifeDisplay.getDisplay(), lifeDisplay.getColor());
+
+            gui.addToCanvas(launchControl);
+
+            gui.addToCanvas(flipperFinger);
+
+            gui.addToCanvas(ball);
+
+            gui.addAsciiStringToCanvas(playerManager.getCurrentPlayerScoreString(), (int) Settings.HEIGHT / 2, 35, new FontStraight());
         } else {
             gameOverScreen.printGameOverScreen(gui);
         }

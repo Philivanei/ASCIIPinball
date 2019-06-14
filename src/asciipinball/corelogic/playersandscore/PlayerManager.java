@@ -73,8 +73,6 @@ public class PlayerManager {
         if(players[winningPlayerId].getScore() > new HighScoreManager().getHighScore()){
             new HighScoreManager().setHighScore(players[winningPlayerId], "");
         }
-
-
         return players[winningPlayerId].getScore();
     }
 

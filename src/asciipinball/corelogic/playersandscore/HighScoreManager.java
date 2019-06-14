@@ -6,10 +6,16 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
+/**
+ * Speichern und Laden des HighScores
+ */
 public class HighScoreManager {
 
     private String pathToFile = System.getProperty("user.home")+"\\.ASCIIPinball\\highscore.json";
 
+    /**
+     * Erstellt einen HighScoreManager
+     */
     public HighScoreManager(){
 
     }
@@ -17,7 +23,7 @@ public class HighScoreManager {
     private JSONObject getJsonObject(){
 
         String fileString = "";
-        try (BufferedReader br = new BufferedReader(new FileReader(pathToFile));) {
+        try (BufferedReader br = new BufferedReader(new FileReader(pathToFile))) {
             StringBuilder sb = new StringBuilder();
             String line = br.readLine();
 
@@ -49,6 +55,10 @@ public class HighScoreManager {
         return (JSONObject) obj;
     }
 
+    /**
+     * Ließt den Highscore aus Highscore Datei ein
+     * @return gespeicherter HighScore
+     */
     public long getHighScore(){
         JSONObject jsonObject = getJsonObject();
 
@@ -58,6 +68,10 @@ public class HighScoreManager {
         return (long) getJsonObject().get("score");
     }
 
+    /**
+     * Ließt den Namen aus Highscore Datei ein
+     * @return gespeicherter Name
+     */
     public String getHighScoreName(){
         JSONObject jsonObject = getJsonObject();
 
@@ -67,6 +81,13 @@ public class HighScoreManager {
         return (String) getJsonObject().get("name");
     }
 
+
+
+    /**
+     * Speichert den übergebenen Spieler in die Highscoredatei
+     * @param player Spieler dessen Score gespeichert werden soll
+     * @param name Name des Spielers
+     */
     //The error that gets suppresst is created by Yidong Fang - not by us - Yes i know that sounds odd -
     //But it's the truth - it's simple JSONs fault
     @SuppressWarnings("unchecked")
