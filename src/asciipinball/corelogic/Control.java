@@ -91,6 +91,11 @@ public class Control {
                             skipRequested = true;
                             pinballGame.skipRound();
                         }
+                    } else if(keyEvent.getKeyCode() == KeyEvent.VK_N){
+                        if(gameOverScreen.isActive()){
+                            pinballGame.init();
+                        }
+
                     }
 
 

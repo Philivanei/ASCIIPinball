@@ -36,6 +36,11 @@ public class GameOverScreen {
         visibleWinnningScore = -1;
     }
 
+
+    public boolean isActive() {
+        return isActive;
+    }
+
     /**
      * Bewegt den Pfeil nach links.
      */

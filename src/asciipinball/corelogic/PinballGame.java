@@ -56,7 +56,6 @@ public class PinballGame {
         gui = new Gui(gameView);
         aui = new Aui(gameView);
 
-
         /* Init Colormap */
         Settings.initColorMap(gameView);
 

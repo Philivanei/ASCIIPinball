@@ -31,8 +31,10 @@ public class Aui {
                     break;
                 case 3:
                     gameView.playSound("gameOver.wav",0);
+                    break;
                 case 4:
                     gameView.playSound("newHighscore.wav", 2500);
+                    break;
                 default:
                     break;
             }
