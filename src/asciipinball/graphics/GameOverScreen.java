@@ -15,6 +15,8 @@ public class GameOverScreen {
     private PinballGame pinballGame;
     private int countArrowColumns;
     private boolean isActive;
+    private long visibleHighScore;
+    private int visibleWinnningScore;
 
     /**
      * Erstellt einen GameOverScreen.
@@ -27,6 +29,8 @@ public class GameOverScreen {
         this.playerManager = playerManager;
         this.pinballGame = pinballGame;
         countArrowColumns = Settings.GAME_OVER_OPTIONS_POSITION_X;
+        visibleHighScore = -1;
+        visibleWinnningScore = -1;
     }
 
     /**
@@ -70,6 +74,20 @@ public class GameOverScreen {
         }
     }
 
+    private long getHighScore(){
+        if(visibleHighScore < 0){
+            visibleHighScore = playerManager.getHighScore();
+        }
+        return visibleHighScore;
+    }
+
+    private int getScoreOfWinner(){
+        if(visibleWinnningScore < 0){
+            visibleWinnningScore = playerManager.getWinningScore();
+        }
+        return visibleWinnningScore;
+    }
+
     /**
      * Aktiviert den GameOverScreen.
      *
@@ -86,11 +104,11 @@ public class GameOverScreen {
      */
     public void printGameOverScreen(Gui gui) {
         gui.addAsciiStringToCanvas("GAME OVER", Settings.HEIGHT / 2 - 10, Settings.GAME_VIEW_WIDTH / 2, new FontElectronic());
-        gui.addAsciiStringToCanvas("Winner\nPlayer " + playerManager.getWinningPlayerNumber() + "\n\n" + playerManager.getWinningScore(), Settings.HEIGHT / 2 + 10, Settings.GAME_VIEW_WIDTH / 2, new FontBig());
+        gui.addAsciiStringToCanvas("Winner\nPlayer " + playerManager.getWinningPlayerNumber() + "\n\n" + getScoreOfWinner(), Settings.HEIGHT / 2 + 10, Settings.GAME_VIEW_WIDTH / 2, new FontBig());
         gui.addAsciiStringToCanvas("Quit", Settings.GAME_OVER_OPTIONS_POSITION_Y, Settings.GAME_OVER_OPTIONS_POSITION_X + Settings.GAME_OVER_OPTIONS_DISTANCE, new FontBig());
         gui.addAsciiStringToCanvas("Retry", Settings.GAME_OVER_OPTIONS_POSITION_Y, Settings.GAME_OVER_OPTIONS_POSITION_X, new FontBig());
         gui.addAsciiStringToCanvas("-", Settings.GAME_OVER_OPTIONS_POSITION_Y, countArrowColumns - 35, new FontBig());
-        gui.addAsciiStringToCanvas(Long.toString(playerManager.getHighScore()), 30, Settings.GAME_VIEW_WIDTH / 2, new FontBig());
+        gui.addAsciiStringToCanvas(Long.toString(getHighScore()), 30, Settings.GAME_VIEW_WIDTH / 2, new FontBig());
         gui.addAsciiStringToCanvas("HighScore", 20, Settings.GAME_VIEW_WIDTH / 2, new FontBig());
 
     }
