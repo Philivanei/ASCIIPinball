@@ -16,11 +16,7 @@ public abstract class PolygonEntity extends PhysicEntity implements Drawable {
 
     protected Line[] lines;
 
-    /**
-     *
-     * @param playerManager playerManager des Spiels
-     */
-    public PolygonEntity(PlayerManager playerManager) {
+    protected PolygonEntity(PlayerManager playerManager) {
         super(playerManager);
     }
 

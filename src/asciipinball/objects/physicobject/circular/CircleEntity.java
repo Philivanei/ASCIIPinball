@@ -16,11 +16,7 @@ public abstract class CircleEntity extends PhysicEntity implements Drawable {
 
     protected Circle[] circles;
 
-    /**
-     *
-     * @param playerManager playerManager des Spiels
-     */
-    public CircleEntity(PlayerManager playerManager) {
+    protected CircleEntity(PlayerManager playerManager) {
         super(playerManager);
     }
 

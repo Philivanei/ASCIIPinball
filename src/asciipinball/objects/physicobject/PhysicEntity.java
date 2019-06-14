@@ -17,11 +17,7 @@ public abstract class PhysicEntity {
     protected int score = 0;
     protected PlayerManager playerManager;
 
-    /**
-     * Registriert den playerManager in Entity an
-     * @param playerManager playerManager des Spiels
-     */
-    public PhysicEntity(PlayerManager playerManager){
+    protected PhysicEntity(PlayerManager playerManager){
         this.playerManager = playerManager;
     }
 
