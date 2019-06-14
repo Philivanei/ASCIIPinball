@@ -9,7 +9,6 @@ import java.awt.event.*;
 import java.awt.font.TextAttribute;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Timer;
@@ -18,43 +17,50 @@ import java.util.concurrent.LinkedBlockingQueue;
 
 /**
  * Ein Fenster, dass die Anzeige von ASCI-Spielen erlaubt, Ton ausgibt und
- * Tastendr�cke und MausKlicks als Events zur�ckliefert.<br>
+ * Tastendrücke und MausKlicks als Events zurückliefert.<br>
  * <br>
  *
  * @author Andreas Berl
- * @version 4.25(28.05.2019)
+ * @version 4.30(10.06.2019)
  * <p>
  * Updates:
  * Neuer Canvas
  * Buchstaben mittig Ausgerichtet
- * JavaDoc �berarbeitet
- * Gro�e Buchstaben
- * Kein Gr��enlimit
+ * JavaDoc überarbeitet
+ * Große Buchstaben
+ * Kein Größenlimit
+ * ChangeResolution
+ * Kleinere Bugs
+ * PlaySound funktioniert
+ * PlaySound mit Delay
+ * MouseCursor mit echtem Zentrum
+ * Frame als eingene Klasse
  */
 public class GameView {
 
     /**
-     * Kleine Festergr��e
+     * Kleine Festergröße
      */
     public static final int WINDOWSIZE_SMALL = 0;
     /**
-     * Normale Festergr��e (Standard)
+     * Normale Festergröße (Standard)
      */
     public static final int WINDOWSIZE_NORMAL = 1;
     /**
-     * Gro�e Festergr��e
+     * Große Festergröße
      */
     public static final int WINDOWSIZE_LARGE = 2;
     /**
      * Fester maximiert
      */
     public static final int WINDOWSIZE_MAXIMIZED = 3;
-    final static String STANDARDTITEL = "GameView IV";
-    private final static String STATUSRECHTS = "GameView IV (2019) - Prof. Dr. Andreas Berl - TH Deggendorf ";
+
+    private final static String STANDARDTITEL = "GameView IV";
+    private final static String STATUSRECHTS = "GameView 4.30 (2019) - Prof. Dr. Andreas Berl - TH Deggendorf ";
     private final static String SPLASH = "      ASCII-\n\n" + "GameView IV (2019)";
     private final static char STANDARDNONTRANSPARENTSPACE = ';';
     private static GameView gameView;
-    private final String framesLost = " --> Frames verloren!";
+    private final static String FRAMESLOST = " --> Frames verloren!";
     private LinkedBlockingQueue<KeyEvent> keyboardEvents;
     private LinkedBlockingQueue<MouseEvent> mousePointerEvents;
 
@@ -80,18 +86,18 @@ public class GameView {
     private boolean moved;
     private Timer mouseTimer;
     private long mouseMovementTimer;
-    private boolean isSplashFinished;
+    private volatile boolean isSplashFinished;
     private Timer resizeTimer;
 
     /**
      * Erzeugt ein Fenster zur Anzeige von ASCII-Spielen, mit Sound, Tastatur- und
      * Maus-Eingaben. Es wird ein Fenster mit <code>lines</code> Zeilen und <code>rows</code> Spalten erzeugt. Bitte initialisieren Sie
-     * das Fenster mit der Aufl�sung, die am h�ufigsten ben�tigt wird, da die Form des Fensters davon abh�ngt. Sie k�nnen
-     * die Aufl�sung sp�ter mit der Methode <code>changeResolution(int lines, int rows)</code> �ndern.
+     * das Fenster mit der Auflösung, die am häufigsten benötigt wird, da die Form des Fensters davon abhängt. Sie können
+     * die Auflösung später mit der Methode <code>changeResolution(int lines, int rows)</code> ändern.
      *
-     * @param lines Die gew�hlte Aufl�sung (Zeilen).
-     * @param rows  Die gew�hlte Aufl�sung (Spalten).
-     * @param title Der Titel f�r die Titelzeile des Fensters.
+     * @param lines Die gewählte Auflösung (Zeilen).
+     * @param rows  Die gewählte Auflösung (Spalten).
+     * @param title Der Titel für die Titelzeile des Fensters.
      */
     public GameView(int lines, int rows, String title) {
         // Check parameters
@@ -118,8 +124,9 @@ public class GameView {
         this.mousePointerEvents = new LinkedBlockingQueue<>();
         this.windowSize = WINDOWSIZE_NORMAL;
         fillColormap();
-        title = (title == "") ? STANDARDTITEL : title;
-        intitFrame(title);
+        title = (title.equals("")) ? STANDARDTITEL : title;
+        frame = new Frame(title);
+        useMouse(false); // init Mouse-Timer
     }
 
     /**
@@ -142,8 +149,8 @@ public class GameView {
     }
 
     /**
-     * Wandelt einen String in ein rechteckiges char[][] um. L�cken werden mit
-     * Leerzeichen aufgef�llt.
+     * Wandelt einen String in ein rechteckiges char[][] um. Lücken werden mit
+     * Leerzeichen aufgefüllt.
      *
      * @param string Der String der umgewandelt werden soll.
      * @return Der umgewandelte String als Rechteck.
@@ -155,9 +162,9 @@ public class GameView {
         String[] lines = string.split("\r\n|\n");
         int z = lines.length;
         int s = 0;
-        for (int i = 0; i < lines.length; i++) {
-            if (lines[i].length() > s) {
-                s = lines[i].length();
+        for (String line : lines) {
+            if (line.length() > s) {
+                s = line.length();
             }
         }
         char[][] ca = new char[z][s];
@@ -174,7 +181,7 @@ public class GameView {
     }
 
     /**
-     * Legt ein Symbol f�r die Titelleiste fest. Das Symbolfile muss in einem
+     * Legt ein Symbol für die Titelleiste fest. Das Symbolfile muss in einem
      * Verzeichnis "src/resources" liegen.Bitte den Namen des Files ohne
      * Verzeichnisnamen angeben, z.B."Symbol.png". Diese Methode muss aufgerufen
      * werden, bevor das Fenster sichtbar gemacht wird.
@@ -189,7 +196,6 @@ public class GameView {
         } catch (Exception e) {
             e.printStackTrace();
             System.err.println("Symbolfile \"" + windowIcon + "\" konnte nicht gefunden werden!");
-            fensterSymbol = null;
         }
         frame.setIconImage(fensterSymbol);
     }
@@ -207,11 +213,11 @@ public class GameView {
     }
 
     /**
-     * Die Gr��e des Fensters kann festgelegt werden. Es gibt WINDOWSIZE_SMALL, WINDOWSIZE_NORMAL, WINDOWSIZE_LARGE und
+     * Die Größe des Fensters kann festgelegt werden. Es gibt WINDOWSIZE_SMALL, WINDOWSIZE_NORMAL, WINDOWSIZE_LARGE und
      * WINDOWSIZE_MAXIMIZED. Diese Methode muss aufgerufen werden, bevor das Fenster
      * sichtbar gemacht wird.
      *
-     * @param windowSize Gr��e des Fensters.
+     * @param windowSize Größe des Fensters.
      */
     public void setWindowsSize(int windowSize) {
         checkConfigurationMethods("setWindowsSize()");
@@ -243,10 +249,10 @@ public class GameView {
     }
 
     /**
-     * �ndert die Aufl�sung im Fenster. Die Fenstergr��e wird dabei beibehalten.
+     * Ändert die Auflösung im Fenster. Die Fenstergröße wird dabei beibehalten.
      *
-     * @param lines Die gew�hlte Aufl�sung (Zeilen).
-     * @param rows  Die gew�hlte Aufl�sung (Spalten).
+     * @param lines Die gewählte Auflösung (Zeilen).
+     * @param rows  Die gewählte Auflösung (Spalten).
      */
     public void changeResolution(int lines, int rows) {
         setResolution(lines, rows);
@@ -255,7 +261,7 @@ public class GameView {
     }
 
     /**
-     * Gibt die aktuelle Zeilenanzahl zur�ck;
+     * Gibt die aktuelle Zeilenanzahl zurück;
      *
      * @return Aktuelle Zeilenanzahl
      */
@@ -264,7 +270,7 @@ public class GameView {
     }
 
     /**
-     * Gibt die aktuelle Spaltenanzahl zur�ck;
+     * Gibt die aktuelle Spaltenanzahl zurück;
      *
      * @return Aktuelle Spaltenanzahl
      */
@@ -273,7 +279,7 @@ public class GameView {
     }
 
     /**
-     * Gibt den aktuellen char an der Stelle (line, row) vom Canvas zur�ck.
+     * Gibt den aktuellen char an der Stelle (line, row) vom Canvas zurück.
      *
      * @return Aktueller Canvas.
      */
@@ -283,9 +289,9 @@ public class GameView {
 
     /**
      * Legt fest, ob die Maus im Fenster benutzt werden soll. Falls sie nicht
-     * benutzt wird, wird der Cursor der Maus auf den Default-Ansicht zur�ckgesetzt
+     * benutzt wird, wird der Cursor der Maus auf den Default-Ansicht zurückgesetzt
      * und die Maus wird ausgeblendet. Falls sie benutzt wird, werden Maus-Events
-     * erzeugt, die verwendet werden k�nnen. Die Standardeinstellung ist
+     * erzeugt, die verwendet werden können. Die Standardeinstellung ist
      * <code>false</code>.
      *
      * @param useMouse Legt fest, ob die Maus im Fenster benutzt werden soll.
@@ -322,7 +328,7 @@ public class GameView {
     }
 
     /**
-     * Legt ein neues Symbol f�r den Maus-Cursor fest. Das Bildfile muss in einem
+     * Legt ein neues Symbol für den Maus-Cursor fest. Das Bildfile muss in einem
      * Verzeichnis "src/resources" liegen. Bitte den Namen des Files ohne
      * Verzeichnisnamen angeben, z.B. "Cursor.png".
      *
@@ -342,33 +348,38 @@ public class GameView {
             System.out.println("Cursorfile konnte nicht gefunden werden!");
             System.exit(1);
         }
-        frame.setCursor(createCursor(im));
-    }
-
-    private void setNullCursor() {
-        this.nullCursor = true;
-        Image im = new ImageIcon("").getImage();
-        frame.setCursor(createCursor(im));
-    }
-
-    private Cursor createCursor(Image im) {
-        Toolkit toolkit = frame.getToolkit();
-        Point cursorHotSpot = new Point(15, 15);
-        Cursor imageCursor = toolkit.createCustomCursor(im, cursorHotSpot, "Cross");
-        return imageCursor;
+        frame.setCursor(createCursor(im, centered));
     }
 
     /**
-     * Der Maus-Cursor wird auf das Standard-Icon zur�ckgesetzt.
+     * Der Maus-Cursor wird auf das Standard-Icon zurückgesetzt.
      */
     public void setStandardMouseCursor() {
         frame.setCursor(Cursor.getDefaultCursor());
     }
 
+    private void setNullCursor() {
+        this.nullCursor = true;
+        Image im = new ImageIcon("").getImage();
+        frame.setCursor(createCursor(im, false));
+    }
+
+    private Cursor createCursor(Image im, boolean centered) {
+        Toolkit toolkit = frame.getToolkit();
+        Dimension cursorSize = Toolkit.getDefaultToolkit().getBestCursorSize(64, 64);
+        Point cursorHotSpot = new Point(0, 0);
+        if (centered) {
+            cursorHotSpot = new Point(cursorSize.width / 2, cursorSize.height / 2);
+        }
+        return toolkit.createCustomCursor(im, cursorHotSpot, "Cross");
+    }
+
+
+
 
     /**
-     * Gibt den �bergebenen <code>String</code> zentriert im Fenster aus. Diese Methode sollte
-     * h�chstens alle 16 ms aufgerufen werden (60 Frames pro Sekunde).
+     * Gibt den übergebenen <code>String</code> zentriert im Fenster aus. Diese Methode sollte
+     * höchstens alle 16 ms aufgerufen werden (60 Frames pro Sekunde).
      *
      * @param string Der anzuzeigende String.
      */
@@ -378,8 +389,8 @@ public class GameView {
     }
 
     /**
-     * Das �bergebene <code>char[][]</code> (mit Zeilen, Spalten) wird zentriert im Fenster
-     * ausgegeben. Diese Methode sollte h�chstens alle 16 ms aufgerufen werden (60
+     * Das übergebene <code>char[][]</code> (mit Zeilen, Spalten) wird zentriert im Fenster
+     * ausgegeben. Diese Methode sollte höchstens alle 16 ms aufgerufen werden (60
      * Frames pro Sekunde).
      *
      * @param chars Das anzuzeigende <code>char[][]</code>.
@@ -390,8 +401,8 @@ public class GameView {
 
 
     /**
-     * Gibt den �bergebenen <code>String</code> im Fenster aus. Diese Methode sollte
-     * h�chstens alle 16 ms aufgerufen werden (60 Frames pro Sekunde).
+     * Gibt den übergebenen <code>String</code> im Fenster aus. Diese Methode sollte
+     * höchstens alle 16 ms aufgerufen werden (60 Frames pro Sekunde).
      *
      * @param string Der anzuzeigende String.
      */
@@ -401,8 +412,8 @@ public class GameView {
     }
 
     /**
-     * Das �bergebene <code>char[][]</code> (mit Zeilen, Spalten) wird im Fenster
-     * ausgegeben. Diese Methode sollte h�chstens alle 16 ms aufgerufen werden (60
+     * Das übergebene <code>char[][]</code> (mit Zeilen, Spalten) wird im Fenster
+     * ausgegeben. Diese Methode sollte höchstens alle 16 ms aufgerufen werden (60
      * Frames pro Sekunde).
      *
      * @param chars Das anzuzeigende <code>char[][]</code>.
@@ -425,18 +436,36 @@ public class GameView {
     }
 
     /**
-     * L�scht alle Inhalte auf dem Canvas.
+     * Setzt die Default-Farbe der Schrift.
+     *
+     * @param foregroundColor Schriftfarbe
+     */
+    public void setForegroundColor(Color foregroundColor) {
+        this.foregroundColor = foregroundColor;
+    }
+
+    /**
+     * Setzt die Default-Farbe des Hintergrunds.
+     *
+     * @param backgroundColor Hintergrundfarbe
+     */
+    public void setBackgroundColor(Color backgroundColor) {
+        this.backgroundColor = backgroundColor;
+    }
+
+    /**
+     * Löscht alle Inhalte auf dem Canvas.
      */
     public void clearCanvas() {
         canvas.clearCanvas();
     }
 
     /**
-     * Schreibt den �bergebenen <code>String</code> zentriert auf das Canvas, ohne
-     * die bisherigen Inhalte zu l�schen.
+     * Schreibt den übergebenen <code>String</code> zentriert auf das Canvas, ohne
+     * die bisherigen Inhalte zu löschen.
      * Achtung: In dieser Methode ist das
      * Leerzeichen durchsichtig (Objekte im Hintergrund sind zu sehen). Falls ein
-     * undurchsichtiges Leerzeichen ben�tigt wird (die Hintergrundfarbe ist zu sehen), kann statt dessen das Semikolon
+     * undurchsichtiges Leerzeichen benötigt wird (die Hintergrundfarbe ist zu sehen), kann statt dessen das Semikolon
      * ";" verwendet werden.
      * Das undurchsichtige Leerzeichen kann mit der Methode
      * <code>setNonTransparentSpace(char c)</code> auf ein anderes Zeichen gesetzt
@@ -451,11 +480,11 @@ public class GameView {
     }
 
     /**
-     * Schreibt den �bergebenen <code>String</code> zentriert auf das Canvas, ohne
-     * die bisherigen Inhalte zu l�schen.
+     * Schreibt den übergebenen <code>String</code> zentriert auf das Canvas, ohne
+     * die bisherigen Inhalte zu löschen.
      * Achtung: In dieser Methode ist das
      * Leerzeichen durchsichtig (Objekte im Hintergrund sind zu sehen). Falls ein
-     * undurchsichtiges Leerzeichen ben�tigt wird (die Hintergrundfarbe ist zu sehen), kann statt dessen das Semikolon
+     * undurchsichtiges Leerzeichen benötigt wird (die Hintergrundfarbe ist zu sehen), kann statt dessen das Semikolon
      * ";" verwendet werden.
      * Das undurchsichtige Leerzeichen kann mit der Methode
      * <code>setNonTransparentSpace(char c)</code> auf ein anderes Zeichen gesetzt
@@ -468,11 +497,11 @@ public class GameView {
     }
 
     /**
-     * Schreibt das �bergebene <code>char[][]</code> (mit Zeilen, Spalten) zentriert
-     * auf das Canvas, ohne die bisherigen Inhalte zu l�schen.
+     * Schreibt das übergebene <code>char[][]</code> (mit Zeilen, Spalten) zentriert
+     * auf das Canvas, ohne die bisherigen Inhalte zu löschen.
      * Achtung: In dieser Methode ist das
      * Leerzeichen durchsichtig (Objekte im Hintergrund sind zu sehen). Falls ein
-     * undurchsichtiges Leerzeichen ben�tigt wird (die Hintergrundfarbe ist zu sehen), kann statt dessen das Semikolon
+     * undurchsichtiges Leerzeichen benötigt wird (die Hintergrundfarbe ist zu sehen), kann statt dessen das Semikolon
      * ";" verwendet werden.
      * Das undurchsichtige Leerzeichen kann mit der Methode
      * <code>setNonTransparentSpace(char c)</code> auf ein anderes Zeichen gesetzt
@@ -486,11 +515,11 @@ public class GameView {
     }
 
     /**
-     * Schreibt das �bergebene <code>char[][]</code> (mit Zeilen, Spalten) zentriert
-     * auf das Canvas, ohne die bisherigen Inhalte zu l�schen.
+     * Schreibt das übergebene <code>char[][]</code> (mit Zeilen, Spalten) zentriert
+     * auf das Canvas, ohne die bisherigen Inhalte zu löschen.
      * Achtung: In dieser Methode ist das
      * Leerzeichen durchsichtig (Objekte im Hintergrund sind zu sehen). Falls ein
-     * undurchsichtiges Leerzeichen ben�tigt wird (die Hintergrundfarbe ist zu sehen), kann statt dessen das Semikolon
+     * undurchsichtiges Leerzeichen benötigt wird (die Hintergrundfarbe ist zu sehen), kann statt dessen das Semikolon
      * ";" verwendet werden.
      * Das undurchsichtige Leerzeichen kann mit der Methode
      * <code>setNonTransparentSpace(char c)</code> auf ein anderes Zeichen gesetzt
@@ -503,13 +532,13 @@ public class GameView {
     }
 
     /**
-     * Schreibt den �bergebenen <code>String</code> auf das Canvas, ohne die
-     * bisherigen Inhalte zu l�schen. Zus�tzlich werden Koordinaten ausgewertet: (0,
-     * 0) ist oben links. Negative Koordinaten k�nnen verwendet werden um Objekte
+     * Schreibt den übergebenen <code>String</code> auf das Canvas, ohne die
+     * bisherigen Inhalte zu löschen. Zusätzlich werden Koordinaten ausgewertet: (0,
+     * 0) ist oben links. Negative Koordinaten können verwendet werden um Objekte
      * teilweise anzuzeigen.
      * Achtung: In dieser Methode ist das
      * Leerzeichen durchsichtig (Objekte im Hintergrund sind zu sehen). Falls ein
-     * undurchsichtiges Leerzeichen ben�tigt wird (die Hintergrundfarbe ist zu sehen), kann statt dessen das Semikolon
+     * undurchsichtiges Leerzeichen benötigt wird (die Hintergrundfarbe ist zu sehen), kann statt dessen das Semikolon
      * ";" verwendet werden.
      * Das undurchsichtige Leerzeichen kann mit der Methode
      * <code>setNonTransparentSpace(char c)</code> auf ein anderes Zeichen gesetzt
@@ -528,13 +557,13 @@ public class GameView {
     }
 
     /**
-     * Schreibt den �bergebenen <code>String</code> auf das Canvas, ohne die
-     * bisherigen Inhalte zu l�schen. Zus�tzlich werden Koordinaten ausgewertet: (0,
-     * 0) ist oben links. Negative Koordinaten k�nnen verwendet werden um Objekte
+     * Schreibt den übergebenen <code>String</code> auf das Canvas, ohne die
+     * bisherigen Inhalte zu löschen. Zusätzlich werden Koordinaten ausgewertet: (0,
+     * 0) ist oben links. Negative Koordinaten können verwendet werden um Objekte
      * teilweise anzuzeigen.
      * Achtung: In dieser Methode ist das
      * Leerzeichen durchsichtig (Objekte im Hintergrund sind zu sehen). Falls ein
-     * undurchsichtiges Leerzeichen ben�tigt wird (die Hintergrundfarbe ist zu sehen), kann statt dessen das Semikolon
+     * undurchsichtiges Leerzeichen benötigt wird (die Hintergrundfarbe ist zu sehen), kann statt dessen das Semikolon
      * ";" verwendet werden.
      * Das undurchsichtige Leerzeichen kann mit der Methode
      * <code>setNonTransparentSpace(char c)</code> auf ein anderes Zeichen gesetzt
@@ -551,13 +580,13 @@ public class GameView {
     }
 
     /**
-     * Schreibt das �bergebene <code>char[][]</code> (mit Zeilen, Spalten) auf das
-     * Canvas, ohne die bisherigen Inhalte zu l�schen. Zus�tzlich werden Koordinaten
-     * ausgewertet: (0, 0) ist oben links. Negative Koordinaten k�nnen verwendet
+     * Schreibt das übergebene <code>char[][]</code> (mit Zeilen, Spalten) auf das
+     * Canvas, ohne die bisherigen Inhalte zu löschen. Zusätzlich werden Koordinaten
+     * ausgewertet: (0, 0) ist oben links. Negative Koordinaten können verwendet
      * werden um Objekte teilweise anzuzeigen.
      * Achtung: In dieser Methode ist das
      * Leerzeichen durchsichtig (Objekte im Hintergrund sind zu sehen). Falls ein
-     * undurchsichtiges Leerzeichen ben�tigt wird (die Hintergrundfarbe ist zu sehen), kann statt dessen das Semikolon
+     * undurchsichtiges Leerzeichen benötigt wird (die Hintergrundfarbe ist zu sehen), kann statt dessen das Semikolon
      * ";" verwendet werden.
      * Das undurchsichtige Leerzeichen kann mit der Methode
      * <code>setNonTransparentSpace(char c)</code> auf ein anderes Zeichen gesetzt
@@ -576,7 +605,7 @@ public class GameView {
     private void addToCanvas(char[][] chars, int row, int column, Color color, boolean colorString) {
         for (int i = 0; i < zeilen; i++) {
             for (int j = 0; j < spalten; j++) {
-                if (i >= row && j >= column // nur schreiben, wenn Koorinaten erf�llt sind.
+                if (i >= row && j >= column // nur schreiben, wenn Koorinaten erfüllt sind.
                         && i - row < chars.length && j - column < chars[i - row].length // nur wenn char vorhanden
                         && chars[i - row][j - column] != ' ') { // transparent
                     if (chars[i - row][j - column] == nonTransparentSpace) {
@@ -598,13 +627,13 @@ public class GameView {
     }
 
     /**
-     * Schreibt das �bergebene <code>char[][]</code> (mit Zeilen, Spalten) auf das
-     * Canvas, ohne die bisherigen Inhalte zu l�schen. Zus�tzlich werden Koordinaten
-     * ausgewertet: (0, 0) ist oben links. Negative Koordinaten k�nnen verwendet
+     * Schreibt das übergebene <code>char[][]</code> (mit Zeilen, Spalten) auf das
+     * Canvas, ohne die bisherigen Inhalte zu löschen. Zusätzlich werden Koordinaten
+     * ausgewertet: (0, 0) ist oben links. Negative Koordinaten können verwendet
      * werden um Objekte teilweise anzuzeigen.
      * Achtung: In dieser Methode ist das
      * Leerzeichen durchsichtig (Objekte im Hintergrund sind zu sehen). Falls ein
-     * undurchsichtiges Leerzeichen ben�tigt wird (die Hintergrundfarbe ist zu sehen), kann statt dessen das Semikolon
+     * undurchsichtiges Leerzeichen benötigt wird (die Hintergrundfarbe ist zu sehen), kann statt dessen das Semikolon
      * ";" verwendet werden.
      * Das undurchsichtige Leerzeichen kann mit der Methode
      * <code>setNonTransparentSpace(char c)</code> auf ein anderes Zeichen gesetzt
@@ -620,9 +649,9 @@ public class GameView {
     }
 
     /**
-     * Der �bergebene String aus Farbcodes wird ohne Zeichen auf das Canvas �bertragen, ohne die bisherigen Inhalte zu l�schen.
+     * Der übergebene String aus Farbcodes wird ohne Zeichen auf das Canvas übertragen, ohne die bisherigen Inhalte zu löschen.
      * Die darin enthaltenen Buchstaben werden als Farben interpretiert.
-     * Dazu wird eine Colormap ausgewertet, die durch eine Methode <code>setColormap()</code> ge�ndert
+     * Dazu wird eine Colormap ausgewertet, die durch eine Methode <code>setColormap()</code> geändert
      * werden kann.
      * <p>
      * HashMap<Character, Color> colormap = new HashMap<>();
@@ -639,12 +668,12 @@ public class GameView {
      * colormap.put('O', Color.ORANGE);
      * colormap.put('W', Color.WHITE);
      * <p>
-     * Zus�tzlich werden Koordinaten
-     * ausgewertet: (0, 0) ist oben links. Negative Koordinaten k�nnen verwendet
+     * Zusätzlich werden Koordinaten
+     * ausgewertet: (0, 0) ist oben links. Negative Koordinaten können verwendet
      * werden um Objekte teilweise anzuzeigen.
      * Achtung: In dieser Methode ist das
      * Leerzeichen durchsichtig (Objekte im Hintergrund sind zu sehen). Falls ein
-     * undurchsichtiges Leerzeichen ben�tigt wird (die Hintergrundfarbe ist zu sehen), kann statt dessen das Semikolon
+     * undurchsichtiges Leerzeichen benötigt wird (die Hintergrundfarbe ist zu sehen), kann statt dessen das Semikolon
      * ";" verwendet werden.
      * Das undurchsichtige Leerzeichen kann mit der Methode
      * <code>setNonTransparentSpace(char c)</code> auf ein anderes Zeichen gesetzt
@@ -660,9 +689,9 @@ public class GameView {
     }
 
     /**
-     * Der �bergebene String aus Farbcodes wird ohne Zeichen auf das Canvas �bertragen, ohne die bisherigen Inhalte zu l�schen.
+     * Der übergebene String aus Farbcodes wird ohne Zeichen auf das Canvas übertragen, ohne die bisherigen Inhalte zu löschen.
      * Die darin enthaltenen Buchstaben werden als Farben interpretiert.
-     * Dazu wird eine Colormap ausgewertet, die durch eine Methode <code>setColormap()</code> ge�ndert
+     * Dazu wird eine Colormap ausgewertet, die durch eine Methode <code>setColormap()</code> geändert
      * werden kann.
      * <p>
      * HashMap<Character, Color> colormap = new HashMap<>();
@@ -679,12 +708,12 @@ public class GameView {
      * colormap.put('O', Color.ORANGE);
      * colormap.put('W', Color.WHITE);
      * <p>
-     * Zus�tzlich werden Koordinaten
-     * ausgewertet: (0, 0) ist oben links. Negative Koordinaten k�nnen verwendet
+     * Zusätzlich werden Koordinaten
+     * ausgewertet: (0, 0) ist oben links. Negative Koordinaten können verwendet
      * werden um Objekte teilweise anzuzeigen.
      * Achtung: In dieser Methode ist das
      * Leerzeichen durchsichtig (Objekte im Hintergrund sind zu sehen). Falls ein
-     * undurchsichtiges Leerzeichen ben�tigt wird (die Hintergrundfarbe ist zu sehen), kann statt dessen das Semikolon
+     * undurchsichtiges Leerzeichen benötigt wird (die Hintergrundfarbe ist zu sehen), kann statt dessen das Semikolon
      * ";" verwendet werden.
      * Das undurchsichtige Leerzeichen kann mit der Methode
      * <code>setNonTransparentSpace(char c)</code> auf ein anderes Zeichen gesetzt
@@ -700,7 +729,7 @@ public class GameView {
     }
 
     /**
-     * F�llt alle Stellen des Canvas mit dem gegebenen Zeichen. Vorhandene Inhalte werden �berschrieben.
+     * Füllt alle Stellen des Canvas mit dem gegebenen Zeichen. Vorhandene Inhalte werden überschrieben.
      *
      * @param c     Zeichen, das auf den Canvas geschrieben werden soll.
      * @param color Farbe, die verwendet werden soll.
@@ -710,7 +739,7 @@ public class GameView {
     }
 
     /**
-     * F�llt alle Stellen des Canvas mit gleichfarbigen Pixeln. Vorhandene Inhalte werden �berschrieben.
+     * Füllt alle Stellen des Canvas mit gleichfarbigen Pixeln. Vorhandene Inhalte werden überschrieben.
      *
      * @param color Farbe, die verwendet werden soll.
      */
@@ -719,7 +748,7 @@ public class GameView {
     }
 
     /**
-     * F�llt alle Stellen des Canvas mit dem gegebenen Zeichen. Vorhandene Inhalte werden �berschrieben.
+     * Füllt alle Stellen des Canvas mit dem gegebenen Zeichen. Vorhandene Inhalte werden überschrieben.
      *
      * @param c Zeichen, das auf den Canvas geschrieben werden soll.
      */
@@ -729,7 +758,7 @@ public class GameView {
 
     /**
      * Zeigt den aktuellen Inhalt des Canvas im Fenster an. Diese Methode sollte
-     * h�chstens alle 16 ms aufgerufen werden (60 Frames pro Sekunde).
+     * höchstens alle 16 ms aufgerufen werden (60 Frames pro Sekunde).
      */
     public void printCanvas() {
         countPrints++;
@@ -737,8 +766,8 @@ public class GameView {
         // Check FPS
         long now = System.currentTimeMillis();
         if (now - lastTime > 1000) {
-            if (countPrints >= 70) {
-                setStatusLabel(Color.RED, "Prints pro Sekunde: " + countPrints + ((area.canvasList.size() > 4) ? framesLost : ""));
+            if (countPrints >= 70 || area.canvasList.size() > 3) {
+                setStatusLabel(Color.RED, "Prints pro Sekunde: " + countPrints + ((area.canvasList.size() > 3) ? FRAMESLOST : ""));
             } else {
                 setStatusLabel(Color.BLACK, statusTextLinks);
             }
@@ -750,11 +779,11 @@ public class GameView {
     /**
      * In den Methoden <code>addToCanvas(...)</code> ist das
      * normale Leerzeichen durchsichtig (Objekte im Hintergrund sind zu sehen). Falls ein
-     * undurchsichtiges Leerzeichen ben�tigt wird (die Hintergrundfarbe ist zu sehen), kann statt dessen das Semikolon
+     * undurchsichtiges Leerzeichen benötigt wird (die Hintergrundfarbe ist zu sehen), kann statt dessen das Semikolon
      * ";" verwendet werden.
      * Das undurchsichtige Leerzeichen kann mit der Methode
      * <code>setNonTransparentSpace(char c)</code> auf ein anderes Zeichen gesetzt
-     * werden. Diese Methode gibt das aktell gesetzte Zeichen zur�ck
+     * werden. Diese Methode gibt das aktell gesetzte Zeichen zurück
      *
      * @return Das undurchsichtige Leerzeichen.
      */
@@ -766,9 +795,9 @@ public class GameView {
      * Das undurchsichtige Leerzeichen kann mit dieser Methode auf ein anderes
      * Zeichen gesetzt werden. In den Methoden <code>addToCanvas(...)</code> ist das
      * normale Leerzeichen durchsichtig (Objekte im Hintergrund sind zu sehen). Falls ein
-     * undurchsichtiges Leerzeichen ben�tigt wird (die Hintergrundfarbe ist zu sehen), kann statt dessen das Semikolon
-     * ";" verwendet werden. Diese Methode erlaubt es, die Voreinstellung zu �ndern
-     * und ein anderes Zeichen zu w�hlen.
+     * undurchsichtiges Leerzeichen benötigt wird (die Hintergrundfarbe ist zu sehen), kann statt dessen das Semikolon
+     * ";" verwendet werden. Diese Methode erlaubt es, die Voreinstellung zu ändern
+     * und ein anderes Zeichen zu wählen.
      *
      * @param c Das neue undurchsichtige Leerzeichen.
      */
@@ -777,14 +806,14 @@ public class GameView {
     }
 
     /**
-     * Liefert alle Tastendr�cke (java.awt.event.Keyevent) die seit dem letzten Aufruf dieser Methode
-     * aufgelaufen sind als Array zur�ck. Es werden maximal die neuesten 25
-     * Ereignisse zur�ckgegeben, alte Ereignisse werden gel�scht.
+     * Liefert alle Tastendrücke (java.awt.event.Keyevent) die seit dem letzten Aufruf dieser Methode
+     * aufgelaufen sind als Array zurück. Es werden maximal die neuesten 25
+     * Ereignisse zurückgegeben, alte Ereignisse werden gelöscht.
      * <p>
-     * Das Array enth�lt Ereignisse vom Typ <code>java.awt.event.KeyEvent;</code>.
-     * Der Typ des Events ist entweder <code>KeyEvent.KEY_PRESSED</code> (f�r nicht
-     * sichtbare Zeichen), <code>KeyEvent.KEY_RELEASED</code> (f�r nicht sichtbare
-     * Zeichen) oder <code>KeyEvent.KEY_TYPED</code>(f�r sichtbare Zeichen).
+     * Das Array enthält Ereignisse vom Typ <code>java.awt.event.KeyEvent;</code>.
+     * Der Typ des Events ist entweder <code>KeyEvent.KEY_PRESSED</code> (für nicht
+     * sichtbare Zeichen), <code>KeyEvent.KEY_RELEASED</code> (für nicht sichtbare
+     * Zeichen) oder <code>KeyEvent.KEY_TYPED</code>(für sichtbare Zeichen).
      * Sichtbare Zeichen lassen sich mit der Methode <code>getKeyChar()</code>
      * auswerten.
      *
@@ -835,32 +864,14 @@ public class GameView {
     }
 
     /**
-     * Setzt die Default-Farbe der Schrift.
-     *
-     * @param foregroundColor Schriftfarbe
-     */
-    public void setForegroundColor(Color foregroundColor) {
-        this.foregroundColor = foregroundColor;
-    }
-
-    /**
-     * Setzt die Default-Farbe des Hintergrunds.
-     *
-     * @param foregroundColor Hintergrundfarbe
-     */
-    public void setBackgroundColor(Color backgroundColor) {
-        this.backgroundColor = backgroundColor;
-    }
-
-    /**
      * Liefert alle Mausereignisse, seit dem letzten Aufruf dieser Methode
-     * aufgelaufen sind als Array zur�ck. Es werden maximal die neuesten 25
-     * Ereignisse zur�ckgegeben, alte Ereignisse werden gel�scht.
+     * aufgelaufen sind als Array zurück. Es werden maximal die neuesten 25
+     * Ereignisse zurückgegeben, alte Ereignisse werden gelöscht.
      * <p>
-     * Das Array enth�lt Ereignisse vom Typ <code>java.awt.event.MouseEvent;</code>
-     * Das <code>MouseEvent</code> enth�lt Koordinaten(des Fensters) und die
-     * Information ob die Maus gedr�ckt, losgelassen, gecklickt oder nur bewegt
-     * wurde. Um festzustellen, wie die Maus bet�tigt wurde, kann der Typ des
+     * Das Array enthält Ereignisse vom Typ <code>java.awt.event.MouseEvent;</code>
+     * Das <code>MouseEvent</code> enthält Koordinaten(des Fensters) und die
+     * Information ob die Maus gedrückt, losgelassen, gecklickt oder nur bewegt
+     * wurde. Um festzustellen, wie die Maus betätigt wurde, kann der Typ des
      * <code>MouseEvent</code> abgefragt werden. Folgende <code>MouseEvent</code>
      * werden weitergeleitet: <br>
      * <code>MouseEvent.MOUSE_PRESSED</code> <br>
@@ -868,7 +879,7 @@ public class GameView {
      * <code>MouseEvent.MOUSE_CLICKED</code> <br>
      * <code>MouseEvent.MOUSE_MOVED</code> <br>
      * <br>
-     * Die Fensterkoordinaten k�nnen mit den Methoden<br>
+     * Die Fensterkoordinaten können mit den Methoden<br>
      * <code>getX()</code> = Spalten<br>
      * <code>getY()</code> = Zeilen<br>
      * abgerufen werden, um Zeile und Spalte des Events zu bestimmen.<br>
@@ -921,19 +932,19 @@ public class GameView {
      * Spielt einen Sound ab (wav.-Datai). Das Soundfile muss in einem Verzeichnis
      * "src/resources" liegen. Bitte den Namen des Files ohne Verzeichnisnamen
      * angeben, z.B. "Sound.wav". Um den Sound sofort abzuspielen, bitte als
-     * Verz�gerung 0 angeben.
+     * Verzögerung 0 angeben.
      *
      * @param sound Name des Soundfiles. Das Soundfile muss in einem Verzeichnis
      *              "src/resources" liegen. Bitte den Namen des Files ohne
      *              Verzeichnisnamen angeben, z.B. "Sound.wav".
-     * @param delay Verz�gerung bis zum Zeitpunkt des Abspielens in Millisekunden.
+     * @param delay Verzögerung bis zum Zeitpunkt des Abspielens in Millisekunden.
      *              Bei 0 wird der Sound sofort abgespielt.
      */
     public void playSound(String sound, int delay) {
         Runnable run = () -> {
             try {
-                File file = new File(GameView.class.getClassLoader().getResource("resources/" + sound).toURI().getPath());
-                AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(file);
+                Thread.sleep(delay);
+                AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(GameView.class.getResource("/resources/" + sound));
                 Clip clip = AudioSystem.getClip();
                 clip.open(audioInputStream);
                 clip.start();
@@ -947,7 +958,7 @@ public class GameView {
     }
 
     /**
-     * Hier kann die Farb-Assoziation f�r die Methode <code> addColorStringToCanvas() </code> festgelegt werden.
+     * Hier kann die Farb-Assoziation für die Methode <code> addColorStringToCanvas() </code> festgelegt werden.
      * Als Standard sind folgede Farben definiert:
      * <p>
      * colormap.put('R', Color.RED);
@@ -985,87 +996,6 @@ public class GameView {
         colormap.put('W', Color.WHITE);
     }
 
-    private void intitFrame(String fensterName) {
-
-        Box box = new Box(BoxLayout.Y_AXIS);
-        area = new TextPanel(box);
-        area.requestFocus();
-
-        box.setAlignmentX(JComponent.CENTER_ALIGNMENT);
-        box.add(Box.createVerticalGlue());
-        box.add(area);
-        box.add(Box.createVerticalGlue());
-        box.setBorder(BorderFactory.createEmptyBorder(3, 3, 3, 3));
-
-        statusLabelLinks = new JLabel();
-        statusLabelLinks.setBackground(Color.WHITE);
-        statusLabelLinks.setForeground(Color.BLACK);
-        statusLabelLinks.setText(gameView.statusTextLinks);
-        statusLabelLinks.setHorizontalAlignment(JLabel.LEFT);
-
-        JLabel statusr = new JLabel(STATUSRECHTS);
-        statusr.setBackground(Color.WHITE);
-        statusr.setForeground(Color.BLACK);
-        statusr.setHorizontalAlignment(JLabel.RIGHT);
-
-        JPanel statuszeile = new JPanel(new BorderLayout());
-        statuszeile.add(statusLabelLinks, BorderLayout.WEST);
-        statuszeile.add(statusr, BorderLayout.EAST);
-        statuszeile.setBorder(BorderFactory.createRaisedBevelBorder());
-        statuszeile.setBackground(Color.WHITE);
-        statuszeile.setForeground(Color.BLACK);
-
-        JPanel outer = new JPanel(new BorderLayout());
-        outer.setBackground(backgroundColor);
-        outer.add(box, BorderLayout.CENTER);
-        outer.add(statuszeile, BorderLayout.SOUTH);
-
-        frame = new JFrame(fensterName);
-        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        frame.add(outer);
-
-        frame.pack();
-        frame.setResizable(true);
-
-        // Small size
-        frame.setSize((int) (Toolkit.getDefaultToolkit().getScreenSize().width / 3d * 2d), (int) (Toolkit.getDefaultToolkit().getScreenSize().height / 3d * 2d));
-        area.setFontsizeThatFitsWindow();
-        frame.pack();
-
-        // Listener
-        frame.addComponentListener(new ComponentAdapter() {
-            public void componentResized(ComponentEvent componentEvent) {
-                if (isSplashFinished) {
-                    area.setFontsizeThatFitsWindow();
-                    if (resizeTimer != null) {
-                        resizeTimer.cancel();
-                    }
-                    resizeTimer = new Timer();
-                    TimerTask resizeTask = new TimerTask() {
-
-                        @Override
-                        public void run() {
-                            if (!((frame.getExtendedState() & JFrame.MAXIMIZED_BOTH) == JFrame.MAXIMIZED_BOTH)) {
-                                SwingUtilities.invokeLater(() -> {
-                                    try {
-                                        Robot robot = new Robot();
-                                        robot.mouseRelease(InputEvent.BUTTON1_DOWN_MASK);
-                                    } catch (AWTException e) {
-                                    }
-                                    frame.pack();
-                                });
-                            }
-                        }
-                    };
-                    resizeTimer.schedule(resizeTask, 100);
-                }
-            }
-        });
-
-        addKeyEventListener();
-        addMouseEventListener();
-        useMouse(false); // init Mouse-Timer
-    }
 
     private void splashScreen() {
         int lines = this.zeilen;
@@ -1077,7 +1007,7 @@ public class GameView {
         printCanvas();
         try {
             Thread.sleep(1200);
-        } catch (InterruptedException e) {
+        } catch (InterruptedException ignored) {
         }
         changeResolution(lines, rows);
         isSplashFinished = true;
@@ -1096,104 +1026,189 @@ public class GameView {
         canvas = new Canvas(zeilen, spalten);
     }
 
-    private void addMouseEventListener() {
-        area.addMouseMotionListener(new MouseAdapter() {
-
-            @Override
-            public void mouseMoved(MouseEvent e) {
-                processMouseEvent(e);
-            }
-        });
-        area.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseReleased(MouseEvent e) {
-                processMouseEvent(e);
-            }
-
-            @Override
-            public void mousePressed(MouseEvent e) {
-                processMouseEvent(e);
-            }
-
-            @Override
-            public void mouseMoved(MouseEvent e) {
-                processMouseEvent(e);
-            }
-
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                processMouseEvent(e);
-            }
-        });
-    }
-
-    private void processMouseEvent(MouseEvent e) {
-        if (gameView.useMouse) {
-            if (e.getID() == MouseEvent.MOUSE_PRESSED || e.getID() == MouseEvent.MOUSE_RELEASED || e.getID() == MouseEvent.MOUSE_MOVED || e.getID() == MouseEvent.MOUSE_CLICKED) {
-                int z = (int) Math.floor(gameView.zeilen * e.getY() / area.getHeight());
-                int s = (int) Math.floor(gameView.spalten * e.getX() / area.getWidth());
-                if (s >= 0 && s < gameView.spalten && z >= 0 && z < gameView.zeilen) {
-
-                    MouseEvent mouseEvent = new MouseEvent(e.getComponent(), e.getID(), e.getWhen(), e.getModifiersEx(), s, z, e.getClickCount(), e.isPopupTrigger());
-
-                    if (mouseEvent.getID() == MouseEvent.MOUSE_MOVED) {
-                        long millies = System.currentTimeMillis();
-                        if (millies - mouseMovementTimer >= 1000d / 30) { // Jedes zweite Frame ein Event
-                            mousePointerEvents.add(mouseEvent);
-                            mouseMovementTimer = millies;
-                        }
-                    } else {
-                        mousePointerEvents.add(mouseEvent);
-                    }
-                    while (mousePointerEvents.size() > 500) {
-                        mousePointerEvents.remove();
-                    }
-                }
-            }
-        } else {
-            if (e.getID() == MouseEvent.MOUSE_MOVED && !gameView.moved) {
-                frame.setCursor(Cursor.getDefaultCursor());
-                gameView.moved = true;
-            }
-        }
-    }
-
-    private void addKeyEventListener() {
-        frame.addKeyListener(new KeyListener() {
-
-            @Override
-            public void keyTyped(KeyEvent e) {
-                any(e);
-            }
-
-            @Override
-            public void keyReleased(KeyEvent e) {
-                any(e);
-            }
-
-            @Override
-            public void keyPressed(KeyEvent e) {
-                any(e);
-            }
-
-            private void any(KeyEvent e) {
-                int code = e.getKeyCode();
-                if (KeyEvent.VK_ESCAPE == code) {
-                    System.exit(0);
-                }
-                keyboardEvents.add(e);
-                while (keyboardEvents.size() > 500) {
-                    keyboardEvents.remove();
-                }
-            }
-        });
-    }
 
     private void setStatusLabel(Color color, String fpsMessage) {
         SwingUtilities.invokeLater(() -> {
             statusLabelLinks.setText(fpsMessage);
             statusLabelLinks.setForeground(color);
         });
+    }
+
+    private class Frame extends JFrame {
+
+        private Frame(String title) {
+            super(title);
+
+            Box box = new Box(BoxLayout.Y_AXIS);
+            area = new TextPanel(box);
+            area.requestFocus();
+
+            box.setAlignmentX(JComponent.CENTER_ALIGNMENT);
+            box.add(Box.createVerticalGlue());
+            box.add(area);
+            box.add(Box.createVerticalGlue());
+            box.setBorder(BorderFactory.createEmptyBorder(3, 3, 3, 3));
+
+            statusLabelLinks = new JLabel();
+            statusLabelLinks.setBackground(Color.WHITE);
+            statusLabelLinks.setForeground(Color.BLACK);
+            statusLabelLinks.setText(gameView.statusTextLinks);
+            statusLabelLinks.setHorizontalAlignment(JLabel.LEFT);
+
+            JLabel statusr = new JLabel(STATUSRECHTS);
+            statusr.setBackground(Color.WHITE);
+            statusr.setForeground(Color.BLACK);
+            statusr.setHorizontalAlignment(JLabel.RIGHT);
+
+            JPanel statuszeile = new JPanel(new BorderLayout());
+            statuszeile.add(statusLabelLinks, BorderLayout.WEST);
+            statuszeile.add(statusr, BorderLayout.EAST);
+            statuszeile.setBorder(BorderFactory.createRaisedBevelBorder());
+            statuszeile.setBackground(Color.WHITE);
+            statuszeile.setForeground(Color.BLACK);
+
+            JPanel outer = new JPanel(new BorderLayout());
+            outer.setBackground(backgroundColor);
+            outer.add(box, BorderLayout.CENTER);
+            outer.add(statuszeile, BorderLayout.SOUTH);
+
+            setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+            add(outer);
+
+            pack();
+            setResizable(true);
+
+            // Small size
+            setSize((int) (Toolkit.getDefaultToolkit().getScreenSize().width / 3d * 2d), (int) (Toolkit.getDefaultToolkit().getScreenSize().height / 3d * 2d));
+            area.setFontsizeThatFitsWindow();
+            pack();
+
+            // Listener
+            addComponentListener(new ComponentAdapter() {
+                public void componentResized(ComponentEvent componentEvent) {
+                    if (isSplashFinished) {
+                        area.setFontsizeThatFitsWindow();
+                        if (resizeTimer != null) {
+                            resizeTimer.cancel();
+                        }
+                        resizeTimer = new Timer();
+                        TimerTask resizeTask = new TimerTask() {
+
+                            @Override
+                            public void run() {
+                                if (!((getExtendedState() & JFrame.MAXIMIZED_BOTH) == JFrame.MAXIMIZED_BOTH)) {
+                                    SwingUtilities.invokeLater(() -> {
+                                        try {
+                                            Robot robot = new Robot();
+                                            robot.mouseRelease(InputEvent.BUTTON1_DOWN_MASK);
+                                        } catch (AWTException ignored) {
+                                        }
+                                        pack();
+                                    });
+                                }
+                            }
+                        };
+                        resizeTimer.schedule(resizeTask, 100);
+                    }
+                }
+            });
+
+            addKeyEventListener();
+            addMouseEventListener();
+        }
+
+        private void addKeyEventListener() {
+            addKeyListener(new KeyListener() {
+
+                @Override
+                public void keyTyped(KeyEvent e) {
+                    any(e);
+                }
+
+                @Override
+                public void keyReleased(KeyEvent e) {
+                    any(e);
+                }
+
+                @Override
+                public void keyPressed(KeyEvent e) {
+                    any(e);
+                }
+
+                private void any(KeyEvent e) {
+                    int code = e.getKeyCode();
+                    if (KeyEvent.VK_ESCAPE == code) {
+                        System.exit(0);
+                    }
+                    keyboardEvents.add(e);
+                    while (keyboardEvents.size() > 500) {
+                        keyboardEvents.remove();
+                    }
+                }
+            });
+        }
+
+        private void addMouseEventListener() {
+            area.addMouseMotionListener(new MouseAdapter() {
+
+                @Override
+                public void mouseMoved(MouseEvent e) {
+                    processMouse(e);
+                }
+            });
+            area.addMouseListener(new MouseAdapter() {
+                @Override
+                public void mouseReleased(MouseEvent e) {
+                    processMouse(e);
+                }
+
+                @Override
+                public void mousePressed(MouseEvent e) {
+                    processMouse(e);
+                }
+
+                @Override
+                public void mouseMoved(MouseEvent e) {
+                    processMouse(e);
+                }
+
+                @Override
+                public void mouseClicked(MouseEvent e) {
+                    processMouse(e);
+                }
+            });
+        }
+
+        private void processMouse(MouseEvent e) {
+            if (gameView.useMouse) {
+                if (e.getID() == MouseEvent.MOUSE_PRESSED || e.getID() == MouseEvent.MOUSE_RELEASED || e.getID() == MouseEvent.MOUSE_MOVED || e.getID() == MouseEvent.MOUSE_CLICKED) {
+                    int z = (int) Math.floor(gameView.zeilen * e.getY() / area.getHeight());
+                    int s = (int) Math.floor(gameView.spalten * e.getX() / area.getWidth());
+                    if (s >= 0 && s < gameView.spalten && z >= 0 && z < gameView.zeilen) {
+
+                        MouseEvent mouseEvent = new MouseEvent(e.getComponent(), e.getID(), e.getWhen(), e.getModifiersEx(), s, z, e.getClickCount(), e.isPopupTrigger());
+
+                        if (mouseEvent.getID() == MouseEvent.MOUSE_MOVED) {
+                            long millies = System.currentTimeMillis();
+                            if (millies - mouseMovementTimer >= 1000d / 30) { // Jedes zweite Frame ein Event
+                                mousePointerEvents.add(mouseEvent);
+                                mouseMovementTimer = millies;
+                            }
+                        } else {
+                            mousePointerEvents.add(mouseEvent);
+                        }
+                        while (mousePointerEvents.size() > 500) {
+                            mousePointerEvents.remove();
+                        }
+                    }
+                }
+            } else {
+                if (e.getID() == MouseEvent.MOUSE_MOVED && !gameView.moved) {
+                    frame.setCursor(Cursor.getDefaultCursor());
+                    gameView.moved = true;
+                }
+            }
+        }
     }
 
     private class Canvas implements Cloneable {
@@ -1207,7 +1222,7 @@ public class GameView {
         private String[][] clear;
         private boolean allNull = true;
 
-        public Canvas(int zeilen, int spalten) {
+        private Canvas(int zeilen, int spalten) {
             this.zeilen = zeilen;
             this.spalten = spalten;
             this.resolutionChanged = false;
@@ -1219,25 +1234,25 @@ public class GameView {
             clearCanvas();
         }
 
-        public int getZeilen() {
+        private int getZeilen() {
             return zeilen;
         }
 
-        public int getSpalten() {
+        private int getSpalten() {
             return spalten;
         }
 
-        public void add(char character, Color foreground, Color background, int zeile, int spalte) {
+        private void add(char character, Color foreground, Color background, int zeile, int spalte) {
             add(character, foreground, zeile, spalte);
             this.background[zeile][spalte] = background;
         }
 
-        public void add(char character, Color foreground, int zeile, int spalte) {
+        private void add(char character, Color foreground, int zeile, int spalte) {
             chars[zeile][spalte] = character;
             this.foreground[zeile][spalte] = foreground;
         }
 
-        public void fillCanvas(char c, Color color) {
+        private void fillCanvas(char c, Color color) {
             for (int i = 0; i < zeilen; i++) {
                 for (int j = 0; j < spalten; j++) {
                     add(c, color, i, j);
@@ -1245,7 +1260,7 @@ public class GameView {
             }
         }
 
-        public void fillCanvas(Color color) {
+        private void fillCanvas(Color color) {
             for (int i = 0; i < zeilen; i++) {
                 for (int j = 0; j < spalten; j++) {
                     add(' ', foregroundColor, color, i, j);
@@ -1253,7 +1268,7 @@ public class GameView {
             }
         }
 
-        public void clearCanvas() {
+        private void clearCanvas() {
             for (int zeile = 0; zeile < zeilen; zeile++) {
                 for (int spalte = 0; spalte < spalten; spalte++) {
                     chars[zeile][spalte] = ' ';
@@ -1265,23 +1280,23 @@ public class GameView {
             }
         }
 
-        public char getCharacter(int zeile, int spalte) {
+        private char getCharacter(int zeile, int spalte) {
             return chars[zeile][spalte];
         }
 
-        public Color getForeground(int zeile, int spalte) {
+        private Color getForeground(int zeile, int spalte) {
             return foreground[zeile][spalte];
         }
 
-        public Color getBackground(int zeile, int spalte) {
+        private Color getBackground(int zeile, int spalte) {
             return background[zeile][spalte];
         }
 
-        public String getDifference(int zeile, int spalte) {
+        private String getDifference(int zeile, int spalte) {
             return difference[zeile][spalte];
         }
 
-        public String getClear(int zeile, int spalte) {
+        private String getClear(int zeile, int spalte) {
             return clear[zeile][spalte];
         }
 
@@ -1301,7 +1316,7 @@ public class GameView {
         }
 
 
-        public void calculateDifferencesTo(Canvas canvas) {
+        private void calculateDifferencesTo(Canvas canvas) {
             if (canvas == null || this.zeilen != canvas.zeilen || this.spalten != canvas.spalten) {
                 resolutionChanged = true;
             }
@@ -1313,30 +1328,6 @@ public class GameView {
                         if (!resolutionChanged) {
                             this.clear[zeile][spalte] = String.valueOf(canvas.getCharacter(zeile, spalte));
                         }
-//                        if (zeile < zeilen - 1) {
-//                            this.difference[zeile + 1][spalte] = String.valueOf(chars[zeile + 1][spalte]);
-//                            if (!resolutionChanged) {
-//                                this.clear[zeile + 1][spalte] = String.valueOf(canvas.getCharacter(zeile + 1, spalte));
-//                            }
-//                        }
-//                        if (zeile > 0) {
-//                            this.difference[zeile - 1][spalte] = String.valueOf(chars[zeile - 1][spalte]);
-//                            if (!resolutionChanged) {
-//                                this.clear[zeile - 1][spalte] = String.valueOf(canvas.getCharacter(zeile - 1, spalte));
-//                            }
-//                        }
-//                        if (spalte < spalten - 1) {
-//                            this.difference[zeile][spalte + 1] = String.valueOf(chars[zeile][spalte + 1]);
-//                            if (!resolutionChanged) {
-//                                this.clear[zeile][spalte + 1] = String.valueOf(canvas.getCharacter(zeile, spalte + 1));
-//                            }
-//                        }
-//                        if (spalte > 0) {
-//                            this.difference[zeile][spalte - 1] = String.valueOf(chars[zeile][spalte - 1]);
-//                            if (!resolutionChanged) {
-//                                this.clear[zeile][spalte - 1] = String.valueOf(canvas.getCharacter(zeile, spalte - 1));
-//                            }
-//                        }
                     }
                 }
             }
@@ -1379,7 +1370,7 @@ public class GameView {
         private LinkedBlockingQueue<Canvas> canvasList;
 
 
-        public TextPanel(Box box) {
+        private TextPanel(Box box) {
             this.box = box;
             setBackground(backgroundColor);
             setForeground(foregroundColor);
@@ -1420,10 +1411,11 @@ public class GameView {
             if (printCanvas.resolutionChanged) {
                 if (g2 != null) {
                     g2.dispose();
+                    image = null;
                 }
 
                 try {
-                    Thread.sleep(20);
+                    Thread.sleep(25);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
@@ -1459,14 +1451,14 @@ public class GameView {
             g.dispose();
         }
 
-        public void setText() {
+        private void setText() {
             if (canvasList.size() < 5) {
                 lastCanvas = currentCanvas;
                 currentCanvas = canvas.clone();
                 currentCanvas.calculateDifferencesTo(lastCanvas);
                 if (!currentCanvas.allNull) {
                     canvasList.add(currentCanvas);
-                    SwingUtilities.invokeLater(() -> this.repaint());
+                    SwingUtilities.invokeLater(this::repaint);
                 }
             }
         }
@@ -1487,11 +1479,11 @@ public class GameView {
             bounds = getFontMetrics(font).getStringBounds("Q", 0, 1, getGraphics());
             this.lineHeight = (int) (bounds.getHeight());
             this.charWidth = (int) bounds.getWidth();
-            this.height = (int) (canvas.getZeilen() * lineHeight);
+            this.height = canvas.getZeilen() * lineHeight;
             this.width = (int) (charWidth * canvas.getSpalten() + (charWidth * 0.02));
         }
 
-        public void setFontsizeThatFitsWindow() {
+        private void setFontsizeThatFitsWindow() {
             int fontsize = 1;
             int step = 256;
             while (true) {
@@ -1514,7 +1506,7 @@ public class GameView {
                     repaint();
                 });
                 try {
-                    Thread.sleep(25);
+                    Thread.sleep(20);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
