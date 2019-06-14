@@ -1,6 +1,14 @@
 package asciipinball.corelogic;
 
+/**
+ * Ein Pinball Spiel im Ascii Artstyle
+ */
 public class Program {
+
+    /**
+     * Aufzurufende Main Methode - Startet das Spiel
+     * @param args argumente
+     */
     public static void main (String[] args){
         PinballGame pinballGame = new PinballGame();
         pinballGame.printAll();
@@ -8,6 +16,10 @@ public class Program {
         loop(pinballGame);
     }
 
+    /**
+     * Unendlicher Loop der das Spiel am leben hält
+     * @param pinballGame Das spiel das Laufen soll
+     */
     public static void loop(PinballGame pinballGame){
         long startTime = System.currentTimeMillis();
         long calculationIterator = 0;
