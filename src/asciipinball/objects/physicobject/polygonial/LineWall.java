@@ -1,7 +1,7 @@
 package asciipinball.objects.physicobject.polygonial;
 
 import asciipinball.Coordinate;
-import asciipinball.corelogic.playersandscore.PlayerManager;
+import asciipinball.playersandscore.PlayerManager;
 import asciipinball.interfaces.Coverable;
 import asciipinball.shapes.Line;
 

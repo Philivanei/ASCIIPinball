@@ -1,7 +1,7 @@
 package asciipinball.objects.physicobject.circular;
 
 import asciipinball.Coordinate;
-import asciipinball.corelogic.playersandscore.PlayerManager;
+import asciipinball.playersandscore.PlayerManager;
 import asciipinball.objects.Ball;
 import asciipinball.shapes.Circle;
 
@@ -28,6 +28,11 @@ public class Bumper extends CircleEntity {
         Ball unmodifiedBall = super.interactWithBall(ball);
         unmodifiedBall.addVelocity(0.025f);
         return unmodifiedBall;
+    }
+
+    @Override
+    protected int getCollisionSoundId() {
+        return 1;
     }
 
     @Override

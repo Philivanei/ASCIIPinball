@@ -1,7 +1,7 @@
 package asciipinball.objects.physicobject.polygonial;
 
 import asciipinball.CollisionData;
-import asciipinball.corelogic.playersandscore.PlayerManager;
+import asciipinball.playersandscore.PlayerManager;
 import asciipinball.interfaces.Drawable;
 import asciipinball.objects.Ball;
 import asciipinball.objects.physicobject.PhysicEntity;
@@ -120,6 +120,7 @@ public abstract class PolygonEntity extends PhysicEntity implements Drawable {
             float collisionGradient = collisionLine.getM();
 
             if (collisionPointDistanceA >= collisionLine.getLength()) { //If this statement is true the ball is bumping into the side of the Line
+                //TODO Remove before Release
                 System.out.println("Bumped into Edge");
                 //bumpedIntoEdge = true
                 //finalAngle = calculateBallAngleFromGradient(ball, -1/collisionLine.getM());
@@ -132,8 +133,6 @@ public abstract class PolygonEntity extends PhysicEntity implements Drawable {
             }
 
             finalAngle = calculateBallAngleFromGradient(ball, collisionGradient);
-
-            System.out.println(ball.getDirection() + " -> " + finalAngle);
 
             Ball ballToAdd = new Ball(ball.getX(), ball.getY(), ball.getRadius(), finalAngle, ball.getVelocity());
             ballToAdd.jumpToFuture(2);

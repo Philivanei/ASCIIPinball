@@ -1,6 +1,6 @@
 package asciipinball.graphics;
 
-import asciipinball.GameView;
+import view.GameView;
 import asciipinball.Settings;
 import asciipinball.corelogic.AsciiStringBuilder.AsciiStringBuilder;
 import asciipinball.exceptions.ClassNotSupportedException;

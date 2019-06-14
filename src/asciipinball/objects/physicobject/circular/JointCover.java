@@ -1,7 +1,7 @@
 package asciipinball.objects.physicobject.circular;
 
 import asciipinball.Coordinate;
-import asciipinball.corelogic.playersandscore.PlayerManager;
+import asciipinball.playersandscore.PlayerManager;
 import asciipinball.objects.Ball;
 import asciipinball.shapes.Circle;
 

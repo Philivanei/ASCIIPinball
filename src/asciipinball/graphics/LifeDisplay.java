@@ -1,7 +1,7 @@
 package asciipinball.graphics;
 
 import asciipinball.Coordinate;
-import asciipinball.corelogic.playersandscore.PlayerManager;
+import asciipinball.playersandscore.PlayerManager;
 import asciipinball.interfaces.Drawable;
 import asciipinball.shapes.Circle;
 

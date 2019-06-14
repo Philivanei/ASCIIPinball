@@ -224,7 +224,6 @@ public class Ball {
         if (isInfluencedByPhysics) {
             //Simulate gravitation
             ySpeed -= gravitationPerTick;
-            //System.out.println("XSpeed: " + xSpeed + " YSpeed: " + ySpeed);
 
             addVelocity(-Settings.FRICTION);
 
@@ -296,6 +295,8 @@ public class Ball {
             return new Ball(ball1.x, ball1.y, ball1.radius, newDirection, ball1.getVelocity());
 
         } else {
+            //TODO Implement 3 Collisions!
+            System.out.println("3 COLLISIONS");
             Ball ball1 = balls.get(0);
             Ball ball2 = balls.get(1);
             float newDirection = ball1.convertDirection((((ball1.getDirection() + 360) % 360) + ((ball2.getDirection() + 360) % 360)) / 2);

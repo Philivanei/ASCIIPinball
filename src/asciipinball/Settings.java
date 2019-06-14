@@ -1,5 +1,7 @@
 package asciipinball;
 
+import view.GameView;
+
 import java.awt.*;
 import java.util.HashMap;
 
@@ -51,6 +53,10 @@ public abstract class Settings {
      * Radius des Balls
      */
     public static final float BALL_RADIUS = 2.5f;
+    /**
+     * Zeit in Millisekunden die vergehen muss bis ein neue Sound abgespielt werden kann
+     */
+    public static final float DEAF_TIME = 75;
     public static final float MAX_LAUNCH_PRESS_TIME = 1000;
     public static final float MIN_LAUNCH_VELOCITY = 0.025f;
     public static final float MAX_LAUNCH_VELOCITY = 0.09f;

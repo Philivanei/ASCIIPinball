@@ -1,8 +1,9 @@
 package asciipinball.objects.flipperfinger;
 
-import asciipinball.corelogic.playersandscore.PlayerManager;
+import asciipinball.playersandscore.PlayerManager;
 import asciipinball.interfaces.Drawable;
 import asciipinball.objects.Ball;
+import asciipinball.sounds.Aui;
 
 import java.util.ArrayList;
 
@@ -116,12 +117,12 @@ public class FlipperFingerControl implements Drawable {
      * @param ball Ball, auf den die Kollisionsabfrage ausgeführt werden soll.
      * @return Ball nach Kollision
      */
-    public Ball updateEntity(Ball ball) {
+    public Ball updateEntity(Ball ball, Aui aui) {
 
         ArrayList<Ball> flipperBalls = new ArrayList<>();
 
-        Ball leftBall = leftFlipperFinger.updateEntity(ball);
-        Ball rightBall = rightFlipperFinger.updateEntity(ball);
+        Ball leftBall = leftFlipperFinger.updateEntity(ball, aui);
+        Ball rightBall = rightFlipperFinger.updateEntity(ball, aui);
 
         if (leftBall != null) {
             flipperBalls.add(leftBall);

@@ -1,6 +1,7 @@
-package asciipinball.corelogic.playersandscore;
+package asciipinball.playersandscore;
 
 import asciipinball.exceptions.NotSupportedNumberOfPlayersException;
+import asciipinball.sounds.Aui;
 
 /**
  * Verwaltung von biszu 4 Spielern
@@ -106,11 +107,12 @@ public class PlayerManager {
      * Gibt den Score des Gewinners zurück und Speichert ihn wenn es sich um einen neuen HighScore handelt
      * @return Score des Gewinners
      */
-    public int getWinningScore(){
+    public int getWinningScore(Aui aui){
 
         int winningPlayerId = getWinningPlayerNumber() - 1;
 
         if(players[winningPlayerId].getScore() > new HighScoreManager().getHighScore()){
+            aui.playSound(4, true);
             new HighScoreManager().setHighScore(players[winningPlayerId], "");
         }
         return players[winningPlayerId].getScore();

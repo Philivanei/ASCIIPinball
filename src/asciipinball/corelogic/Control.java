@@ -1,6 +1,6 @@
 package asciipinball.corelogic;
 
-import asciipinball.GameView;
+import view.GameView;
 import asciipinball.objects.launchcontrol.LaunchControl;
 import asciipinball.graphics.GameOverScreen;
 import asciipinball.graphics.StartScreen;

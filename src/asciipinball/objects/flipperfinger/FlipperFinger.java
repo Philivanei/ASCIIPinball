@@ -1,9 +1,10 @@
 package asciipinball.objects.flipperfinger;
 
-import asciipinball.corelogic.playersandscore.PlayerManager;
+import asciipinball.playersandscore.PlayerManager;
 import asciipinball.objects.Ball;
 import asciipinball.objects.physicobject.polygonial.PolygonEntity;
 import asciipinball.shapes.Line;
+import asciipinball.sounds.Aui;
 
 /**
  * Ist zuständig für die Mechanik der Flipper Finger. Außerdem werden diese erstellt und animiert.
@@ -86,8 +87,8 @@ public abstract class FlipperFinger extends PolygonEntity {
     }
 
     @Override
-    public Ball updateEntity(Ball ball) {
-        Ball unmodifiedBall = super.updateEntity(ball);
+    public Ball updateEntity(Ball ball, Aui aui) {
+        Ball unmodifiedBall = super.updateEntity(ball, aui);
         if (unmodifiedBall != null) {
             if (moveStatus == MoveStatus.UP) {
                 unmodifiedBall.addVelocity(0.03f);

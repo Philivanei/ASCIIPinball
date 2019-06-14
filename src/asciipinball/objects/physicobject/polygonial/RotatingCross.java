@@ -1,9 +1,10 @@
 package asciipinball.objects.physicobject.polygonial;
 
 import asciipinball.Coordinate;
-import asciipinball.corelogic.playersandscore.PlayerManager;
+import asciipinball.playersandscore.PlayerManager;
 import asciipinball.objects.Ball;
 import asciipinball.shapes.Line;
+import asciipinball.sounds.Aui;
 
 /**
  * Ein rotierendes Kreuz
@@ -69,12 +70,13 @@ public class RotatingCross extends PolygonEntity {
      * bei keiner Kollision null zurück. Fügt bei Kollision dem aktuellen Spieler einen Entity spezifischen Score hinzu.
      * Ruft die Methode zur Kreuz rotation auf.
      * @param ball Ball auf den eine kollisionsabfrage durchgeführt werden soll.
+     * @param aui
      * @return Ball nach Aufprall
      */
     @Override
-    public Ball updateEntity(Ball ball) {
+    public Ball updateEntity(Ball ball, Aui aui) {
         updateRotation();
-        return super.updateEntity(ball);
+        return super.updateEntity(ball, aui);
     }
 
     @Override
