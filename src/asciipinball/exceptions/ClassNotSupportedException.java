@@ -1,15 +1,20 @@
 package asciipinball.exceptions;
 
-public class ClassNotSupportedException extends Exception {
+/**
+ * Exception für nicht implementierte Klassen
+ */
+public class ClassNotSupportedException extends RuntimeException {
 
-    private Object classThatCausedTheError;
-
-    public ClassNotSupportedException(Object classThatCausedTheError) {
-        this.classThatCausedTheError = classThatCausedTheError;
+    /**
+     * Erstellt eine neue ClassNotSupportedException
+     */
+    public ClassNotSupportedException() {
     }
 
-    @Override
-    public String toString() {
-        return "ClassNotSupportedException: " + classThatCausedTheError + " isn't printable";
+    /**
+     * Erstellt eine neue ClassNotSupportedException mit Nachricht
+     */
+    public ClassNotSupportedException(String message){
+        super(message);
     }
 }

@@ -12,7 +12,7 @@ public abstract class NonPhysicEntity implements Drawable {
     protected Circle[] circles;
 
     /**
-     *
+     * Updated das Entity
      * @param ball Ball mit dem interagiert werden soll
      */
     public abstract void updateEntity(Ball ball);

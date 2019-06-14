@@ -2,10 +2,8 @@ package asciipinball.objects.physicobject.circular;
 
 import asciipinball.Coordinate;
 import asciipinball.corelogic.playersandscore.PlayerManager;
-import asciipinball.exceptions.NotConnectedLinesException;
 import asciipinball.objects.Ball;
 import asciipinball.shapes.Circle;
-import asciipinball.shapes.Line;
 
 /**
  * Abdeckung für die Enden von Linien

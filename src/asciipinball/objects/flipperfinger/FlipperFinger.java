@@ -18,16 +18,7 @@ public abstract class FlipperFinger extends PolygonEntity {
     private static final float TIME_FOR_FLIP = 250;
     private MoveStatus moveStatus = MoveStatus.STOP;
 
-    /**
-     * Erstellt die Flipper Finger.
-     * @param playerManager PlayerManager des Spiels
-     * @param x Knotenpunkt, an dem die Flipper Finger aufgebaut werden.
-     * @param y Knotenpunkt, an dem die Flipper Finger aufgebaut werden.
-     * @param length Setzt die Länge der FlipperFinger.
-     * @param minAngle Legt die MinimalHöhe der FlipperFinger fest.
-     * @param maxAngle Legt die Maximalhöhe der FlipperFinger fest.
-     */
-    public FlipperFinger(PlayerManager playerManager, float x, float y, float length, float minAngle, float maxAngle) {
+    protected FlipperFinger(PlayerManager playerManager, float x, float y, float length, float minAngle, float maxAngle) {
         super(playerManager);
         lines = new Line[1];
         this.minAngle = minAngle;

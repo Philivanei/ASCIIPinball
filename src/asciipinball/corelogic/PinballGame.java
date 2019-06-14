@@ -1,5 +1,6 @@
 package asciipinball.corelogic;
 
+import asciipinball.Coordinate;
 import asciipinball.GameView;
 import asciipinball.objects.launchcontrol.LaunchControl;
 import asciipinball.corelogic.playersandscore.PlayerManager;
@@ -18,6 +19,9 @@ import asciipinball.objects.physicobject.polygonial.Table;
 
 import java.util.ArrayList;
 
+/**
+ * Hauptlogik des Spiels
+ */
 public class PinballGame {
 
     private GameView gameView;
@@ -38,12 +42,16 @@ public class PinballGame {
     private PlayerManager playerManager;
     private LifeDisplay lifeDisplay;
 
+    /**
+     * Erstellt ein neuess Spiel
+     */
     public PinballGame() {
 
         /* Init GameView */
         gameView = new GameView(Settings.HEIGHT, Settings.GAME_VIEW_WIDTH, "ASCII Pinball");
         gameView.setWindowsSize(GameView.WINDOWSIZE_LARGE);
         gameView.show();
+        gui = new Gui(gameView);
 
 
         /* Init Colormap */
@@ -52,6 +60,32 @@ public class PinballGame {
         init();
     }
 
+    /**
+     * Initilizes/Resets the Game variables
+     */
+    public void init(){
+        /*Init Arrays and Values*/
+        gameOver = false;
+        playerManager = new PlayerManager();
+        startScreen = new StartScreen();
+        gameOverScreen = new GameOverScreen(playerManager, this);
+        launchControl = new LaunchControl(playerManager, 90, 0, 25.01f, 10, 3);
+        lifeDisplay = new LifeDisplay(playerManager, new Coordinate(Settings.WIDTH + 10, 10) , 2.5f);
+        flipperFinger = new FlipperFingerControl(playerManager, (((float) Settings.WIDTH / 2) - (Settings.HOLE_WIDTH / 2)),
+                15, (((float) Settings.WIDTH / 2) + (Settings.HOLE_WIDTH / 2)), 15,
+                11f, 45, 135);
+        control = new Control(gameView, flipperFinger, launchControl, startScreen,gameOverScreen, this);
+
+        resetBall();
+        table = new Table(playerManager, Settings.WIDTH, Settings.HEIGHT);
+
+        physicEntities = new Levels(playerManager).getLevel1PhysicEntities();
+        noPhysicEntities = new Levels(playerManager).getLevel1NoPhysicEntities();
+    }
+
+    /**
+     * Simulates a Tick
+     */
     public void simulateTick() {
 
         control.updateControls();
@@ -88,26 +122,7 @@ public class PinballGame {
         }
     }
 
-    public void init(){
-        /*Init Arrays and Values*/
-        gameOver = false;
-        playerManager = new PlayerManager();
-        startScreen = new StartScreen();
-        gameOverScreen = new GameOverScreen(playerManager, this);
-        launchControl = new LaunchControl(playerManager, 90, 0, 25.01f, 10, 3);
-        lifeDisplay = new LifeDisplay(playerManager, Settings.WIDTH + 10, 10 , 2.5f);
-        flipperFinger = new FlipperFingerControl(playerManager, (((float) Settings.WIDTH / 2) - (Settings.HOLE_WIDTH / 2)),
-                15, (((float) Settings.WIDTH / 2) + (Settings.HOLE_WIDTH / 2)), 15,
-                11f, 45, 135);
-        control = new Control(gameView, flipperFinger, launchControl, startScreen,gameOverScreen, this);
-        gui = new Gui(gameView);
 
-        resetBall();
-        table = new Table(playerManager, Settings.WIDTH, Settings.HEIGHT);
-
-        physicEntities = new Levels(playerManager).getLevel1PhysicEntities();
-        noPhysicEntities = new Levels(playerManager).getLevel1NoPhysicEntities();
-    }
 
     private void checkBallOutOfGame() {
         if (ball.getY() < -10) {
@@ -119,6 +134,9 @@ public class PinballGame {
         gameOver = !playerManager.isBallLeft();
     }
 
+    /**
+     * Teleportiert den Ball ins aus um so ein verlust der Runde (=> Ball reset & Spieler wechsel) zu erzwingen
+     */
     public void skipRound(){
         if(playerManager.isInitialized()){
             ball = new Ball(10, -10, Settings.BALL_RADIUS, -90, 0.05f);
@@ -173,6 +191,9 @@ public class PinballGame {
 
     }
 
+    /**
+     * Gibt alle Objekte auf der GameView aus
+     */
     public void printAll() {
 
         gameView.clearCanvas();
@@ -180,34 +201,29 @@ public class PinballGame {
         if (!startScreen.isPlayerNumberSelected()) {
             startScreen.printStartScreen(gui);
         } else if (!gameOver) {
-            try {
-                gui.addToCanvas(table);
+            gui.addToCanvas(table);
 
-                for (PhysicEntity physicEntity : physicEntities) {
-                    if (physicEntity != null) {
-                        gui.addToCanvas(physicEntity);
-                    }
+            for (PhysicEntity physicEntity : physicEntities) {
+                if (physicEntity != null) {
+                    gui.addToCanvas(physicEntity);
                 }
-
-                for (NonPhysicEntity noPhysicEntity : noPhysicEntities) {
-                    if (noPhysicEntity != null) {
-                        gui.addToCanvas(noPhysicEntity);
-                    }
-                }
-
-                gui.addToCanvas(lifeDisplay.getDisplay(), lifeDisplay.getColor());
-
-                gui.addToCanvas(launchControl);
-
-                gui.addToCanvas(flipperFinger);
-
-                gui.addToCanvas(ball);
-
-                gui.addAsciiStringToCanvas(playerManager.getCurrentPlayerScoreString(), (int) Settings.HEIGHT / 2, 35, new FontStraight());
-
-            } catch (Exception e) {
-                e.printStackTrace();
             }
+
+            for (NonPhysicEntity noPhysicEntity : noPhysicEntities) {
+                if (noPhysicEntity != null) {
+                    gui.addToCanvas(noPhysicEntity);
+                }
+            }
+
+            gui.addToCanvas(lifeDisplay.getDisplay(), lifeDisplay.getColor());
+
+            gui.addToCanvas(launchControl);
+
+            gui.addToCanvas(flipperFinger);
+
+            gui.addToCanvas(ball);
+
+            gui.addAsciiStringToCanvas(playerManager.getCurrentPlayerScoreString(), (int) Settings.HEIGHT / 2, 35, new FontStraight());
         } else {
             gameOverScreen.printGameOverScreen(gui);
         }

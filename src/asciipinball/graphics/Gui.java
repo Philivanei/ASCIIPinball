@@ -2,7 +2,7 @@ package asciipinball.graphics;
 
 import asciipinball.GameView;
 import asciipinball.Settings;
-import asciipinball.corelogic.AsciiStringBuilder;
+import asciipinball.corelogic.AsciiStringBuilder.AsciiStringBuilder;
 import asciipinball.exceptions.ClassNotSupportedException;
 import asciipinball.fonts.AsciiStringContainer;
 import asciipinball.objects.Ball;
@@ -14,35 +14,69 @@ import asciipinball.objects.physicobject.polygonial.PolygonEntity;
 import asciipinball.shapes.Circle;
 import asciipinball.shapes.Line;
 
+/**
+ * Verwaltung der Ausgaben auf dem GameView Fenster
+ */
 public class Gui {
 
     private GameView gameView;
 
+    /**
+     * Erstellt eine neue GameView
+     * @param gameView
+     */
     public Gui(GameView gameView){
         this.gameView = gameView;
     }
 
-
+    /**
+     * Konvertiert einen String zu einem AsciiArtString und fügt in in einer Zeile und Spalte ein
+     * @param string String der Angezeigt werden soll
+     * @param row Zeile
+     * @param column Spalte
+     * @param font Schriftart des AsciiStrings
+     */
     public void addAsciiStringToCanvas(String string, int row, int column, AsciiStringContainer font){
-        char[][] charArray = new AsciiStringBuilder<>(font).buildAsciiString(string);
+        char[][] charArray = new AsciiStringBuilder(font).buildAsciiString(string);
         int newRow = (row - (charArray.length/2));
         int newColumn = (column - (charArray[0].length/2));
         gameView.addToCanvas(charArray,newRow,newColumn);
     }
 
+    /**
+     * Fügt einen Klassischen String in einer Zeile und Spalte ein
+     * @param string Sting der eingefügt werden soll
+     * @param row Zeile
+     * @param column Spalte
+     */
     public void addStringToCanvas(String string, int row, int column){
         gameView.addToCanvas(string, row, column);
     }
 
+    /**
+     * Fügt ein char-Array ein
+     * @param array Array das eingefügt werden soll
+     * @param row Zeile
+     * @param column Spalte
+     */
     public void addArrayToCanvas(char[][] array, int row, int column){
         gameView.addToCanvas(array,row,column);
     }
 
+    /**
+     * Zeichnet die Flippefinger ein
+     * @param flipperFingerControl Flipperfinger
+     */
     public void addToCanvas(FlipperFingerControl flipperFingerControl){
         addToCanvas(flipperFingerControl.getLeftFlipperFinger());
         addToCanvas(flipperFingerControl.getRightFlipperFinger());
     }
 
+    /**
+     * Zeichnet eine PhysicEntity ein
+     * @param entity PhysicEntity
+     * @throws ClassNotSupportedException Wird geworfen wenn eine unbekannte Klasse übergeben wird
+     */
     public void addToCanvas(PhysicEntity entity) throws ClassNotSupportedException {
         if(entity instanceof PolygonEntity){
             addToCanvas((PolygonEntity) entity);
@@ -50,10 +84,14 @@ public class Gui {
             addToCanvas((CircleEntity) entity);
         }
         else {
-            throw new ClassNotSupportedException(entity);
+            throw new ClassNotSupportedException("Gui can't prin't " + entity.toString());
         }
     }
 
+    /**
+     * Fügt einer PolygonEntity hinzu
+     * @param entity PolygonEntity
+     */
     public void addToCanvas(PolygonEntity entity){
         Line[] lines = entity.getLines();
         if(lines.length != 0){
@@ -63,14 +101,27 @@ public class Gui {
         }
     }
 
+    /**
+     * Fügt eine NonPhysicEntity hinzu
+     * @param entity NonPhysicEntity
+     */
     public void addToCanvas(NonPhysicEntity entity){
         addToCanvas(entity.getCircles(), entity.getColor());
     }
 
+    /**
+     * Fügt eine CircleEntity hinzu
+     * @param entity CircleEntity
+     */
     public void addToCanvas(CircleEntity entity){
         addToCanvas(entity.getCircles(), entity.getColor());
     }
 
+    /**
+     * Fügt alle Circles des Circle Arrays hinzu
+     * @param circles Array an Kreisen
+     * @param color Farbe
+     */
     public void addToCanvas(Circle[] circles, char color){
         if(circles.length != 0){
             for(Circle circle : circles){
@@ -79,6 +130,10 @@ public class Gui {
         }
     }
 
+    /**
+     * Fügt den bal hinzu
+     * @param ball Ball der gezeichnet werden soll
+     */
     public void addToCanvas(Ball ball){
         int diameter = Math.round(ball.getRadius() * 2);
 
@@ -102,8 +157,6 @@ public class Gui {
 
         gameView.addColorStringToCanvas(canvasSegment,canvasRow,canvasColumn);
     }
-
-
 
     private void addLineToCanvas(Line line, char color){
         char[][] canvasSegment;

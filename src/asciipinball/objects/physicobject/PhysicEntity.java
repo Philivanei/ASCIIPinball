@@ -17,11 +17,7 @@ public abstract class PhysicEntity {
     protected int score = 0;
     protected PlayerManager playerManager;
 
-    /**
-     * Registriert den playerManager in Entity an
-     * @param playerManager playerManager des Spiels
-     */
-    public PhysicEntity(PlayerManager playerManager){
+    protected PhysicEntity(PlayerManager playerManager){
         this.playerManager = playerManager;
     }
 
@@ -42,9 +38,6 @@ public abstract class PhysicEntity {
         }
     }
 
-    /**
-     * Entfernt alle erkannten kollisionen aus der Liste bis auf den nächsten (Relevant für Entities die aus mehr als einer Linie/Kreis bestehen)
-     */
     protected void cleanupCollisionList(){
 
         if(!collisionList.isEmpty() && collisionList.size() > 1){
@@ -63,12 +56,6 @@ public abstract class PhysicEntity {
     }
 
 
-    /**
-     * Berechte Winkel nach Aufprall aus ball und Steigung der Abprall Linie
-     * @param ball Ball der abprallt
-     * @param gradient Steigung der Abprall linie
-     * @return Winkel als float des Balles nach Aufprall
-     */
     protected float calculateBallAngleFromGradient(Ball ball, float gradient) {
         float angleToLine;
 
@@ -86,18 +73,8 @@ public abstract class PhysicEntity {
         //float finalAngle = ball.convertDirection((-ball.convertDirection((ball.getDirection() + 90 - angleToLine)))  - (90 - angleToLine)); //double conversion is necessary if -ball.convertDirection results in -180°
     }
 
-    /**
-     * Prüft Kollision zwischen Ball und Entity und speichert im falle einer Kollision den Kollisions Punkt und das Kollisions shape
-     * @param ball Ball auf den die Kollisionsabfrage durchgeführt werden soll
-     * @return Ball nach Collision
-     */
-    protected abstract boolean isCollided(Ball ball);
 
-    /**
-     * Berechnet den zustand des Balls nach dem Aufprall und gibt diesen als neuen Ball zurück
-     * @param ball Ball vor Abprall
-     * @return Ball nach Abprall
-     */
+    protected abstract boolean isCollided(Ball ball);
     protected abstract Ball interactWithBall(Ball ball);
 
 }

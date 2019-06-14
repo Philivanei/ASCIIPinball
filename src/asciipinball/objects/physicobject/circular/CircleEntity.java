@@ -16,11 +16,7 @@ public abstract class CircleEntity extends PhysicEntity implements Drawable {
 
     protected Circle[] circles;
 
-    /**
-     *
-     * @param playerManager playerManager des Spiels
-     */
-    public CircleEntity(PlayerManager playerManager) {
+    protected CircleEntity(PlayerManager playerManager) {
         super(playerManager);
     }
 
@@ -32,11 +28,6 @@ public abstract class CircleEntity extends PhysicEntity implements Drawable {
         return circles;
     }
 
-    /**
-     * Stellt fest ob der Ball kollidiert und Speichert ggf. den Punkt der Collision sowie den konkreten Kreis mit der Kollidiert wurde.
-     * @param ball Ball für den die Kollisionsabfrage durchgefüht wird.
-     * @return Boolscher ausdruck ob eine Collision gefunden wurde.
-     */
     @Override
     protected boolean isCollided(Ball ball) {
 
@@ -62,11 +53,6 @@ public abstract class CircleEntity extends PhysicEntity implements Drawable {
         return collisionDetected;
     }
 
-    /**
-     * Gibt ball nach Collision zurück
-     * @param ball Ball der kollidiert
-     * @return Ball nach kollision
-     */
     @Override
     protected Ball interactWithBall(Ball ball) {
         ArrayList<Ball> ballList = new ArrayList<>();

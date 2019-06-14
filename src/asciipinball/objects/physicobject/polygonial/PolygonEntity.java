@@ -16,11 +16,7 @@ public abstract class PolygonEntity extends PhysicEntity implements Drawable {
 
     protected Line[] lines;
 
-    /**
-     *
-     * @param playerManager playerManager des Spiels
-     */
-    public PolygonEntity(PlayerManager playerManager) {
+    protected PolygonEntity(PlayerManager playerManager) {
         super(playerManager);
     }
 
@@ -32,11 +28,7 @@ public abstract class PolygonEntity extends PhysicEntity implements Drawable {
         return lines;
     }
 
-    /**
-     * Stellt fest ob der Ball kollidiert und Speichert ggf. den Punkt der Collision sowie die konkrete Linie mit der Kollidiert wurde.
-     * @param ball Ball für den die Kollisionsabfrage durchgefüht wird.
-     * @return Boolscher ausdruck ob eine Collision gefunden wurde.
-     */
+
     @Override
     protected boolean isCollided(Ball ball) {
 
@@ -105,11 +97,6 @@ public abstract class PolygonEntity extends PhysicEntity implements Drawable {
     }
 
 
-    /**
-     * Gibt ball nach Collision zurück
-     * @param ball Ball der kollidiert
-     * @return Ball nach kollision
-     */
     @Override
     protected Ball interactWithBall(Ball ball) {
 

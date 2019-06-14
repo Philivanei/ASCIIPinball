@@ -16,15 +16,25 @@ import asciipinball.shapes.Line;
 
 import java.util.ArrayList;
 
+/**
+ * Level des Spiels
+ */
 public class Levels {
 
     private PlayerManager playerManager;
 
+    /**
+     * Erstellt ein neues Levels Object
+     * @param playerManager playerManager des Spiels
+     */
     public Levels(PlayerManager playerManager) {
         this.playerManager = playerManager;
     }
 
-
+    /**
+     * Gibt die PhysicObjekte des ersten Levels zurück
+     * @return PhysicEntities des erstel Levels
+     */
     public PhysicEntity[] getLevel1PhysicEntities() {
         return addJointCovers(new PhysicEntity[]{
 
@@ -56,6 +66,10 @@ public class Levels {
     }
 
 
+    /**
+     * Gibt die nicht Physic Objekte des ersten Levels zurück
+     * @return NonPhysicEntities des ersten Levels
+     */
     public NonPhysicEntity[] getLevel1NoPhysicEntities() {
 
         //creating the points, that get yellow by hitting them called PointDoors
