@@ -2,11 +2,11 @@ package asciipinball.corelogic;
 
 import asciipinball.fonts.AsciiStringContainer;
 
-public class AsciiStringBuilder<Font extends AsciiStringContainer> {
+public class AsciiStringBuilder {
 
-    private Font font;
+    private AsciiStringContainer font;
 
-    public AsciiStringBuilder(Font font) {
+    public AsciiStringBuilder(AsciiStringContainer font) {
         this.font = font;
     }
 

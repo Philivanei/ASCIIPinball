@@ -44,6 +44,7 @@ public class PinballGame {
         gameView = new GameView(Settings.HEIGHT, Settings.GAME_VIEW_WIDTH, "ASCII Pinball");
         gameView.setWindowsSize(GameView.WINDOWSIZE_LARGE);
         gameView.show();
+        gui = new Gui(gameView);
 
 
         /* Init Colormap */
@@ -100,7 +101,6 @@ public class PinballGame {
                 15, (((float) Settings.WIDTH / 2) + (Settings.HOLE_WIDTH / 2)), 15,
                 11f, 45, 135);
         control = new Control(gameView, flipperFinger, launchControl, startScreen,gameOverScreen, this);
-        gui = new Gui(gameView);
 
         resetBall();
         table = new Table(playerManager, Settings.WIDTH, Settings.HEIGHT);

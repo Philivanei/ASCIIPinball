@@ -24,7 +24,7 @@ public class Gui {
 
 
     public void addAsciiStringToCanvas(String string, int row, int column, AsciiStringContainer font){
-        char[][] charArray = new AsciiStringBuilder<>(font).buildAsciiString(string);
+        char[][] charArray = new AsciiStringBuilder(font).buildAsciiString(string);
         int newRow = (row - (charArray.length/2));
         int newColumn = (column - (charArray[0].length/2));
         gameView.addToCanvas(charArray,newRow,newColumn);
@@ -50,7 +50,7 @@ public class Gui {
             addToCanvas((CircleEntity) entity);
         }
         else {
-            throw new ClassNotSupportedException(entity);
+            throw new ClassNotSupportedException("Gui can't prin't " + entity.toString());
         }
     }
 
@@ -102,8 +102,6 @@ public class Gui {
 
         gameView.addColorStringToCanvas(canvasSegment,canvasRow,canvasColumn);
     }
-
-
 
     private void addLineToCanvas(Line line, char color){
         char[][] canvasSegment;
