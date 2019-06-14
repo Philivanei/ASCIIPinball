@@ -8,6 +8,9 @@ import asciipinball.objects.flipperfinger.*;
 
 import java.awt.event.KeyEvent;
 
+/**
+ * Verwaltet die Tasteneingaben des Nutzers
+ */
 public class Control {
 
     private LaunchControl launchControl;
@@ -18,6 +21,15 @@ public class Control {
     private PinballGame pinballGame;
     private boolean skipRequested;
 
+    /**
+     * Erstellt ein neues Control Object.
+     * @param gameView GameView des Spiels
+     * @param flipperFingerControl FlipperfingerControl des Spiels
+     * @param launchControl LaunchControl des Spiels
+     * @param startScreen StartScreen des Spiels
+     * @param gameOverScreen GameOverScreen des Spiels
+     * @param pinballGame referenz auf Hauptlogik des Spiels
+     */
     public Control(GameView gameView, FlipperFingerControl flipperFingerControl, LaunchControl launchControl,
                    StartScreen startScreen, GameOverScreen gameOverScreen, PinballGame pinballGame) {
 
@@ -30,6 +42,9 @@ public class Control {
         skipRequested = false;
     }
 
+    /**
+     * Such nach neuen Tastenbefehlen und ruft abhängig der Taste die jeweilige(n) Methode(n) auf
+     */
     public void updateControls() {
 
         KeyEvent[] keyEvents = gameView.getKeyEvents();
