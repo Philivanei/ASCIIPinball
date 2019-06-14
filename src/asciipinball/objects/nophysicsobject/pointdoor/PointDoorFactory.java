@@ -1,7 +1,7 @@
 package asciipinball.objects.nophysicsobject.pointdoor;
 
 import asciipinball.Coordinate;
-import asciipinball.corelogic.playersandscore.PlayerManager;
+import asciipinball.playersandscore.PlayerManager;
 
 /**
  * Fabrik für PointDoors

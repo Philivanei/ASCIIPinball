@@ -1,9 +1,10 @@
 package asciipinball.corelogic;
 
 import asciipinball.Coordinate;
-import asciipinball.GameView;
+import asciipinball.sounds.Aui;
+import view.GameView;
 import asciipinball.objects.launchcontrol.LaunchControl;
-import asciipinball.corelogic.playersandscore.PlayerManager;
+import asciipinball.playersandscore.PlayerManager;
 import asciipinball.Settings;
 import asciipinball.fonts.FontStraight;
 import asciipinball.graphics.GameOverScreen;
@@ -41,6 +42,7 @@ public class PinballGame {
     private boolean gameOver;
     private PlayerManager playerManager;
     private LifeDisplay lifeDisplay;
+    private Aui aui;
 
     /**
      * Erstellt ein neuess Spiel
@@ -52,6 +54,7 @@ public class PinballGame {
         gameView.setWindowsSize(GameView.WINDOWSIZE_LARGE);
         gameView.show();
         gui = new Gui(gameView);
+        aui = new Aui(gameView);
 
 
         /* Init Colormap */
@@ -161,24 +164,24 @@ public class PinballGame {
 
         for (PhysicEntity physicEntity : physicEntities) {
             if (physicEntity != null) {
-                Ball physicEntityBall = physicEntity.updateEntity(ball);
+                Ball physicEntityBall = physicEntity.updateEntity(ball, aui);
                 if (physicEntityBall != null) {
                     collisionBalls.add(physicEntityBall);
                 }
             }
         }
 
-        Ball tableBall = table.updateEntity(ball);
+        Ball tableBall = table.updateEntity(ball, aui);
         if (tableBall != null) {
             collisionBalls.add(tableBall);
         }
 
-        Ball flipperBall = flipperFinger.updateEntity(ball);
+        Ball flipperBall = flipperFinger.updateEntity(ball, aui);
         if (flipperBall != null) {
             collisionBalls.add(flipperBall);
         }
 
-        Ball launchBall = launchControl.updateEntity(ball);
+        Ball launchBall = launchControl.updateEntity(ball, aui);
         if (launchBall != null) {
             collisionBalls.add(launchBall);
         }

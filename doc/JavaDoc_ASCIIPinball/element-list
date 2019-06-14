@@ -1,6 +1,6 @@
 asciipinball
 asciipinball.corelogic
-asciipinball.corelogic.playersandscore
+asciipinball.playersandscore
 asciipinball.exceptions
 asciipinball.fonts
 asciipinball.graphics

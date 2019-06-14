@@ -1,4 +1,4 @@
-package asciipinball.corelogic.playersandscore;
+package asciipinball.playersandscore;
 
 import asciipinball.exceptions.NotSupportedNumberOfPlayersException;
 

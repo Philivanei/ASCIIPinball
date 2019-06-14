@@ -1,6 +1,6 @@
 package asciipinball.objects.flipperfinger;
 
-import asciipinball.corelogic.playersandscore.PlayerManager;
+import asciipinball.playersandscore.PlayerManager;
 import asciipinball.shapes.Line;
 
 /**

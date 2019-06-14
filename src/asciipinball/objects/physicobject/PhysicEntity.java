@@ -1,9 +1,9 @@
 package asciipinball.objects.physicobject;
 
 import asciipinball.CollisionData;
-import asciipinball.corelogic.playersandscore.PlayerManager;
+import asciipinball.playersandscore.PlayerManager;
 import asciipinball.objects.Ball;
-import asciipinball.corelogic.playersandscore.Player;
+import asciipinball.sounds.Aui;
 
 import java.util.ArrayList;
 
@@ -25,13 +25,15 @@ public abstract class PhysicEntity {
      * Sucht nach Kollisionen mit dem Ball und gibt im Falle einer Kollision interactWithBall() (Ball nach Kollision),
      * bei keiner Kollision null zurück. Fügt bei Kollision dem aktuellen Spieler einen Entity spezifischen Score hinzu.
      * @param ball Ball auf den eine kollisionsabfrage durchgeführt werden soll
+     * @param aui Audio Interface des Spiels
      * @return Ball nach Aufprall
      */
-    public Ball updateEntity(Ball ball){
+    public Ball updateEntity(Ball ball, Aui aui){
         if(isCollided(ball)){
             if(score != 0){
                 playerManager.getCurrentPlayer().addToScore(score);
             }
+            aui.playSound(getCollisionSoundId());
             return interactWithBall(ball);
         } else {
             return null;
@@ -73,6 +75,9 @@ public abstract class PhysicEntity {
         //float finalAngle = ball.convertDirection((-ball.convertDirection((ball.getDirection() + 90 - angleToLine)))  - (90 - angleToLine)); //double conversion is necessary if -ball.convertDirection results in -180°
     }
 
+    protected int getCollisionSoundId(){
+        return 0;
+    }
 
     protected abstract boolean isCollided(Ball ball);
     protected abstract Ball interactWithBall(Ball ball);

@@ -1,7 +1,7 @@
 package asciipinball.objects.physicobject.polygonial;
 
 import asciipinball.CollisionData;
-import asciipinball.corelogic.playersandscore.PlayerManager;
+import asciipinball.playersandscore.PlayerManager;
 import asciipinball.interfaces.Drawable;
 import asciipinball.objects.Ball;
 import asciipinball.objects.physicobject.PhysicEntity;
