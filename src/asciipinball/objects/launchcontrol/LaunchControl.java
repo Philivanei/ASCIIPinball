@@ -168,8 +168,6 @@ public class LaunchControl extends PolygonEntity implements Drawable {
                     90, calculateVelocityBoost());
         }
 
-        System.out.println(returnBall.getVelocity());
-
         returnBall.jumpToFuture(75);
         return returnBall;
     }

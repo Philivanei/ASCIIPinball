@@ -102,7 +102,10 @@ public class PointDoor extends NonPhysicEntity implements Drawable {
             float distancePointBall = (float) Math.sqrt(Math.pow((ball.getX() - circles[0].getX()), 2) + Math.pow((ball.getY() - circles[0].getY()), 2));
 
             if (distancePointBall < circles[0].getRadius() + ball.getRadius()) {
-                status[playerManager.getCurrentPlayerId()] = true;
+                if(!status[playerManager.getCurrentPlayerId()]){
+                    aui.playSound(5,false);
+                    status[playerManager.getCurrentPlayerId()] = true;
+                }
             }
 
             if (areAllOn()) {
