@@ -38,9 +38,6 @@ public abstract class PhysicEntity {
         }
     }
 
-    /**
-     * Entfernt alle erkannten kollisionen aus der Liste bis auf den nächsten (Relevant für Entities die aus mehr als einer Linie/Kreis bestehen)
-     */
     protected void cleanupCollisionList(){
 
         if(!collisionList.isEmpty() && collisionList.size() > 1){
@@ -59,12 +56,6 @@ public abstract class PhysicEntity {
     }
 
 
-    /**
-     * Berechte Winkel nach Aufprall aus ball und Steigung der Abprall Linie
-     * @param ball Ball der abprallt
-     * @param gradient Steigung der Abprall linie
-     * @return Winkel als float des Balles nach Aufprall
-     */
     protected float calculateBallAngleFromGradient(Ball ball, float gradient) {
         float angleToLine;
 
