@@ -31,6 +31,11 @@ public class Bumper extends CircleEntity {
     }
 
     @Override
+    protected int getCollisionSoundId() {
+        return 1;
+    }
+
+    @Override
     public char getColor() {
         return 'R';
     }

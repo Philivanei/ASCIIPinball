@@ -5,6 +5,7 @@ import asciipinball.corelogic.PinballGame;
 import asciipinball.playersandscore.PlayerManager;
 import asciipinball.fonts.FontBig;
 import asciipinball.fonts.FontElectronic;
+import asciipinball.sounds.Aui;
 
 /**
  * Ein Fenster, das den Endbildschrim des Spiels ausgibt.
@@ -17,6 +18,7 @@ public class GameOverScreen {
     private boolean isActive;
     private long visibleHighScore;
     private int visibleWinnningScore;
+    private Aui aui;
 
     /**
      * Erstellt einen GameOverScreen.
@@ -24,10 +26,11 @@ public class GameOverScreen {
      * @param playerManager PlayerManager des Spiels
      * @param pinballGame   Referenz auf Hauptlogik des Spiels
      */
-    public GameOverScreen(PlayerManager playerManager, PinballGame pinballGame) {
+    public GameOverScreen(PlayerManager playerManager, PinballGame pinballGame, Aui aui) {
         isActive = false;
         this.playerManager = playerManager;
         this.pinballGame = pinballGame;
+        this.aui = aui;
         countArrowColumns = Settings.GAME_OVER_OPTIONS_POSITION_X;
         visibleHighScore = -1;
         visibleWinnningScore = -1;
@@ -83,7 +86,7 @@ public class GameOverScreen {
 
     private int getScoreOfWinner(){
         if(visibleWinnningScore < 0){
-            visibleWinnningScore = playerManager.getWinningScore();
+            visibleWinnningScore = playerManager.getWinningScore(aui);
         }
         return visibleWinnningScore;
     }

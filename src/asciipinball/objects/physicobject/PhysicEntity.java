@@ -33,7 +33,7 @@ public abstract class PhysicEntity {
             if(score != 0){
                 playerManager.getCurrentPlayer().addToScore(score);
             }
-            aui.playSound(getCollisionSoundId());
+            aui.playSound(getCollisionSoundId(), false);
             return interactWithBall(ball);
         } else {
             return null;
@@ -68,8 +68,6 @@ public abstract class PhysicEntity {
         } else {
             angleToLine = 90;
         }
-
-        //System.out.println(angleToLine);
 
         return ball.convertDirection(-(ball.getDirection() - angleToLine) + angleToLine);
         //float finalAngle = ball.convertDirection((-ball.convertDirection((ball.getDirection() + 90 - angleToLine)))  - (90 - angleToLine)); //double conversion is necessary if -ball.convertDirection results in -180°

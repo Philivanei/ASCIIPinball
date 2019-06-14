@@ -6,6 +6,7 @@ import asciipinball.interfaces.Drawable;
 import asciipinball.objects.Ball;
 import asciipinball.objects.nophysicsobject.NonPhysicEntity;
 import asciipinball.shapes.Circle;
+import asciipinball.sounds.Aui;
 
 import java.util.ArrayList;
 
@@ -91,9 +92,10 @@ public class PointDoor extends NonPhysicEntity implements Drawable {
      * Überprüft ob der Ball über die pointDoor rollt. Wenn ja wird der Status der pointDoor auf true gesetzt.
      * Überprüft ob alle Pointdoors an sind. Wenn ja werden scoreIfToggled dem aktuellen Spieler gutgeschrieben und alle pointDoors Status auf false gestellt
      * @param ball Ball mit dem interagiert werden soll
+     * @param aui
      */
     @Override
-    public void updateEntity(Ball ball) {
+    public void updateEntity(Ball ball, Aui aui) {
 
         if(System.currentTimeMillis() - deadTimer > 200) {
 
@@ -105,6 +107,7 @@ public class PointDoor extends NonPhysicEntity implements Drawable {
 
             if (areAllOn()) {
                 resetAll();
+                aui.playSound(2, true);
                 playerManager.getCurrentPlayer().addToScore(score);
             }
         }
