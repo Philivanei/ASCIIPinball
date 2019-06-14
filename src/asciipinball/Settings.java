@@ -6,9 +6,9 @@ import java.awt.*;
 import java.util.HashMap;
 
 /**
- * Einstellungen
+ * Einstellungen nach Immutable Designpattern
  */
-public abstract class Settings {
+public final class Settings {
     /**
      * Gravitation die pro Tick herschein soll
      */
