@@ -1,5 +1,6 @@
 package asciipinball.corelogic;
 
+import asciipinball.Coordinate;
 import asciipinball.GameView;
 import asciipinball.objects.launchcontrol.LaunchControl;
 import asciipinball.corelogic.playersandscore.PlayerManager;
@@ -69,7 +70,7 @@ public class PinballGame {
         startScreen = new StartScreen();
         gameOverScreen = new GameOverScreen(playerManager, this);
         launchControl = new LaunchControl(playerManager, 90, 0, 25.01f, 10, 3);
-        lifeDisplay = new LifeDisplay(playerManager, Settings.WIDTH + 10, 10 , 2.5f);
+        lifeDisplay = new LifeDisplay(playerManager, new Coordinate(Settings.WIDTH + 10, 10) , 2.5f);
         flipperFinger = new FlipperFingerControl(playerManager, (((float) Settings.WIDTH / 2) - (Settings.HOLE_WIDTH / 2)),
                 15, (((float) Settings.WIDTH / 2) + (Settings.HOLE_WIDTH / 2)), 15,
                 11f, 45, 135);

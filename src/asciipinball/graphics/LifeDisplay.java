@@ -1,20 +1,34 @@
 package asciipinball.graphics;
 
+import asciipinball.Coordinate;
 import asciipinball.corelogic.playersandscore.PlayerManager;
 import asciipinball.interfaces.Drawable;
 import asciipinball.shapes.Circle;
 
+/**
+ * Eine Anzeige wieviele Bälle ein Spieler noch übrig hat
+ */
 public class LifeDisplay implements Drawable {
     private PlayerManager playerManager;
     private float x,y,radius;
 
-    public LifeDisplay(PlayerManager playerManager, float x, float y, float radius){
+    /**
+     * Erstellt ein neues LifeDisplay
+     * @param playerManager PlayerManager des Spiels
+     * @param coordinate Koordinate an der das LifeDisplay ausgegeben werden soll
+     * @param radius Radius der Lebensanzeige kreise
+     */
+    public LifeDisplay(PlayerManager playerManager, Coordinate coordinate, float radius){
         this.playerManager = playerManager;
-        this.x = x;
-        this.y = y;
+        x = coordinate.getX();
+        y = coordinate.getY();
         this.radius = radius;
     }
 
+    /**
+     * Generiert Kreise abhängig von den verbleibenden Leben/Bällen des aktuellen spielers
+     * @return Lebensindikations Kreise
+     */
     public Circle[] getDisplay(){
 
         Circle[] returnCircles = new Circle[playerManager.getCurrentPlayer().getBallLifes()];
