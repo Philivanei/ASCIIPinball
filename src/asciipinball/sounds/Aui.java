@@ -35,6 +35,9 @@ public class Aui {
                 case 4:
                     gameView.playSound("newHighscore.wav", 2500);
                     break;
+                case 5:
+                    gameView.playSound("pointDoorSwitch.wav",0);
+                    break;
                 default:
                     break;
             }

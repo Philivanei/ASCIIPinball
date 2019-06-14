@@ -50,8 +50,6 @@ public class HighScoreManager {
 
     private JSONObject getJsonObjectFromFile(){
 
-        System.out.println("OPENIING");
-
         String fileString = "";
         try (BufferedReader br = new BufferedReader(new FileReader(pathToFile))) {
             StringBuilder sb = new StringBuilder();
@@ -94,8 +92,6 @@ public class HighScoreManager {
     //But it's the truth - it's simple JSONs fault
     @SuppressWarnings("unchecked")
     public void setHighScore(Player player, String name){
-
-        System.out.println("WRITING");
 
         JSONObject jsonObject = new JSONObject();
 
