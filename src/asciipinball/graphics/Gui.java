@@ -32,6 +32,12 @@ public class Gui {
     }
 
     /**
+     * Fügt die im resources ordner gespeicherte asciiArt.txt ein
+     */
+    public void addGameBackround(){
+        gameView.addToCanvas(new BackgroundArrayGenerator().getBackground(), 0,0);
+    }
+    /**
      * Malt den sonst schwarzen hintergrund des spieltisches aus
      */
     public void addTableBackround(){
@@ -50,11 +56,23 @@ public class Gui {
      * @param row Zeile
      * @param column Spalte
      * @param font Schriftart des AsciiStrings
+     * @param greyBackground Ob der hintergrund der schrift Grau hinterlegt werden soll
      */
-    public void addAsciiStringToCanvas(String string, int row, int column, AsciiStringContainer font){
+    public void addAsciiStringToCanvas(String string, int row, int column, AsciiStringContainer font, boolean greyBackground){
         char[][] charArray = new AsciiStringBuilder(font).buildAsciiString(string);
+        char[][] background = new char[charArray.length][charArray[0].length];
         int newRow = (row - (charArray.length/2));
         int newColumn = (column - (charArray[0].length/2));
+
+        if(greyBackground){
+            for(int rowIter = 0; rowIter < background.length; rowIter++){
+                for(int columnIter = 0; columnIter < background[0].length; columnIter++){
+                    background[rowIter][columnIter] = '§';
+                }
+            }
+            gameView.addColorStringToCanvas(background, newRow, newColumn);
+        }
+
         gameView.addToCanvas(charArray,newRow,newColumn);
     }
 

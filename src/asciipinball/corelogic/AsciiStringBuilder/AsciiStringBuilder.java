@@ -50,9 +50,9 @@ public class AsciiStringBuilder {
 
         char[][] returnArray = new char[totalRows][maxColumns];
 
-        for (char[] array : returnArray) {
-            for (char c : array) {
-                c = ' ';
+        for(int row = 0; row < returnArray.length; row++){
+            for(int column = 0; column < returnArray[0].length; column++){
+                returnArray[row][column] = ' ';
             }
         }
 
@@ -93,6 +93,7 @@ public class AsciiStringBuilder {
             for (int column = 0; column < returnCharArray[0].length; column++) {
                 stringIterator++;
                 if (stringIterator >= string.length()) {
+                    returnCharArray[row][column]=' ';
                     continue;
                 }
                 if (string.charAt(stringIterator) == '\n') {
