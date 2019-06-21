@@ -14,6 +14,8 @@ import asciipinball.objects.physicobject.polygonial.PolygonEntity;
 import asciipinball.shapes.Circle;
 import asciipinball.shapes.Line;
 
+import java.util.Set;
+
 /**
  * Verwaltung der Ausgaben auf dem GameView Fenster
  */
@@ -27,6 +29,14 @@ public class Gui {
      */
     public Gui(GameView gameView){
         this.gameView = gameView;
+    }
+
+    /**
+     * Malt den sonst schwarzen hintergrund des spieltisches aus
+     */
+    public void addTableBackround(){
+        char[][] backround = new char[Settings.HEIGHT][Settings.WIDTH];
+
     }
 
     /**
