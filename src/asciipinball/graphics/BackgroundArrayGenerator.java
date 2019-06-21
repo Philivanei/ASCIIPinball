@@ -7,16 +7,24 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
+/**
+ * Baut den Hintergrund
+ */
 public class BackgroundArrayGenerator {
 
     private String backgroundFile = "asciiArt.txt";
 
-
+    /**
+     * Erstellt einen neuen BackgroundArrayGenerator
+     */
     public BackgroundArrayGenerator(){
 
     }
 
-
+    /**
+     * Liest die Datei asciiArt.txt ein und dupliziert dieses Ascii-Art über den gesamten Hintergrund.
+     * @return Hintergrund charArray
+     */
     public char[][] getBackground(){
 
         String string = getStringFromFile();
@@ -80,13 +88,15 @@ public class BackgroundArrayGenerator {
 
         int stringIterator = 0;
         boolean wordWrapDetected = false;
+        char c;
 
         for(int row = 0; row < returnArray.length; row++){
             for (int column = 0; column < returnArray[0].length; column++){
                 if(stringIterator >= string.length()){
-                    stringIterator = string.length()-1;
+                    c = ' ';
+                }else{
+                    c = string.charAt(stringIterator);
                 }
-                char c = string.charAt(stringIterator);
                 if(column == 0){
                     wordWrapDetected = false;
                 }
@@ -102,7 +112,6 @@ public class BackgroundArrayGenerator {
                 stringIterator++;
             }
         }
-
         return returnArray;
     }
 
