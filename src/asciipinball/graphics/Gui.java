@@ -36,7 +36,12 @@ public class Gui {
      */
     public void addTableBackround(){
         char[][] backround = new char[Settings.HEIGHT][Settings.WIDTH];
-
+        for (int row = 0; row < backround.length; row++){
+            for(int column = 0; column < backround[0].length; column++){
+                backround[row][column] = 'b';
+            }
+        }
+        gameView.addColorStringToCanvas(backround,0,Settings.OFFSET);
     }
 
     /**
@@ -194,13 +199,6 @@ public class Gui {
                             canvasSegment[row][column] = ' ';
                         }
                     }
-                    /*if(Math.abs(((getM() > 0) ? ((canvasSegment.length - 1) - row) : -row) - (getM() * column)) < ((Math.abs(getM()) <= 1) ? 1 : (Math.abs(getM()) / 2))){
-
-                        canvasSegment[row][column] = 'B';
-                    }
-                    else{
-                        canvasSegment[row][column] = ' ';
-                    }*/
                 }else{
                     canvasSegment[row][column] = color;
                 }

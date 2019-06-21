@@ -91,7 +91,7 @@ public final class Settings {
         colormap.put('G', Color.GREEN);
         colormap.put('g', Color.GREEN.brighter());
         colormap.put('B', Color.BLUE);
-        colormap.put('b', Color.BLUE.brighter());
+        colormap.put('b', new Color(102,51,0));
         colormap.put('Y', Color.YELLOW);
         colormap.put('P', Color.PINK);
         colormap.put('C', Color.CYAN);

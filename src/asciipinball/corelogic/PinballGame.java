@@ -209,6 +209,7 @@ public class PinballGame {
         if (!startScreen.isPlayerNumberSelected()) {
             startScreen.printStartScreen(gui);
         } else if (!gameOver) {
+            gui.addTableBackround();
             gui.addToCanvas(table);
 
             for (PhysicEntity physicEntity : physicEntities) {
