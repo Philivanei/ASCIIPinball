@@ -76,7 +76,11 @@ public class RotatingCross extends PolygonEntity {
     @Override
     public Ball updateEntity(Ball ball, Aui aui) {
         updateRotation();
-        return super.updateEntity(ball, aui);
+        Ball returnBall = super.updateEntity(ball, aui);
+        if(returnBall != null){
+            returnBall.addVelocity(0.005f);
+        }
+        return returnBall;
     }
 
     @Override
