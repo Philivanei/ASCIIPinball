@@ -114,7 +114,7 @@ public class LaunchControl extends PolygonEntity implements Drawable {
 
         float result = (maxHeight - minHeight) / Settings.TIME_FOR_JUMP * timeSinceStart + minHeight;
         if (result > (maxHeight + tiltOffset)) {
-            //change moveStatus
+
             result = maxHeight + tiltOffset;
             moveStatus = MoveStatus.STOP;
             isFinished = true;

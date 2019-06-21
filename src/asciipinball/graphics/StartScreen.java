@@ -8,6 +8,15 @@ import asciipinball.fonts.FontBig;
  * Ein Fenster, das den Startbildschrim des Spiels ausgibt.
  */
 public class StartScreen {
+    //sets the distance from one printed player to another
+    private final int playerDistance = 10;
+    //sets the Y position of the printed players
+    //if you want to change the Y position just change player1PositionY
+    private final int player1PositionY = 50;
+    private final int player2PositionY = player1PositionY + playerDistance;
+    private final int player3PositionY = player2PositionY + playerDistance;
+    private final int player4PositionY = player3PositionY + playerDistance;
+
     private int countArrowRows;
     private byte playerNumber;
 
@@ -17,7 +26,7 @@ public class StartScreen {
     public StartScreen() {
 
         playerNumber = 0;
-        countArrowRows = Settings.PLAYER1_POSITION_Y;
+        countArrowRows = player1PositionY;
     }
 
     /**
@@ -45,16 +54,16 @@ public class StartScreen {
     //controls for the StartScreen
     public void enterDownPressed() {
         //logic which player has been selected
-        if (countArrowRows == Settings.PLAYER1_POSITION_Y) {
+        if (countArrowRows == player1PositionY) {
             playerNumber = 1;
 
-        } else if (countArrowRows == Settings.PLAYER2_POSITION_Y) {
+        } else if (countArrowRows == player2PositionY) {
             playerNumber = 2;
 
-        } else if (countArrowRows == Settings.PLAYER3_POSITION_Y) {
+        } else if (countArrowRows == player3PositionY) {
             playerNumber = 3;
 
-        } else if (countArrowRows == Settings.PLAYER4_POSITION_Y) {
+        } else if (countArrowRows == player4PositionY) {
             playerNumber = 4;
         }
     }
@@ -64,9 +73,9 @@ public class StartScreen {
      */
     //moving an arrow up/ down to choose a player number
     public void arrowDownPressed() {
-        countArrowRows += Settings.PLAYER_DISTANCE;
-        if (countArrowRows > Settings.PLAYER4_POSITION_Y) {
-            countArrowRows = Settings.PLAYER1_POSITION_Y;
+        countArrowRows += playerDistance;
+        if (countArrowRows > player4PositionY) {
+            countArrowRows = player1PositionY;
         }
     }
 
@@ -74,9 +83,9 @@ public class StartScreen {
      * Wird aufgerufen, wenn die Pfeil nach oben Taste betätigt wurde und bewegt den Pfeil nach oben.
      */
     public void arrowUpPressed() {
-        countArrowRows -= Settings.PLAYER_DISTANCE;
-        if (countArrowRows < Settings.PLAYER1_POSITION_Y) {
-            countArrowRows = Settings.PLAYER4_POSITION_Y;
+        countArrowRows -= playerDistance;
+        if (countArrowRows < player1PositionY) {
+            countArrowRows = player4PositionY;
         }
 
     }
@@ -84,16 +93,21 @@ public class StartScreen {
 
     /**
      * Gibt die verschiedenen Elemente an der gesetzten Position auf dem Startbildschirm aus.
+     *
      * @param gui Referenz auf das GUI Objekt des Spiels
      */
     //StartScreen appearance
     public void printStartScreen(Gui gui) {
 
         gui.addAsciiStringToCanvas("ASCII PINBALL", Settings.HEIGHT / 2 - 40, Settings.GAME_VIEW_WIDTH / 2, new FontBig());
-        gui.addAsciiStringToCanvas("Player 1", Settings.PLAYER1_POSITION_Y, Settings.PLAYER_POSITION_X, new FontBig());
-        gui.addAsciiStringToCanvas("Player 2", Settings.PLAYER2_POSITION_Y, Settings.PLAYER_POSITION_X, new FontBig());
-        gui.addAsciiStringToCanvas("Player 3", Settings.PLAYER3_POSITION_Y, Settings.PLAYER_POSITION_X, new FontBig());
-        gui.addAsciiStringToCanvas("Player 4", Settings.PLAYER4_POSITION_Y, Settings.PLAYER_POSITION_X, new FontBig());
-        gui.addAsciiStringToCanvas("-", countArrowRows, Settings.PLAYER_POSITION_X - 50, new FontBig());
+
+        //sets the X position of the printed players
+        final int playerPositionX = Settings.GAME_VIEW_WIDTH / 2;
+
+        gui.addAsciiStringToCanvas("Player 1", player1PositionY, playerPositionX, new FontBig());
+        gui.addAsciiStringToCanvas("Player 2", player2PositionY, playerPositionX, new FontBig());
+        gui.addAsciiStringToCanvas("Player 3", player3PositionY, playerPositionX, new FontBig());
+        gui.addAsciiStringToCanvas("Player 4", player4PositionY, playerPositionX, new FontBig());
+        gui.addAsciiStringToCanvas("-", countArrowRows, playerPositionX - 50, new FontBig());
     }
 }

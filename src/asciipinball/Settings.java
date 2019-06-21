@@ -50,11 +50,11 @@ public final class Settings {
      */
     public static final float MUTE_SPEED = 0.002f;
     /**
-     * Zeit in dem nach einem Teleport nicht noch ein Teleport durgeführt werden kann
+     * Zeit während welcher nach einem Teleport nicht noch ein Teleport durgeführt werden kann
      */
     public static final long TELEPORTER_DEAD_TIME = 200;
     /**
-     * @Phil??????????????????????????????????????????????????????????????????????????????????????????????????????????????????
+     * Zeit die die Abschussrampe benötigt, um nach oben zu Fahren
      */
     public static final float TIME_FOR_JUMP = 200;
     /**
@@ -62,26 +62,26 @@ public final class Settings {
      */
     public static final float BALL_RADIUS = 2.5f;
     /**
-     * Zeit in Millisekunden die vergehen muss bis ein neue Sound abgespielt werden kann
+     * Zeit in Millisekunden, die vergehen muss bis ein neue Sound abgespielt werden kann
      */
     public static final float DEAF_TIME = 75;
+    /**
+     * Zeit in Millisekunden, die den maximalen Abstoß in LaunchControl liefert
+     */
     public static final float MAX_LAUNCH_PRESS_TIME = 1000;
+    /**
+     * Minimalgeschwindigkeit, die der Ball am Anfang beim Abstoß bekommen kann
+     */
     public static final float MIN_LAUNCH_VELOCITY = 0.025f;
+    /**
+     * Maximalgeschwindigkeit, die der Ball am Anfang beim Abstoß bekommen kann
+     */
     public static final float MAX_LAUNCH_VELOCITY = 0.09f;
-    public static final int PLAYER_POSITION_X = HEIGHT / 2 + 10;
-    //please configure if the steps between the players and score have been changed
-    public static final int PLAYER_DISTANCE = 10;
-    public static final int PLAYER1_POSITION_Y = 60;
-    public static final int PLAYER2_POSITION_Y = 70;
-    public static final int PLAYER3_POSITION_Y = 80;
-    public static final int PLAYER4_POSITION_Y = 90;
-    public static final int GAME_OVER_OPTIONS_POSITION_Y = 120;
-    public static final int GAME_OVER_OPTIONS_POSITION_X = 45;
-    public static final int GAME_OVER_OPTIONS_DISTANCE = 150;
 
 
     /**
      * Initialisiert die ColorMap der gameView mit Custom color Codes
+     *
      * @param gameView
      */
     public static void initColorMap(GameView gameView) {
@@ -91,7 +91,7 @@ public final class Settings {
         colormap.put('G', Color.GREEN);
         colormap.put('g', Color.GREEN.brighter());
         colormap.put('B', Color.BLUE);
-        colormap.put('b', Color.BLUE.brighter());
+        colormap.put('b', new Color(102,51,0));
         colormap.put('Y', Color.YELLOW);
         colormap.put('P', Color.PINK);
         colormap.put('C', Color.CYAN);
