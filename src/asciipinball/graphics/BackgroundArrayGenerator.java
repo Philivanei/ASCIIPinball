@@ -13,12 +13,13 @@ import java.io.InputStreamReader;
 public class BackgroundArrayGenerator {
 
     private String backgroundFile = "asciiArt.txt";
+    private String fileString = "";
 
     /**
      * Erstellt einen neuen BackgroundArrayGenerator
      */
     public BackgroundArrayGenerator(){
-
+        fileString = getStringFromFile();
     }
 
     /**
@@ -27,7 +28,7 @@ public class BackgroundArrayGenerator {
      */
     public char[][] getBackground(){
 
-        String string = getStringFromFile();
+        String string = fileString;
 
         char[][] segment = getCharArrayOfSegment(string);
         char[][] returnArray = new char[Settings.HEIGHT][Settings.GAME_VIEW_WIDTH];
