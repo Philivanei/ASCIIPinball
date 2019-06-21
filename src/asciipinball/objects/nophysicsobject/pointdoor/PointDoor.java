@@ -28,7 +28,8 @@ public class PointDoor extends NonPhysicEntity implements Drawable {
      * @param radius Radius der PointDoor
      * @param scoreIfToggled Punkte die dem Spieler gutgeschrieben werden, wenn er alle Pointdoors aktiviert
      */
-    public PointDoor(PlayerManager playerManager, Coordinate coordinate, float radius, int scoreIfToggled){
+    //Package private so only the PointDoorFactory can instantiate a new PointDoor
+    PointDoor(PlayerManager playerManager, Coordinate coordinate, float radius, int scoreIfToggled){
         linkedPointDoors = new ArrayList<>();
         circles = new Circle[1];
         circles[0] = new Circle(coordinate.getX(), coordinate.getY(), radius);
@@ -53,7 +54,8 @@ public class PointDoor extends NonPhysicEntity implements Drawable {
      * Fügt einen Beziehung zu einer anderen pointDoor hinzu.
      * @param pointDoor pointDoor zu der eine Beziehung aufgebaut werden soll
      */
-    public void addLink(PointDoor pointDoor){
+    //Package private so only the PointDoorFactory can add a Link
+    void addLink(PointDoor pointDoor){
         linkedPointDoors.add(pointDoor);
     }
 
