@@ -1,6 +1,7 @@
 package asciipinball.objects.physicobject;
 
 import asciipinball.CollisionData;
+import asciipinball.Settings;
 import asciipinball.playersandscore.PlayerManager;
 import asciipinball.objects.Ball;
 import asciipinball.sounds.Aui;
@@ -33,8 +34,12 @@ public abstract class PhysicEntity {
             if(score != 0){
                 playerManager.getCurrentPlayer().addToScore(score);
             }
-            aui.playSound(getCollisionSoundId(), false);
-            return interactWithBall(ball);
+            Ball returnBall = interactWithBall(ball);
+            if(returnBall.getVelocity() > Settings.MUTE_SPEED)
+            {
+                aui.playSound(getCollisionSoundId(), false);
+            }
+            return returnBall;
         } else {
             return null;
         }
