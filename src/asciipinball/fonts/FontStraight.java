@@ -3,7 +3,7 @@ package asciipinball.fonts;
 /**
  * Eine Schriftart für den AsciiStringBuilder
  */
-public class FontStraight extends AsciiStringContainer {
+public class FontStraight extends Font {
     @Override
     public String getA() {
         return "    \n" +

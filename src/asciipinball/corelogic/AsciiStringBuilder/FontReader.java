@@ -1,9 +1,9 @@
 package asciipinball.corelogic.AsciiStringBuilder;
 
-import asciipinball.fonts.AsciiStringContainer;
+import asciipinball.fonts.Font;
 
 /**
- * Ließt AsciiStringContainer ein
+ * Ließt Font ein
  */
 public class FontReader {
 
@@ -13,7 +13,7 @@ public class FontReader {
      * @param font Font in der der Buchstabe gelesen werden soll
      * @return String des Buchstaben in AsciiArt
      */
-    public String getStringOfLetter(char letter, AsciiStringContainer font){
+    public String getStringOfLetter(char letter, Font font){
         switch (letter) {
             case 'A':
             case 'a':

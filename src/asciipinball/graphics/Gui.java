@@ -1,10 +1,10 @@
 package asciipinball.graphics;
 
+import asciipinball.fonts.Font;
 import view.GameView;
 import asciipinball.Settings;
 import asciipinball.corelogic.AsciiStringBuilder.AsciiStringBuilder;
 import asciipinball.exceptions.ClassNotSupportedException;
-import asciipinball.fonts.AsciiStringContainer;
 import asciipinball.objects.Ball;
 import asciipinball.objects.flipperfinger.FlipperFingerControl;
 import asciipinball.objects.nophysicsobject.NonPhysicEntity;
@@ -13,8 +13,6 @@ import asciipinball.objects.physicobject.circular.CircleEntity;
 import asciipinball.objects.physicobject.polygonial.PolygonEntity;
 import asciipinball.shapes.Circle;
 import asciipinball.shapes.Line;
-
-import java.util.Set;
 
 /**
  * Verwaltung der Ausgaben auf dem GameView Fenster
@@ -58,7 +56,7 @@ public class Gui {
      * @param font Schriftart des AsciiStrings
      * @param greyBackground Ob der hintergrund der schrift Grau hinterlegt werden soll
      */
-    public void addAsciiStringToCanvas(String string, int row, int column, AsciiStringContainer font, boolean greyBackground){
+    public void addAsciiStringToCanvas(String string, int row, int column, Font font, boolean greyBackground){
         char[][] charArray = new AsciiStringBuilder(font).buildAsciiString(string);
         char[][] background = new char[charArray.length][charArray[0].length];
         int newRow = (row - (charArray.length/2));

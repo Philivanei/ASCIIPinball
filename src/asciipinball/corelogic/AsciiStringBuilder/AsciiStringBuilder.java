@@ -1,19 +1,19 @@
 package asciipinball.corelogic.AsciiStringBuilder;
 
-import asciipinball.fonts.AsciiStringContainer;
+import asciipinball.fonts.Font;
 
 /**
  * Convertiert einen String in AsciiArt
  */
 public class AsciiStringBuilder {
 
-    private AsciiStringContainer font;
+    private Font font;
 
     /**
      * Erstellt einen AsciiStringBuilder mit einem Font
      * @param font Font der Schrift
      */
-    public AsciiStringBuilder(AsciiStringContainer font) {
+    public AsciiStringBuilder(Font font) {
         this.font = font;
     }
 
