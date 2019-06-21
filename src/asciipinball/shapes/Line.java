@@ -5,7 +5,7 @@ import asciipinball.Coordinate;
 /**
  * Eine Linie
  */
-public class Line extends Shapes {
+public class Line {
     private float x1;
     private float y1;
     private float x2;

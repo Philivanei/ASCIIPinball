@@ -87,7 +87,7 @@ public abstract class PolygonEntity extends PhysicEntity implements Drawable {
                     }
                 }
                 collisionDetected = true;
-                collisionList.add(new CollisionData(x, y, line, distanceToBall));
+                collisionList.add(new CollisionData<>(x, y, line, distanceToBall));
             }
         }
 

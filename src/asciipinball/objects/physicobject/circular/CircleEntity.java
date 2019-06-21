@@ -45,7 +45,7 @@ public abstract class CircleEntity extends PhysicEntity implements Drawable {
                 float collisionPositionX = (float) (Math.cos(angleToCollisionPoint) * circle.getRadius()) + circle.getX();
                 float collisionPositionY = (float) (Math.sin(angleToCollisionPoint) * circle.getRadius()) + circle.getY();
 
-                collisionList.add(new CollisionData(collisionPositionX, collisionPositionY, circle, distanceToBall));
+                collisionList.add(new CollisionData<>(collisionPositionX, collisionPositionY, circle, distanceToBall));
             }
         }
         cleanupCollisionList();
