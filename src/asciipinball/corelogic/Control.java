@@ -66,7 +66,6 @@ public class Control {
                         flipperFingerControl.onRightDown();
                         gameOverScreen.arrowRightPressed();
 
-
                         //key for launchControl
                     } else if (keyEvent.getKeyCode() == KeyEvent.VK_SPACE) {
 

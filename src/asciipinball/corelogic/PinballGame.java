@@ -1,16 +1,13 @@
 package asciipinball.corelogic;
 
 import asciipinball.Coordinate;
+import asciipinball.graphics.*;
 import asciipinball.sounds.Aui;
 import view.GameView;
 import asciipinball.objects.launchcontrol.LaunchControl;
 import asciipinball.playersandscore.PlayerManager;
 import asciipinball.Settings;
 import asciipinball.fonts.FontStraight;
-import asciipinball.graphics.GameOverScreen;
-import asciipinball.graphics.Gui;
-import asciipinball.graphics.LifeDisplay;
-import asciipinball.graphics.StartScreen;
 import asciipinball.levels.Levels;
 import asciipinball.objects.flipperfinger.FlipperFingerControl;
 import asciipinball.objects.Ball;
@@ -234,6 +231,8 @@ public class PinballGame {
             gui.addToCanvas(ball);
 
             gui.addAsciiStringToCanvas(playerManager.getCurrentPlayerScoreString(), (int) Settings.HEIGHT / 2, 35, new FontStraight(), true);
+
+            gui.addAsciiStringToCanvas(new ControlsDisplay().getString(), Settings.HEIGHT/2, 206, new FontStraight() , true);
         } else {
             gameOverScreen.printGameOverScreen(gui);
         }
