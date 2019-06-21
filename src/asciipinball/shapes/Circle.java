@@ -5,7 +5,7 @@ import asciipinball.Coordinate;
 /**
  * Ein Kreis
  */
-public class Circle extends Shapes {
+public class Circle {
     private float radius;
     private float x;
     private float y;

@@ -1,12 +1,10 @@
 package asciipinball;
 
-import asciipinball.shapes.Shapes;
-
 /**
  * Speichert Kollisions daten
  */
-public class CollisionData implements Comparable<CollisionData> {
-    private Shapes collisionShape;
+public class CollisionData<T> implements Comparable<CollisionData> {
+    private T collisionShape;
     private float collisionX;
     private float collisionY;
     private float distanceToBall;
@@ -18,7 +16,7 @@ public class CollisionData implements Comparable<CollisionData> {
      * @param collisionShape Entity mit der Kollidiert wurde
      * @param distanceToBall Abstand vom Kollisionspunkt zum Ball
      */
-    public CollisionData(float collisionX, float collisionY, Shapes collisionShape, float distanceToBall) {
+    public CollisionData(float collisionX, float collisionY, T collisionShape, float distanceToBall) {
         this.collisionShape = collisionShape;
         this.collisionX = collisionX;
         this.collisionY = collisionY;
@@ -39,7 +37,7 @@ public class CollisionData implements Comparable<CollisionData> {
      * Gibt die Kollision Shape zurück
      * @return Shape mit der Kolliert wurde
      */
-    public Shapes getCollisionShape() {
+    public T getCollisionShape() {
         return collisionShape;
     }
 
