@@ -99,6 +99,7 @@ public final class Settings {
         colormap.put('O', Color.ORANGE);
         colormap.put('W', Color.WHITE);
         colormap.put('S', Color.LIGHT_GRAY);
+        colormap.put('§', Color.DARK_GRAY);
 
         gameView.setColormap(colormap);
     }

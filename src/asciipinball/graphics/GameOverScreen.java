@@ -115,16 +115,16 @@ public class GameOverScreen {
      */
     public void printGameOverScreen(Gui gui) {
 
-        gui.addAsciiStringToCanvas("GAME OVER", Settings.HEIGHT / 2 - 10, Settings.GAME_VIEW_WIDTH / 2, new FontElectronic());
+        gui.addAsciiStringToCanvas("GAME OVER", Settings.HEIGHT / 2 - 10, Settings.GAME_VIEW_WIDTH / 2, new FontElectronic(),false);
         gui.addAsciiStringToCanvas("Winner\nPlayer " + playerManager.getWinningPlayerNumber() + "\n\n" + getScoreOfWinner(),
-                Settings.HEIGHT / 2 + 10, Settings.GAME_VIEW_WIDTH / 2, new FontBig());
+                Settings.HEIGHT / 2 + 10, Settings.GAME_VIEW_WIDTH / 2, new FontBig(),false);
 
         final int gameOverOptionsPositionY = 120;
-        gui.addAsciiStringToCanvas("Quit", gameOverOptionsPositionY, gameOverOptionsPositionX + gameOverOptionsDistance, new FontBig());
-        gui.addAsciiStringToCanvas("Retry", gameOverOptionsPositionY, gameOverOptionsPositionX, new FontBig());
-        gui.addAsciiStringToCanvas("-", gameOverOptionsPositionY, countArrowColumns - 35, new FontBig());
-        gui.addAsciiStringToCanvas(Long.toString(getHighScore()), 30, Settings.GAME_VIEW_WIDTH / 2, new FontBig());
-        gui.addAsciiStringToCanvas("HighScore", 20, Settings.GAME_VIEW_WIDTH / 2, new FontBig());
+        gui.addAsciiStringToCanvas("Quit", gameOverOptionsPositionY, gameOverOptionsPositionX + gameOverOptionsDistance, new FontBig(),false);
+        gui.addAsciiStringToCanvas("Retry", gameOverOptionsPositionY, gameOverOptionsPositionX, new FontBig(),false);
+        gui.addAsciiStringToCanvas("-", gameOverOptionsPositionY, countArrowColumns - 35, new FontBig(),false);
+        gui.addAsciiStringToCanvas(Long.toString(getHighScore()), 30, Settings.GAME_VIEW_WIDTH / 2, new FontBig(),false);
+        gui.addAsciiStringToCanvas("HighScore", 20, Settings.GAME_VIEW_WIDTH / 2, new FontBig(),false);
 
     }
 }

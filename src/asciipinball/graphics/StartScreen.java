@@ -99,15 +99,15 @@ public class StartScreen {
     //StartScreen appearance
     public void printStartScreen(Gui gui) {
 
-        gui.addAsciiStringToCanvas("ASCII PINBALL", Settings.HEIGHT / 2 - 40, Settings.GAME_VIEW_WIDTH / 2, new FontBig());
+        gui.addAsciiStringToCanvas("ASCII PINBALL", Settings.HEIGHT / 2 - 40, Settings.GAME_VIEW_WIDTH / 2, new FontBig(), false);
 
         //sets the X position of the printed players
         final int playerPositionX = Settings.GAME_VIEW_WIDTH / 2;
 
-        gui.addAsciiStringToCanvas("Player 1", player1PositionY, playerPositionX, new FontBig());
-        gui.addAsciiStringToCanvas("Player 2", player2PositionY, playerPositionX, new FontBig());
-        gui.addAsciiStringToCanvas("Player 3", player3PositionY, playerPositionX, new FontBig());
-        gui.addAsciiStringToCanvas("Player 4", player4PositionY, playerPositionX, new FontBig());
-        gui.addAsciiStringToCanvas("-", countArrowRows, playerPositionX - 50, new FontBig());
+        gui.addAsciiStringToCanvas("Player 1", player1PositionY, playerPositionX, new FontBig(), false);
+        gui.addAsciiStringToCanvas("Player 2", player2PositionY, playerPositionX, new FontBig(), false);
+        gui.addAsciiStringToCanvas("Player 3", player3PositionY, playerPositionX, new FontBig(),false);
+        gui.addAsciiStringToCanvas("Player 4", player4PositionY, playerPositionX, new FontBig(),false);
+        gui.addAsciiStringToCanvas("-", countArrowRows, playerPositionX - 50, new FontBig(),false);
     }
 }

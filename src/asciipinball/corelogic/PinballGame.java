@@ -209,6 +209,7 @@ public class PinballGame {
         if (!startScreen.isPlayerNumberSelected()) {
             startScreen.printStartScreen(gui);
         } else if (!gameOver) {
+            gui.addGameBackround();
             gui.addTableBackround();
             gui.addToCanvas(table);
 
@@ -232,7 +233,7 @@ public class PinballGame {
 
             gui.addToCanvas(ball);
 
-            gui.addAsciiStringToCanvas(playerManager.getCurrentPlayerScoreString(), (int) Settings.HEIGHT / 2, 35, new FontStraight());
+            gui.addAsciiStringToCanvas(playerManager.getCurrentPlayerScoreString(), (int) Settings.HEIGHT / 2, 35, new FontStraight(), true);
         } else {
             gameOverScreen.printGameOverScreen(gui);
         }
