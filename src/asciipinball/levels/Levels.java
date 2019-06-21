@@ -1,6 +1,8 @@
 package asciipinball.levels;
 
 import asciipinball.Coordinate;
+import asciipinball.objects.physicobject.circular.Teleporter.Teleporter;
+import asciipinball.objects.physicobject.circular.Teleporter.TeleporterFactory;
 import asciipinball.playersandscore.PlayerManager;
 import asciipinball.Settings;
 import asciipinball.interfaces.Coverable;
@@ -36,6 +38,9 @@ public class Levels {
      * @return PhysicEntities des erstel Levels
      */
     public PhysicEntity[] getLevel1PhysicEntities() {
+
+        ArrayList<Teleporter> teleporters = TeleporterFactory.getTeleporter(playerManager, new Coordinate(0,0), new Coordinate(10,10));
+
         return addJointCovers(new PhysicEntity[]{
 
                 //diagonal lines in the middle
@@ -60,7 +65,10 @@ public class Levels {
                 //rotating cross on the left side up
                 new RotatingCross(playerManager, new Coordinate(30, 105), 8, 0.0008f, false),
                 //rotating cross on the right side up
-                new RotatingCross(playerManager, new Coordinate(70, 105), 8, 0.0008f, true)
+                new RotatingCross(playerManager, new Coordinate(70, 105), 8, 0.0008f, true),
+
+                teleporters.get(0),
+                teleporters.get(1),
 
         });
     }
