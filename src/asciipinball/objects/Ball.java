@@ -162,6 +162,35 @@ public class Ball {
         return (float) Math.sin(Math.toRadians(direction)) * velocity;
     }
 
+
+    /**
+     * Berechnet den zukünftigen Zustand des Balles unter Berücksichtigung von Gravitation und Reibung.
+     *
+     * @param gravitationPerTick Gravitation die pro Berechnungsschritt wirken soll
+     */
+    public void calculateFuture(float gravitationPerTick) {
+
+        float xSpeed = getXSpeed();
+        float ySpeed = getYSpeed();
+
+        calculateFuturePosition(xSpeed, ySpeed);
+
+        if (isInfluencedByPhysics) {
+            //Simulate gravitation
+            ySpeed -= gravitationPerTick;
+
+            addVelocity(-Settings.FRICTION);
+
+            calculateFutureDirection(xSpeed, ySpeed);
+            calculateFutureVelocity(xSpeed, ySpeed);
+        } else {
+            isInfluencedByPhysics = velocity != 0;
+        }
+
+
+    }
+
+
     /**
      * Rechnet eine übergebene Richtung um auf einen Bereich von -180° - 180°
      *
@@ -224,34 +253,37 @@ public class Ball {
     }
 
 
-    //calculate Future takes a float gravitation value and simulates the behaviour of the ball per tick(call).
-
     /**
-     * Berechnet den zukünftigen Zustand des Balles unter Berücksichtigung von Gravitation und Reibung.
+     * Führt eine Liste aus Bällen zu einem Ball zusammen
      *
-     * @param gravitationPerTick Gravitation die pro Berechnungsschritt wirken soll
+     * @param balls Liste an Bällen
+     * @return zusammengeführter Ball
      */
-    public void calculateFuture(float gravitationPerTick) {
+    public Ball joinBalls(ArrayList<Ball> balls) {
+        // calculate average if a ball hits a top or a corner
 
-        float xSpeed = getXSpeed();
-        float ySpeed = getYSpeed();
+        int arrayLength = balls.size();
 
-        calculateFuturePosition(xSpeed, ySpeed);
+        if (balls.isEmpty()) {
+            return null;
+        } else if (arrayLength == 1) {
+            return balls.get(0);
+        } else if (arrayLength == 2) {
+            Ball ball1 = balls.get(0);
+            Ball ball2 = balls.get(1);
+            float newDirection = ball1.convertDirection((((ball1.getDirection() + 360) % 360) + ((ball2.getDirection() + 360) % 360)) / 2);
+            return new Ball(ball1.x, ball1.y, ball1.radius, newDirection, ball1.getVelocity());
 
-        if (isInfluencedByPhysics) {
-            //Simulate gravitation
-            ySpeed -= gravitationPerTick;
-
-            addVelocity(-Settings.FRICTION);
-
-            calculateFutureDirection(xSpeed, ySpeed);
-            calculateFutureVelocity(xSpeed, ySpeed);
         } else {
-            isInfluencedByPhysics = velocity != 0;
+            Ball ball1 = balls.get(0);
+            Ball ball2 = balls.get(1);
+            Ball ball3 = balls.get(2);
+            float newDirection = ball1.convertDirection((((ball1.getDirection() + 360) % 360)
+                    + ((ball2.getDirection() + 360) % 360) + ((ball3.getDirection() + 360) % 360)) / 3);
+            return new Ball(ball1.x, ball1.y, ball1.radius, newDirection, ball1.getVelocity());
         }
-
-
     }
+
 
     /**
      * Setzt die aktuelle Position auf den zukunfts Positions wert
@@ -294,43 +326,12 @@ public class Ball {
     }
 
     /**
-     * Führt eine Liste aus Bällen zu einem Ball zusammen
-     *
-     * @param balls Liste an Bällen
-     * @return zusammengeführter Ball
-     */
-    public Ball joinBalls(ArrayList<Ball> balls) {
-        // calculate average if a ball hits a top or a corner
-
-        int arrayLength = balls.size();
-
-        if (balls.isEmpty()) {
-            return null;
-        } else if (arrayLength == 1) {
-            return balls.get(0);
-        } else if (arrayLength == 2) {
-            Ball ball1 = balls.get(0);
-            Ball ball2 = balls.get(1);
-            float newDirection = ball1.convertDirection((((ball1.getDirection() + 360) % 360) + ((ball2.getDirection() + 360) % 360)) / 2);
-            return new Ball(ball1.x, ball1.y, ball1.radius, newDirection, ball1.getVelocity());
-
-        } else {
-            Ball ball1 = balls.get(0);
-            Ball ball2 = balls.get(1);
-            Ball ball3 = balls.get(2);
-            float newDirection = ball1.convertDirection((((ball1.getDirection() + 360) % 360)
-                    + ((ball2.getDirection() + 360) % 360) + ((ball3.getDirection() + 360) % 360)) / 3);
-            return new Ball(ball1.x, ball1.y, ball1.radius, newDirection, ball1.getVelocity());
-        }
-    }
-
-    /**
      * Fügt/zieht dem Ball eine Velocity bis zu einem minimal bzw maximal Wert zu/ab.
      *
-     * @param velocityAdd Geschwindigkeit die aufaddiert werden soll
+     * @param velocityToAdd Geschwindigkeit die aufaddiert werden soll
      */
-    public void addVelocity(float velocityAdd) {
-        float newVelocity = velocity + velocityAdd;
+    public void addVelocity(float velocityToAdd) {
+        float newVelocity = velocity + velocityToAdd;
         if (newVelocity > Settings.MIN_SPEED && newVelocity < Settings.MAX_SPEED) {
             velocity = newVelocity;
         } else if (newVelocity > Settings.MAX_SPEED) {
