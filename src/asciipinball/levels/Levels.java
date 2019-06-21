@@ -39,7 +39,7 @@ public class Levels {
      */
     public PhysicEntity[] getLevel1PhysicEntities() {
 
-        ArrayList<Teleporter> teleporters = TeleporterFactory.getTeleporter(playerManager, new Coordinate(0,0), new Coordinate(10,10));
+        ArrayList<Teleporter> teleporters = TeleporterFactory.getTeleporter(playerManager, new Coordinate(Settings.WIDTH/2,126), new Coordinate(Settings.WIDTH/2,90));
 
         return addJointCovers(new PhysicEntity[]{
 
@@ -83,7 +83,7 @@ public class Levels {
         //creating the points, that get yellow by hitting them called PointDoors
         Coordinate[] coordinates = new Coordinate[]{
                 new Coordinate(20, 80),
-                new Coordinate(50, 120),
+                new Coordinate(50, 108),
                 new Coordinate(80, 80)};
         PointDoor[] pointDoors = PointDoorFactory.createPointDoors(playerManager, coordinates, 3, 1000);
 

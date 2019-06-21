@@ -20,7 +20,7 @@ public class Teleporter extends CircleEntity {
         x = coordinate.getX();
         y = coordinate.getY();
         circles = new Circle[1];
-        circles[0] = new Circle(coordinate, 2.5f);
+        circles[0] = new Circle(coordinate, 2f);
     }
 
     public float getX() {

@@ -35,9 +35,11 @@ public abstract class PhysicEntity {
                 playerManager.getCurrentPlayer().addToScore(score);
             }
             Ball returnBall = interactWithBall(ball);
-            if(returnBall.getVelocity() > Settings.MUTE_SPEED)
-            {
-                aui.playSound(getCollisionSoundId(), false);
+            if(returnBall != null){
+                if(returnBall.getVelocity() > Settings.MUTE_SPEED)
+                {
+                    aui.playSound(getCollisionSoundId(), false);
+                }
             }
             return returnBall;
         } else {
