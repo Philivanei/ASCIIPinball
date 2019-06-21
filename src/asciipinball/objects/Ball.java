@@ -23,6 +23,7 @@ public class Ball {
 
     /**
      * Erstellt ein abbild eines Balles.
+     *
      * @param ball Ball der Kopiert werden soll
      */
     public Ball(Ball ball) {
@@ -40,8 +41,9 @@ public class Ball {
 
     /**
      * Erstellt einen stillstehenden Ball.
-     * @param x X Koordinate des Balls
-     * @param y Y Koordinate des Balls
+     *
+     * @param x      X Koordinate des Balls
+     * @param y      Y Koordinate des Balls
      * @param radius radius des Balls
      */
     public Ball(float x, float y, float radius) {
@@ -55,11 +57,12 @@ public class Ball {
 
     /**
      * Erstellt einen Ball mit einer Geschwindikeit und Richtung
-     * @param x X Koordinate des Balls
-     * @param y Y Koordinate des Balls
-     * @param radius Radius des Balls
+     *
+     * @param x         X Koordinate des Balls
+     * @param y         Y Koordinate des Balls
+     * @param radius    Radius des Balls
      * @param direction Richtung des Balls
-     * @param velocity Geschwindigkeit des Balls
+     * @param velocity  Geschwindigkeit des Balls
      */
     public Ball(float x, float y, float radius, float direction, float velocity) {
         this.x = x;
@@ -72,6 +75,7 @@ public class Ball {
 
     /**
      * Gibt isInfluencedByPhysics zurück
+     *
      * @return isInfluencedByPhysics
      */
     private boolean isInfluencedByPhysics() {
@@ -80,6 +84,7 @@ public class Ball {
 
     /**
      * Gibt den Radius zurück
+     *
      * @return Radius des Balls
      */
     public float getRadius() {
@@ -88,6 +93,7 @@ public class Ball {
 
     /**
      * Gibt die X Koordinate zurück
+     *
      * @return X Koordinate des Balls
      */
     public float getX() {
@@ -95,7 +101,8 @@ public class Ball {
     }
 
     /**
-     * Gibt die Y Koordinate zurücl
+     * Gibt die Y Koordinate zurück
+     *
      * @return Y Koordinate des Balls
      */
     public float getY() {
@@ -103,7 +110,8 @@ public class Ball {
     }
 
     /**
-     * Gibt die errechnete zulünftige X Koordinate aus
+     * Gibt die errechnete zukünftige X Koordinate aus
+     *
      * @return zukünftige X Koordinate des Balls
      */
     public float getFutureX() {
@@ -111,7 +119,7 @@ public class Ball {
     }
 
     /*'
-     * Gibt die errechnete zulünftige Y Koordinate aus
+     * Gibt die errechnete zukünftige Y Koordinate aus
      * @return zukünftige Y Koordinate des Balls
      */
     public float getFutureY() {
@@ -120,6 +128,7 @@ public class Ball {
 
     /**
      * Gibt die Richtung zurück
+     *
      * @return Richtung des Balls
      */
     public float getDirection() {
@@ -128,6 +137,7 @@ public class Ball {
 
     /**
      * Gibt die Geschwindigkeit zurück
+     *
      * @return Geschwindigkeit des Balls
      */
     public float getVelocity() {
@@ -136,6 +146,7 @@ public class Ball {
 
     /**
      * Berechnet die Geschwindigkeit in x-Richtung
+     *
      * @return Geschwindikeit in x-Richtung
      */
     private float getXSpeed() {
@@ -144,7 +155,8 @@ public class Ball {
 
     /**
      * Berechnet die Geschwindigkeit in y-Richtung
-     *@return Geschwindikeit in y-Richtung
+     *
+     * @return Geschwindikeit in y-Richtung
      */
     private float getYSpeed() {
         return (float) Math.sin(Math.toRadians(direction)) * velocity;
@@ -152,6 +164,7 @@ public class Ball {
 
     /**
      * Rechnet eine übergebene Richtung um auf einen Bereich von -180° - 180°
+     *
      * @param direction zu umrechnende Richtung
      * @return umgerechnete Richtung
      */
@@ -175,6 +188,7 @@ public class Ball {
 
     /**
      * Berechnet die zukünftige Richtung des Balls
+     *
      * @param xSpeed Geschwindigkeit in x Richtung
      * @param ySpeed Geschwindigkeit in y Richtung
      */
@@ -190,6 +204,7 @@ public class Ball {
 
     /**
      * Berechnet die zukünftige (gesamt) Geschwindigkeit
+     *
      * @param xSpeed Geschwindigkeit in x-Richtung
      * @param ySpeed Geschwindigkeit in y-Richtung
      */
@@ -199,6 +214,7 @@ public class Ball {
 
     /**
      * Berechnet die zukünftige Position des Balls
+     *
      * @param xSpeed Geschwindigkeit in x-Richtung
      * @param ySpeed Geschwindigkeit in y-Richtung
      */
@@ -212,6 +228,7 @@ public class Ball {
 
     /**
      * Berechnet den zukünftigen Zustand des Balles unter Berücksichtigung von Gravitation und Reibung.
+     *
      * @param gravitationPerTick Gravitation die pro Berechnungsschritt wirken soll
      */
     public void calculateFuture(float gravitationPerTick) {
@@ -248,6 +265,7 @@ public class Ball {
 
     /**
      * Setzt die aktuelle Position auf den zukunfts Positions wert des übergebenen Balls (Ball nach Abprall)
+     *
      * @param ball Ball nach Abprall
      */
     public void updateBall(Ball ball) {
@@ -262,6 +280,7 @@ public class Ball {
 
     /**
      * Springt numberOfSteps Schritte in die Zukunft ohne Kollisions abfrage
+     *
      * @param numberOfSteps anzahl der Schritte in die Zukunft
      */
     public void jumpToFuture(int numberOfSteps) {
@@ -276,6 +295,7 @@ public class Ball {
 
     /**
      * Führt eine Liste aus Bällen zu einem Ball zusammen
+     *
      * @param balls Liste an Bällen
      * @return zusammengeführter Ball
      */
@@ -295,17 +315,18 @@ public class Ball {
             return new Ball(ball1.x, ball1.y, ball1.radius, newDirection, ball1.getVelocity());
 
         } else {
-            //TODO Implement 3 Collisions!
-            System.out.println("3 COLLISIONS");
             Ball ball1 = balls.get(0);
             Ball ball2 = balls.get(1);
-            float newDirection = ball1.convertDirection((((ball1.getDirection() + 360) % 360) + ((ball2.getDirection() + 360) % 360)) / 2);
+            Ball ball3 = balls.get(2);
+            float newDirection = ball1.convertDirection((((ball1.getDirection() + 360) % 360)
+                    + ((ball2.getDirection() + 360) % 360) + ((ball3.getDirection() + 360) % 360)) / 3);
             return new Ball(ball1.x, ball1.y, ball1.radius, newDirection, ball1.getVelocity());
         }
     }
 
     /**
      * Fügt/zieht dem Ball eine Velocity bis zu einem minimal bzw maximal Wert zu/ab.
+     *
      * @param velocityAdd Geschwindigkeit die aufaddiert werden soll
      */
     public void addVelocity(float velocityAdd) {

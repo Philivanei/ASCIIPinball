@@ -10,11 +10,11 @@ import java.util.HashMap;
  */
 public final class Settings {
     /**
-     * Gravitation die pro Tick herschein soll
+     * Gravitation die pro Tick wirken soll
      */
     public static final float GRAVITATION = 0.00001f;
     /**
-     * Abstand in Spalten zwischen linken Bildschirmrand und anfang des Spielbereiches
+     * Abstand in Spalten zwischen linken Bildschirmrand und Anfang des Spielbereiches
      */
     public static final int OFFSET = 70;
     /**
