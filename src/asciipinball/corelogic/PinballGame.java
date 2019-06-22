@@ -175,7 +175,7 @@ public class PinballGame {
         boolean isGameOver = !playerManager.isBallLeft();
 
         if(isGameOver && isGameOver != gameOver){
-            aui.playSound(3, false);
+            aui.playSound(3, true);
             gameOver = !playerManager.isBallLeft();
         }
 
