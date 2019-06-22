@@ -11,7 +11,7 @@ import java.util.HashMap;
 public final class Settings {
 
 
-    private Settings(){
+    private Settings() {
 
     }
 
@@ -41,7 +41,7 @@ public final class Settings {
      */
     public static final float HOLE_WIDTH = 30;
     /**
-     * Reibung die pro Tick wirken soll (Geschwindigkeit die pro tick vom Ball abgezogen wird)
+     * Reibung, die pro Tick wirken soll (Geschwindigkeit, die pro Tick vom Ball abgezogen wird)
      */
     public static final float FRICTION = 0.003f;
     /**
@@ -98,7 +98,7 @@ public final class Settings {
         colormap.put('G', Color.GREEN);
         colormap.put('g', Color.GREEN.brighter());
         colormap.put('B', Color.BLUE);
-        colormap.put('b', new Color(102,51,0));
+        colormap.put('b', new Color(102, 51, 0));
         colormap.put('Y', Color.YELLOW);
         colormap.put('P', Color.PINK);
         colormap.put('C', Color.CYAN);
