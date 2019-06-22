@@ -3,7 +3,7 @@ package asciipinball.objects;
 import java.util.ArrayList;
 
 /**
- * Hilfsmethoden für operationen mit Balls
+ * Hilfsmethoden für Operationen mit Bällen
  */
 public class BallHelper {
 
@@ -21,8 +21,6 @@ public class BallHelper {
      * @return zusammengeführter Ball
      */
     public Ball joinBalls(ArrayList<Ball> balls) {
-        // calculate average if a ball hits a top or a corner
-
         int arrayLength = balls.size();
 
         if (balls.isEmpty()) {
@@ -46,7 +44,7 @@ public class BallHelper {
     }
 
     /**
-     * Rechnet eine übergebene Richtung um auf einen Bereich von -180° - 180°
+     * Rechnet eine übergebene Richtung auf einen Bereich von -180° - 180° um
      *
      * @param direction zu umrechnende Richtung
      * @return umgerechnete Richtung
