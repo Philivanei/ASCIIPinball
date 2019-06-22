@@ -1,6 +1,7 @@
 package asciipinball.objects.physicobject.circular;
 
 import asciipinball.CollisionData;
+import asciipinball.objects.BallHelper;
 import asciipinball.playersandscore.PlayerManager;
 import asciipinball.interfaces.Drawable;
 import asciipinball.objects.Ball;
@@ -61,6 +62,7 @@ public abstract class CircleEntity extends PhysicEntity implements Drawable {
         while (!collisionList.isEmpty()) {
 
             CollisionData collisionData = collisionList.get(0);
+            //collisionData is only filled by overwritten isColided Method so i can guarantee it is Circle
             Circle collisionCircle = (Circle) collisionData.getCollisionShape();
             collisionList.remove(0);
 
@@ -81,6 +83,6 @@ public abstract class CircleEntity extends PhysicEntity implements Drawable {
         }
 
 
-        return ball.joinBalls(ballList);
+        return new BallHelper().joinBalls(ballList);
     }
 }

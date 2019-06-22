@@ -1,6 +1,7 @@
 package asciipinball.objects.physicobject.polygonial;
 
 import asciipinball.CollisionData;
+import asciipinball.objects.BallHelper;
 import asciipinball.playersandscore.PlayerManager;
 import asciipinball.interfaces.Drawable;
 import asciipinball.objects.Ball;
@@ -106,6 +107,7 @@ public abstract class PolygonEntity extends PhysicEntity implements Drawable {
         while (!collisionList.isEmpty()) {
 
             CollisionData collisionData = collisionList.get(0);
+            //collisionData is only filled by overwritten isColided Method so i can guarantee it is Line
             Line collisionLine = (Line) collisionData.getCollisionShape();
             collisionList.remove(0);
 
@@ -121,13 +123,8 @@ public abstract class PolygonEntity extends PhysicEntity implements Drawable {
             float collisionGradient = collisionLine.getM();
 
             if (collisionPointDistanceA >= collisionLine.getLength()) { //If this statement is true the ball is bumping into the side of the Line
-                //TODO Remove before Release
-                System.out.println("Bumped into Edge");
-                //bumpedIntoEdge = true
-                //finalAngle = calculateBallAngleFromGradient(ball, -1/collisionLine.getM());
                 collisionGradient = -1 / ((ball.getY() - collisionLine.getY2()) / (ball.getX() - collisionLine.getX2())); //Has to be Y2 & X2 because y1 & x1 are FURTHER away than length
                 ball.addVelocity(0.005f);
-                //collisionGradient = -1/collisionLine.getM();
             } else if (collisionPointDistanceB >= collisionLine.getLength()) {
                 collisionGradient = -1 / ((ball.getY() - collisionLine.getY1()) / (ball.getX() - collisionLine.getX1()));
                 ball.addVelocity(0.005f);
@@ -141,7 +138,7 @@ public abstract class PolygonEntity extends PhysicEntity implements Drawable {
 
         }
 
-        return ball.joinBalls(ballList);
+        return new BallHelper().joinBalls(ballList);
 
     }
 }

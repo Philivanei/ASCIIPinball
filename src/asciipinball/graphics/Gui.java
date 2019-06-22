@@ -115,8 +115,8 @@ public class Gui {
      * @param entity PhysicEntity
      * @throws ClassNotSupportedException Wird geworfen, wenn eine unbekannte Klasse übergeben wird
      */
-    public void addToCanvas(PhysicEntity entity) throws ClassNotSupportedException {
-        if (entity instanceof PolygonEntity) {
+    public void addToCanvas(PhysicEntity entity) {
+        if(entity instanceof PolygonEntity){
             addToCanvas((PolygonEntity) entity);
         } else if (entity instanceof CircleEntity) {
             addToCanvas((CircleEntity) entity);
