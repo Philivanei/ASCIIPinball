@@ -6,7 +6,7 @@ import asciipinball.interfaces.Drawable;
 import asciipinball.shapes.Circle;
 
 /**
- * Eine Anzeige wieviele Bälle ein Spieler noch übrig hat
+ * Eine Anzeige wie viele Bälle ein Spieler noch übrig hat
  */
 public class LifeDisplay implements Drawable {
     private PlayerManager playerManager;
@@ -16,7 +16,7 @@ public class LifeDisplay implements Drawable {
      * Erstellt ein neues LifeDisplay
      * @param playerManager PlayerManager des Spiels
      * @param coordinate Koordinate an der das LifeDisplay ausgegeben werden soll
-     * @param radius Radius der Lebensanzeige kreise
+     * @param radius Radius der Lebensanzeigen-Bälle
      */
     public LifeDisplay(PlayerManager playerManager, Coordinate coordinate, float radius){
         this.playerManager = playerManager;
@@ -26,8 +26,8 @@ public class LifeDisplay implements Drawable {
     }
 
     /**
-     * Generiert Kreise abhängig von den verbleibenden Leben/Bällen des aktuellen spielers
-     * @return Lebensindikations Kreise
+     * Generiert Kreise abhängig von den verbleibenden Leben/Bällen des aktuellen Spielers
+     * @return Lebensindikationskreise
      */
     public Circle[] getDisplay(){
 
