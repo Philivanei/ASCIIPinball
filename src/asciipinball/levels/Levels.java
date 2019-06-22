@@ -35,7 +35,7 @@ public class Levels {
 
     /**
      * Gibt die PhysicObjekte des ersten Levels zurück
-     * @return PhysicEntities des erstel Levels
+     * @return PhysicEntities des ersten Levels
      */
     public PhysicEntity[] getLevel1PhysicEntities() {
 
@@ -75,7 +75,7 @@ public class Levels {
 
 
     /**
-     * Gibt die nicht Physic Objekte des ersten Levels zurück
+     * Gibt die nicht Physic-Objekte des ersten Levels zurück
      * @return NonPhysicEntities des ersten Levels
      */
     public NonPhysicEntity[] getLevel1NoPhysicEntities() {
