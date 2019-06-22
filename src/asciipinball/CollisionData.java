@@ -11,8 +11,9 @@ public class CollisionData<T> implements Comparable<CollisionData> {
 
     /**
      * Erstellt einen neuen Kollisionsdatenblock
-     * @param collisionX X Koordinate der Kollision
-     * @param collisionY Y Koordinate der Kollision
+     *
+     * @param collisionX     x-Koordinate der Kollision
+     * @param collisionY     y-Koordinate der Kollision
      * @param collisionShape Entity mit der kollidiert wurde
      * @param distanceToBall Abstand vom Kollisionspunkt zum Ball
      */
@@ -25,8 +26,9 @@ public class CollisionData<T> implements Comparable<CollisionData> {
 
     /**
      * Vergleicht die Abstände zwischen Ball und Objekt
+     *
      * @param o objekt mit dem verglichen wird
-     * @return größer/kleiner/gleich codiert als int (1/-1/0)
+     * @return größer/kleiner/gleich kodiert als int (1/-1/0)
      */
     @Override
     public int compareTo(CollisionData o) {
@@ -34,24 +36,27 @@ public class CollisionData<T> implements Comparable<CollisionData> {
     }
 
     /**
-     * Gibt die Form (Shape) des Objektes mit dem Kollidiert wurde zurück
-     * @return Shape mit der Kolliert wurde
+     * Gibt die Form (Shape) des Objektes mit dem kollidiert wurde zurück
+     *
+     * @return Shape mit der kollidiert wurde
      */
     public T getCollisionShape() {
         return collisionShape;
     }
 
     /**
-     * Gibt die X Koordinate des Kollisionspunktes zurück
-     * @return X Koordinate des Kollisionspunktes
+     * Gibt die x-Koordinate des Kollisionspunkts zurück
+     *
+     * @return x-Koordinate des Kollisionspunkts
      */
     public float getCollisionX() {
         return collisionX;
     }
 
     /**
-     * Gibt die Y Koordinate des Kollisionspunktes zurück
-     * @return Y Koordinate des Kollisionspunktes
+     * Gibt die y-Koordinate des Kollisionspunkts zurück
+     *
+     * @return y-Koordinate des Kollisionspunkts
      */
     public float getCollisionY() {
         return collisionY;
@@ -59,7 +64,8 @@ public class CollisionData<T> implements Comparable<CollisionData> {
 
     /**
      * Gibt den Abstand zwischen Ball und Kollisionspunkt zurück
-     * @return Abstand zwischen Balll und Kollisionspunkt
+     *
+     * @return Abstand zwischen Ball und Kollisionspunkt
      */
     public float getDistanceToBall() {
         return distanceToBall;
