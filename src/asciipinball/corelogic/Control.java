@@ -22,13 +22,13 @@ public class Control {
     private boolean skipRequested;
 
     /**
-     * Erstellt ein neues Control Object.
+     * Erstellt ein neues Control Objekt
      * @param gameView GameView des Spiels
-     * @param flipperFingerControl FlipperfingerControl des Spiels
+     * @param flipperFingerControl FlipperFingerControl des Spiels
      * @param launchControl LaunchControl des Spiels
      * @param startScreen StartScreen des Spiels
      * @param gameOverScreen GameOverScreen des Spiels
-     * @param pinballGame referenz auf Hauptlogik des Spiels
+     * @param pinballGame Referenz auf Hauptlogik des Spiels
      */
     public Control(GameView gameView, FlipperFingerControl flipperFingerControl, LaunchControl launchControl,
                    StartScreen startScreen, GameOverScreen gameOverScreen, PinballGame pinballGame) {
@@ -43,7 +43,7 @@ public class Control {
     }
 
     /**
-     * Such nach neuen Tastenbefehlen und ruft abhängig der Taste die jeweilige(n) Methode(n) auf
+     * Sucht nach neuen Tastenbefehlen und ruft abhängig der Taste die jeweilige(n) Methode(n) auf
      */
     public void updateControls() {
 
