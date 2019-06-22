@@ -12,7 +12,7 @@ public class Line {
     private float y2;
 
     /**
-     * Erstellt eine Linie.
+     * Erstellt eine Linie
      *
      * @param x1 x-Koordinate des ersten Punkts
      * @param y1 y-Koordinate des ersten Punkts
@@ -27,7 +27,7 @@ public class Line {
     }
 
     /**
-     * Erstellt eine Linie aus zwei Koordinaten.
+     * Erstellt eine Linie aus zwei Koordinaten
      *
      * @param p1 Koordinate 1
      * @param p2 Koordinate 2
@@ -37,45 +37,45 @@ public class Line {
     }
 
     /**
-     * Gibt die x-Koordinate des ersten Punktes zurück.
+     * Gibt die x-Koordinate des ersten Punkts zurück
      *
-     * @return x-Koordinate des ersten Punktes
+     * @return x-Koordinate des ersten Punkts
      */
     public float getX1() {
         return x1;
     }
 
     /**
-     * Gibt die y-Koordinate des ersten Punktes zurück.
+     * Gibt die y-Koordinate des ersten Punkts zurück
      *
-     * @return y-Koordinate des ersten Punktes
+     * @return y-Koordinate des ersten Punkts
      */
     public float getY1() {
         return y1;
     }
 
     /**
-     * Gibt die x-Koordinate des zweiten Punktes zurück.
+     * Gibt die x-Koordinate des zweiten Punkts zurück
      *
-     * @return x-Koordinate des zweiten Punktes
+     * @return x-Koordinate des zweiten Punkts
      */
     public float getX2() {
         return x2;
     }
 
     /**
-     * Gibt die y-Koordinate des zweiten Punktes zurück.
+     * Gibt die y-Koordinate des zweiten Punkts zurück
      *
-     * @return y-Koordinate des zweiten Punktes
+     * @return y-Koordinate des zweiten Punkts
      */
     public float getY2() {
         return y2;
     }
 
     /**
-     * Gibt die Länge der Linie zurück.
+     * Gibt die Länge der Linie zurück
      *
-     * @return Länge Linie
+     * @return Länge der Linie
      */
     public float getLength() {
         return (float) Math.sqrt((x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1));
