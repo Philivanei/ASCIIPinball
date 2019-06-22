@@ -1,5 +1,6 @@
 package asciipinball.objects.flipperfinger;
 
+import asciipinball.objects.BallHelper;
 import asciipinball.playersandscore.PlayerManager;
 import asciipinball.interfaces.Drawable;
 import asciipinball.objects.Ball;
@@ -134,7 +135,7 @@ public class FlipperFingerControl implements Drawable {
         if (flipperBalls.isEmpty()) {
             return null;
         }
-        return ball.joinBalls(flipperBalls);
+        return new BallHelper().joinBalls(flipperBalls);
     }
 
     public LeftFlipperFinger getLeftFlipperFinger() {

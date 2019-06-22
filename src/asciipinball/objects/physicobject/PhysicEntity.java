@@ -2,6 +2,7 @@ package asciipinball.objects.physicobject;
 
 import asciipinball.CollisionData;
 import asciipinball.Settings;
+import asciipinball.objects.BallHelper;
 import asciipinball.playersandscore.PlayerManager;
 import asciipinball.objects.Ball;
 import asciipinball.sounds.Aui;
@@ -76,7 +77,7 @@ public abstract class PhysicEntity {
             angleToLine = 90;
         }
 
-        return ball.convertDirection(-(ball.getDirection() - angleToLine) + angleToLine);
+        return new BallHelper().convertDirection(-(ball.getDirection() - angleToLine) + angleToLine);
         //float finalAngle = ball.convertDirection((-ball.convertDirection((ball.getDirection() + 90 - angleToLine)))  - (90 - angleToLine)); //double conversion is necessary if -ball.convertDirection results in -180°
     }
 

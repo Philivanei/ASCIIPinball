@@ -1,6 +1,7 @@
 package asciipinball.objects.physicobject.circular;
 
 import asciipinball.CollisionData;
+import asciipinball.objects.BallHelper;
 import asciipinball.playersandscore.PlayerManager;
 import asciipinball.interfaces.Drawable;
 import asciipinball.objects.Ball;
@@ -81,6 +82,6 @@ public abstract class CircleEntity extends PhysicEntity implements Drawable {
         }
 
 
-        return ball.joinBalls(ballList);
+        return new BallHelper().joinBalls(ballList);
     }
 }

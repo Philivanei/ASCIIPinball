@@ -2,6 +2,7 @@ package asciipinball.corelogic;
 
 import asciipinball.Coordinate;
 import asciipinball.graphics.*;
+import asciipinball.objects.BallHelper;
 import asciipinball.sounds.Aui;
 import view.GameView;
 import asciipinball.objects.launchcontrol.LaunchControl;
@@ -192,7 +193,7 @@ public class PinballGame {
             return null;
         }
 
-        return ball.joinBalls(collisionBalls);
+        return new BallHelper().joinBalls(collisionBalls);
 
     }
 
