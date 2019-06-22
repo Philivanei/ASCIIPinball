@@ -3,7 +3,7 @@ package asciipinball.corelogic.AsciiStringBuilder;
 import asciipinball.fonts.Font;
 
 /**
- * Convertiert einen String in AsciiArt
+ * Konvertiert einen String in Ascii-Art
  */
 public class AsciiStringBuilder {
 
@@ -18,9 +18,9 @@ public class AsciiStringBuilder {
     }
 
     /**
-     * Convertiert einen String zu einem 2D-char array
+     * Konvertiert einen String zu einem 2D-char Array
      * @param string String der Convertiert werden soll
-     * @return Chararray mit String in AsciiArt
+     * @return Char-Array mit String in AsciiArt
      */
     public char[][] buildAsciiString(String string) {
         int maxColumns = 0;
