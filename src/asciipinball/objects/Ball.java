@@ -22,9 +22,9 @@ public class Ball {
     private boolean isInfluencedByPhysics;
 
     /**
-     * Erstellt ein abbild eines Balles.
+     * Erstellt ein Abbild eines Balles
      *
-     * @param ball Ball der Kopiert werden soll
+     * @param ball Ball der kopiert werden soll
      */
     public Ball(Ball ball) {
         x = ball.getX();
@@ -44,7 +44,7 @@ public class Ball {
      *
      * @param x      X Koordinate des Balls
      * @param y      Y Koordinate des Balls
-     * @param radius radius des Balls
+     * @param radius Radius des Balls
      */
     public Ball(float x, float y, float radius) {
         this.x = x;
@@ -92,35 +92,35 @@ public class Ball {
     }
 
     /**
-     * Gibt die X Koordinate zurück
+     * Gibt die x-Koordinate zurück
      *
-     * @return X Koordinate des Balls
+     * @return x-Koordinate des Balls
      */
     public float getX() {
         return x;
     }
 
     /**
-     * Gibt die Y Koordinate zurück
+     * Gibt die y-Koordinate zurück
      *
-     * @return Y Koordinate des Balls
+     * @return y-Koordinate des Balls
      */
     public float getY() {
         return y;
     }
 
     /**
-     * Gibt die errechnete zukünftige X Koordinate aus
+     * Gibt die errechnete zukünftige x-Koordinate aus
      *
-     * @return zukünftige X Koordinate des Balls
+     * @return zukünftige x-Koordinate des Balls
      */
     public float getFutureX() {
         return futureX;
     }
 
     /*'
-     * Gibt die errechnete zukünftige Y Koordinate aus
-     * @return zukünftige Y Koordinate des Balls
+     * Gibt die errechnete zukünftige y-Koordinate aus
+     * @return zukünftige y-Koordinate des Balls
      */
     public float getFutureY() {
         return futureY;
@@ -164,7 +164,7 @@ public class Ball {
 
 
     /**
-     * Berechnet den zukünftigen Zustand des Balles unter Berücksichtigung von Gravitation und Reibung.
+     * Berechnet den zukünftigen Zustand des Balls unter Berücksichtigung von Gravitation und Reibung.
      *
      * @param gravitationPerTick Gravitation die pro Berechnungsschritt wirken soll
      */
@@ -218,8 +218,8 @@ public class Ball {
     /**
      * Berechnet die zukünftige Richtung des Balls
      *
-     * @param xSpeed Geschwindigkeit in x Richtung
-     * @param ySpeed Geschwindigkeit in y Richtung
+     * @param xSpeed Geschwindigkeit in x-Richtung
+     * @param ySpeed Geschwindigkeit in y-Richtung
      */
     private void calculateFutureDirection(float xSpeed, float ySpeed) {
         if (xSpeed >= 0) {
@@ -232,7 +232,7 @@ public class Ball {
     }
 
     /**
-     * Berechnet die zukünftige (gesamt) Geschwindigkeit
+     * Berechnet die zukünftige (Gesamt-)Geschwindigkeit
      *
      * @param xSpeed Geschwindigkeit in x-Richtung
      * @param ySpeed Geschwindigkeit in y-Richtung
@@ -286,7 +286,7 @@ public class Ball {
 
 
     /**
-     * Setzt die aktuelle Position auf den zukunfts Positions wert
+     * Setzt die aktuelle Position auf den Zukunftspositionswert
      */
     public void updateBall() {
         x = futureX;
@@ -296,7 +296,7 @@ public class Ball {
     }
 
     /**
-     * Setzt die aktuelle Position auf den zukunfts Positions wert des übergebenen Balls (Ball nach Abprall)
+     * Setzt die aktuelle Position auf den Zukunftspositionswert des übergebenen Balls (Ball nach Abprall)
      *
      * @param ball Ball nach Abprall
      */
@@ -311,9 +311,9 @@ public class Ball {
     }
 
     /**
-     * Springt numberOfSteps Schritte in die Zukunft ohne Kollisions abfrage
+     * Springt numberOfSteps Schritte in die Zukunft ohne Kollisionsabfrage
      *
-     * @param numberOfSteps anzahl der Schritte in die Zukunft
+     * @param numberOfSteps Anzahl der Schritte in die Zukunft
      */
     public void jumpToFuture(int numberOfSteps) {
         for (int i = 0; i < numberOfSteps; i++) {
@@ -326,7 +326,7 @@ public class Ball {
     }
 
     /**
-     * Fügt/zieht dem Ball eine Velocity bis zu einem minimal bzw maximal Wert zu/ab.
+     * Fügt/zieht dem Ball eine Velocity bis zu einem Minimal- bzw. Maximalwert zu/ab.
      *
      * @param velocityToAdd Geschwindigkeit die aufaddiert werden soll
      */

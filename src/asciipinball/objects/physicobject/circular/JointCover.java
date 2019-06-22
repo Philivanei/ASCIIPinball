@@ -11,14 +11,15 @@ import asciipinball.shapes.Circle;
 public class JointCover extends CircleEntity {
 
     /**
-     * Erstellt ein JointCover
+     * Erstellt einen JointCover
+     *
      * @param playerManager playerManager des Spiels
-     * @param coordinate Koordinate des JointCovers
+     * @param coordinate    Koordinate des JointCovers
      */
     public JointCover(PlayerManager playerManager, Coordinate coordinate) {
         super(playerManager);
         circles = new Circle[1];
-        circles[0] = new Circle(coordinate,1f);
+        circles[0] = new Circle(coordinate, 1f);
     }
 
     @Override

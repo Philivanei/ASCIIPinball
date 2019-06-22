@@ -10,7 +10,7 @@ import asciipinball.shapes.Line;
 import java.util.ArrayList;
 
 /**
- * Eine Abstrakte Oberklasse für Entities die aus Linien bestehen
+ * Eine abstrakte Oberklasse für Entities, die aus Linien bestehen
  */
 public abstract class PolygonEntity extends PhysicEntity implements Drawable {
 
@@ -21,7 +21,8 @@ public abstract class PolygonEntity extends PhysicEntity implements Drawable {
     }
 
     /**
-     * Gibt alle Linien zurück aus der die Polygon Entity besteht
+     * Gibt alle Linien zurück, aus der die Polygon Entity besteht
+     *
      * @return alle Linien
      */
     public Line[] getLines() {

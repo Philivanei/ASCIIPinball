@@ -1,13 +1,17 @@
 package asciipinball.corelogic;
 
 /**
- * Ein Pinball Spiel im Ascii Artstyle
+ * Ein Pinball-Spiel im Ascii-Art-Style
  */
 public class Program {
 
+    private Program(){
+
+    }
+
     /**
      * Aufzurufende Main Methode - Startet das Spiel
-     * @param args argumente
+     * @param args Argumente
      */
     public static void main (String[] args){
         PinballGame pinballGame = new PinballGame();
@@ -17,7 +21,7 @@ public class Program {
     }
 
     /**
-     * Unendlicher Loop der das Spiel am leben hält
+     * Unendlicher Loop der das Spiel am Laufen hält
      * @param pinballGame Das spiel das Laufen soll
      */
     public static void loop(PinballGame pinballGame){

@@ -11,44 +11,45 @@ import org.json.simple.parser.ParseException;
  */
 public class HighScoreManager {
 
-    private String pathToFile = System.getProperty("user.home")+"\\.ASCIIPinball\\highscore.json";
+    private String pathToFile = System.getProperty("user.home") + "\\.ASCIIPinball\\highscore.json";
 
     /**
      * Erstellt einen HighScoreManager
      */
-    public HighScoreManager(){
+    public HighScoreManager() {
 
     }
 
 
-
     /**
-     * Ließt den Highscore aus Highscore Datei ein
+     * Ließt den Highscore aus Highscore-Datei ein
+     *
      * @return gespeicherter HighScore
      */
-    public long getHighScore(){
+    public long getHighScore() {
         JSONObject jsonObject = getJsonObjectFromFile();
 
-        if(jsonObject == null){
+        if (jsonObject == null) {
             return 0;
         }
         return (long) getJsonObjectFromFile().get("score");
     }
 
     /**
-     * Ließt den Namen aus Highscore Datei ein
+     * Ließt den Namen aus Highscore-Datei ein
+     *
      * @return gespeicherter Name
      */
-    public String getHighScoreName(){
+    public String getHighScoreName() {
         JSONObject jsonObject = getJsonObjectFromFile();
 
-        if(jsonObject == null){
+        if (jsonObject == null) {
             return "";
         }
         return (String) getJsonObjectFromFile().get("name");
     }
 
-    private JSONObject getJsonObjectFromFile(){
+    private JSONObject getJsonObjectFromFile() {
 
         String fileString = "";
         try (BufferedReader br = new BufferedReader(new FileReader(pathToFile))) {
@@ -62,8 +63,8 @@ public class HighScoreManager {
             }
             fileString = sb.toString();
         } catch (FileNotFoundException e) {
-            new File(System.getProperty("user.home")+"/.ASCIIPinball").mkdir();
-            setHighScore(new Player(),"");
+            new File(System.getProperty("user.home") + "/.ASCIIPinball").mkdir();
+            setHighScore(new Player(), "");
             getJsonObjectFromFile();
         } catch (IOException e) {
             e.printStackTrace();
@@ -84,18 +85,19 @@ public class HighScoreManager {
     }
 
     /**
-     * Speichert den übergebenen Spieler in die Highscoredatei
-     * @param player Spieler dessen Score gespeichert werden soll
-     * @param name Name des Spielers
+     * Speichert den übergebenen Spieler in die Highscore-Datei
+     *
+     * @param player Spieler, dessen Score gespeichert werden soll
+     * @param name   Name des Spielers
      */
-    //The error that gets suppresst is created by Yidong Fang - not by us - Yes i know that sounds odd -
+    //The error that gets suppressed is created by Yidong Fang - not by us - Yes i know that sounds odd -
     //But it's the truth - it's simple JSONs fault
     @SuppressWarnings("unchecked")
-    public void setHighScore(Player player, String name){
+    public void setHighScore(Player player, String name) {
 
         JSONObject jsonObject = new JSONObject();
 
-        jsonObject.put("name",name);
+        jsonObject.put("name", name);
         jsonObject.put("score", player.getScore());
 
         String jsonString = jsonObject.toJSONString();

@@ -10,7 +10,7 @@ import java.util.ArrayList;
 
 
 /**
- * Eine abstrakte Oberklasse für Physik Objekte.
+ * Eine abstrakte Oberklasse für Physik-Objekte.
  */
 public abstract class PhysicEntity {
 
@@ -18,26 +18,26 @@ public abstract class PhysicEntity {
     protected int score = 0;
     protected PlayerManager playerManager;
 
-    protected PhysicEntity(PlayerManager playerManager){
+    protected PhysicEntity(PlayerManager playerManager) {
         this.playerManager = playerManager;
     }
 
     /**
      * Sucht nach Kollisionen mit dem Ball und gibt im Falle einer Kollision interactWithBall() (Ball nach Kollision),
      * bei keiner Kollision null zurück. Fügt bei Kollision dem aktuellen Spieler einen Entity spezifischen Score hinzu.
-     * @param ball Ball auf den eine kollisionsabfrage durchgeführt werden soll
-     * @param aui Audio Interface des Spiels
+     *
+     * @param ball Ball auf den eine Kollisionsabfrage durchgeführt werden soll
+     * @param aui  Audio Interface des Spiels
      * @return Ball nach Aufprall
      */
-    public Ball updateEntity(Ball ball, Aui aui){
-        if(isCollided(ball)){
-            if(score != 0){
+    public Ball updateEntity(Ball ball, Aui aui) {
+        if (isCollided(ball)) {
+            if (score != 0) {
                 playerManager.getCurrentPlayer().addToScore(score);
             }
             Ball returnBall = interactWithBall(ball);
-            if(returnBall != null){
-                if(returnBall.getVelocity() > Settings.MUTE_SPEED)
-                {
+            if (returnBall != null) {
+                if (returnBall.getVelocity() > Settings.MUTE_SPEED) {
                     aui.playSound(getCollisionSoundId(), false);
                 }
             }
@@ -47,13 +47,13 @@ public abstract class PhysicEntity {
         }
     }
 
-    protected void cleanupCollisionList(){
+    protected void cleanupCollisionList() {
 
-        if(!collisionList.isEmpty() && collisionList.size() > 1){
-            for(int i = 1; i < collisionList.size() ;i++){
-                if(collisionList.get(i) != collisionList.get(i-1)){
+        if (!collisionList.isEmpty() && collisionList.size() > 1) {
+            for (int i = 1; i < collisionList.size(); i++) {
+                if (collisionList.get(i) != collisionList.get(i - 1)) {
                     int iterator = i;
-                    while (iterator < collisionList.size()){
+                    while (iterator < collisionList.size()) {
                         collisionList.remove(iterator);
                         iterator++;
                     }
@@ -80,11 +80,12 @@ public abstract class PhysicEntity {
         //float finalAngle = ball.convertDirection((-ball.convertDirection((ball.getDirection() + 90 - angleToLine)))  - (90 - angleToLine)); //double conversion is necessary if -ball.convertDirection results in -180°
     }
 
-    protected int getCollisionSoundId(){
+    protected int getCollisionSoundId() {
         return 0;
     }
 
     protected abstract boolean isCollided(Ball ball);
+
     protected abstract Ball interactWithBall(Ball ball);
 
 }

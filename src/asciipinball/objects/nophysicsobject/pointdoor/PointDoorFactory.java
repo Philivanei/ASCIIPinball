@@ -9,18 +9,20 @@ import asciipinball.playersandscore.PlayerManager;
 public abstract class PointDoorFactory {
 
     /**
-     * Erstellt eine anzahl an PointDoors die sich gegenseitig kennen
-     * @param playerManager playerManager des Spiels
-     * @param coordinates Koordinaten an denen Point doors erstellt werden sollen.
-     * @param radius Radius der Pointdoors
-     * @param scoreIfTriggered Punkte die dem Spieler hinzugefügt werden sollen, wenn er alle zusammengehörigen Pointdoors eingesammelt hat
-     * @return
+     * Erstellt eine Anzahl an PointDoors die sich gegenseitig kennen
+     *
+     * @param playerManager    playerManager des Spiels
+     * @param coordinates      Koordinaten an denen PointDoors erstellt werden sollen
+     * @param radius           Radius der PointDoors
+     * @param scoreIfTriggered Punkte die dem Spieler hinzugefügt werden sollen, wenn er alle
+     *                         zusammengehörigen PointDoors eingesammelt hat
+     * @return Fertig gelinkte PointDoors des Spiels
      */
-    public static PointDoor[] createPointDoors(PlayerManager playerManager, Coordinate[] coordinates, float radius , int scoreIfTriggered){
+    public static PointDoor[] createPointDoors(PlayerManager playerManager, Coordinate[] coordinates, float radius, int scoreIfTriggered) {
 
         int numberOfPointDoorsToGenerate = 0;
-        for (Coordinate cor: coordinates) {
-            if(cor != null){
+        for (Coordinate cor : coordinates) {
+            if (cor != null) {
                 numberOfPointDoorsToGenerate++;
             }
         }
@@ -38,17 +40,18 @@ public abstract class PointDoorFactory {
 
         linkAll(returnPointDoors);
 
-        return  returnPointDoors;
+        return returnPointDoors;
     }
 
     /**
-     * Teilt jeder PointDoor aus pointDoors alle anderen PointDoors aus pointDoors mit
+     * Teilt jeder PointDoor aus pointDoors allen anderen PointDoors aus pointDoors mit
+     *
      * @param pointDoors Array an pointDoors die sich gegenseitig kennen sollen
      */
-    private static void linkAll(PointDoor[] pointDoors){
-        for(int i = 0; i < pointDoors.length; i++){
-            for(int j = 0; j < pointDoors.length; j++){
-                if(i != j){ //This is used so the point Door does not links himself
+    private static void linkAll(PointDoor[] pointDoors) {
+        for (int i = 0; i < pointDoors.length; i++) {
+            for (int j = 0; j < pointDoors.length; j++) {
+                if (i != j) { //This is used so the point Door does not links himself
                     pointDoors[i].addLink(pointDoors[j]);
                 }
             }

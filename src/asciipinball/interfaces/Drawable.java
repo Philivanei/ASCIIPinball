@@ -6,7 +6,7 @@ package asciipinball.interfaces;
 public interface Drawable {
 
     /**
-     * Gibt die Farbe an in welchem das Objekt gezeichnet werden soll
+     * Gibt die Farbe an, in welchen das Objekt gezeichnet werden soll
      * @return char Code der Farbe
      */
     char getColor();

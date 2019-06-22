@@ -10,7 +10,7 @@ import asciipinball.shapes.Circle;
 import java.util.ArrayList;
 
 /**
- * Eine Abstrakte Oberklasse für Entities die aus Kreisen bestehen
+ * Eine abstrakte Oberklasse für Entities, die aus Kreisen bestehen
  */
 public abstract class CircleEntity extends PhysicEntity implements Drawable {
 
@@ -21,7 +21,8 @@ public abstract class CircleEntity extends PhysicEntity implements Drawable {
     }
 
     /**
-     * Gibt alle Kreise zurück aus der die CircularEntity besteht
+     * Gibt alle Kreise zurück, aus der die CircularEntity besteht
+     *
      * @return alle Linien
      */
     public Circle[] getCircles() {
@@ -57,25 +58,25 @@ public abstract class CircleEntity extends PhysicEntity implements Drawable {
     protected Ball interactWithBall(Ball ball) {
         ArrayList<Ball> ballList = new ArrayList<>();
 
-        while(!collisionList.isEmpty()) {
+        while (!collisionList.isEmpty()) {
 
             CollisionData collisionData = collisionList.get(0);
             Circle collisionCircle = (Circle) collisionData.getCollisionShape();
             collisionList.remove(0);
 
 
-            float gradientMiddleToCollisionPoint = (collisionData.getCollisionY() - collisionCircle.getY())/(collisionData.getCollisionX() - collisionCircle.getX());
+            float gradientMiddleToCollisionPoint = (collisionData.getCollisionY() - collisionCircle.getY()) / (collisionData.getCollisionX() - collisionCircle.getX());
             float tangentGradient;
-            if(Float.isFinite(gradientMiddleToCollisionPoint)){
-                tangentGradient = -1/gradientMiddleToCollisionPoint;
-            }else{
+            if (Float.isFinite(gradientMiddleToCollisionPoint)) {
+                tangentGradient = -1 / gradientMiddleToCollisionPoint;
+            } else {
                 tangentGradient = 0;
             }
 
 
-            float newAngle = calculateBallAngleFromGradient(ball,tangentGradient);
+            float newAngle = calculateBallAngleFromGradient(ball, tangentGradient);
 
-            ballList.add(new Ball(ball.getX(),ball.getY(), ball.getRadius(), newAngle ,ball.getVelocity()));
+            ballList.add(new Ball(ball.getX(), ball.getY(), ball.getRadius(), newAngle, ball.getVelocity()));
 
         }
 
