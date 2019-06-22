@@ -23,7 +23,7 @@ public class BackgroundArrayGenerator {
     }
 
     /**
-     * Liest die Datei asciiArt.txt ein und dupliziert dieses Ascii-Art über den gesamten Hintergrund.
+     * Liest die Datei asciiArt.txt ein und kopiert diese Ascii-Art über den gesamten Hintergrund.
      * @return Hintergrund charArray
      */
     public char[][] getBackground(){

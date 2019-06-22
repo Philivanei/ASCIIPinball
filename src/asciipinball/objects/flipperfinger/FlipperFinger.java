@@ -7,7 +7,7 @@ import asciipinball.shapes.Line;
 import asciipinball.sounds.Aui;
 
 /**
- * Ist zuständig für die Mechanik der Flipper Finger. Außerdem werden diese erstellt und animiert.
+ * Ist zuständig für die Mechanik der Flipperfinger. Außerdem werden die Flipperfinger erstellt und animiert
  */
 public abstract class FlipperFinger extends PolygonEntity {
 
@@ -31,15 +31,17 @@ public abstract class FlipperFinger extends PolygonEntity {
     }
 
     /**
-     * Erstellt die sichtbare Linie der Flipperfinger.
-     * @param angle aktueller Winkel des Flipperfingers.
+     * Erstellt die sichtbare Linie der Flipperfinger
+     *
+     * @param angle aktueller Winkel des Flipperfingers
      */
     protected abstract void generateLine(float angle);
 
     /**
-     * Berechnet den Winkel eines sich aufwärtsbewegenden Flipper Fingers abhängig der Zeit.
-     * @param startTime Zeit seit Aktivierung des Flipper Fingers.
-     * @param timeSinceDown Zeit seit Deaktivierung des Flipper Fingers.
+     * Berechnet den Winkel eines sich aufwärtsbewegenden Flipperfingers abhängig von der Zeit
+     *
+     * @param startTime     Zeit seit Aktivierung des Flipperfingers.
+     * @param timeSinceDown Zeit seit Deaktivierung des Flipperfingers.
      * @return Der nach der Zeit resultierende Winkel
      */
     public float calculateAngleUp(long startTime, long timeSinceDown) {
@@ -62,9 +64,10 @@ public abstract class FlipperFinger extends PolygonEntity {
     }
 
     /**
-     * Berechnet den Winkel eines sich abwärtsbewegenden Flipper Fingers abhängig der Zeit.
-     * @param startTime Zeit seit Deaktivierung des Flipper Fingers.
-     * @param timeSinceUp Zeit seit Aktivierung des Flipper Fingers.
+     * Berechnet den Winkel eines sich abwärtsbewegenden Flipperfingers abhängig von der Zeit
+     *
+     * @param startTime   Zeit seit Deaktivierung des Flipperfingers.
+     * @param timeSinceUp Zeit seit Aktivierung des Flipperfingers.
      * @return Der nach der Zeit resultierende Winkel
      */
     public float calculateAngleDown(long startTime, long timeSinceUp) {

@@ -4,19 +4,19 @@ import asciipinball.playersandscore.PlayerManager;
 import asciipinball.shapes.Line;
 
 /**
- * Linker Flipper Finger
+ * Linker Flipperfinger
  */
 public class LeftFlipperFinger extends FlipperFinger {
 
     /**
-     * Erzeugt einen FliperFinger auf der linken Seite
+     * Erzeugt einen Flipperfinger auf der linken Seite
      *
      * @param playerManager PlayerManager des Spiels
-     * @param x             x-Koordinate des linken Flipper Fingers
-     * @param y             y-Koordinate des linken Flipper Fingers
-     * @param length        Länge des linken Flipper Fingers
-     * @param minAngle      Legt die MinimalHöhe des linken FlipperFinger fest.
-     * @param maxAngle      Legt die MaximalHöhe des linken FlipperFinger fest.
+     * @param x             x-Koordinate des linken Flipperfingers
+     * @param y             y-Koordinate des linken Flipperfingers
+     * @param length        Länge des linken Flipperfingers
+     * @param minAngle      Legt die Minimalhöhe des linken Flipperfingers fest
+     * @param maxAngle      Legt die Maximalhöhe des linken Flipperfingers fest
      */
     public LeftFlipperFinger(PlayerManager playerManager, float x, float y, float length, float minAngle, float maxAngle) {
         super(playerManager, x, y, length, minAngle, maxAngle);

@@ -5,7 +5,7 @@ import asciipinball.Settings;
 import asciipinball.fonts.FontBig;
 
 /**
- * Ein Fenster, das den Startbildschrim des Spiels ausgibt.
+ * Ein Fenster, das den Startbildschirm des Spiels ausgibt.
  */
 public class StartScreen {
     //sets the distance from one printed player to another
@@ -49,7 +49,7 @@ public class StartScreen {
     }
 
     /**
-     * Erkennt, an welcher Stelle die Enter-Taste gedrückt wurde und setzt dementsprechend die Spieleranzahl.
+     * Setzt die Spieleranzahl abhängig davon, an welcher Stelle der Auswahlzeiger zum Zeitpunkt des Methodenaufrufs war.
      */
     //controls for the StartScreen
     public void enterDownPressed() {
@@ -69,7 +69,7 @@ public class StartScreen {
     }
 
     /**
-     * Wird aufgerufen, wenn die Pfeil nach unten Taste betätigt wurde und bewegt den Pfeil nach unten.
+     * Bewegt den Pfeil nach unten.
      */
     //moving an arrow up/ down to choose a player number
     public void arrowDownPressed() {
@@ -80,7 +80,7 @@ public class StartScreen {
     }
 
     /**
-     * Wird aufgerufen, wenn die Pfeil nach oben Taste betätigt wurde und bewegt den Pfeil nach oben.
+     * Bewegt den Pfeil nach oben.
      */
     public void arrowUpPressed() {
         countArrowRows -= playerDistance;

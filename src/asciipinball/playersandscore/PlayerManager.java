@@ -4,7 +4,7 @@ import asciipinball.exceptions.NotSupportedNumberOfPlayersException;
 import asciipinball.sounds.Aui;
 
 /**
- * Verwaltung von biszu 4 Spielern
+ * Verwaltung von bis zu 4 Spielern
  */
 public class PlayerManager {
     private Player[] players;
@@ -15,28 +15,30 @@ public class PlayerManager {
     /**
      * Erstellt einen PlayerManager
      */
-    public PlayerManager(){
+    public PlayerManager() {
         players = new Player[4];
         currentPlayerId = 0;
         isInitialized = false;
     }
 
     /**
-     * Gibt den status der Initialisierung zurück
-     * @return status der Initialisierung
+     * Gibt den Status der Initialisierung zurück
+     *
+     * @return Status der Initialisierung
      */
     public boolean isInitialized() {
         return isInitialized;
     }
 
     /**
-     * Initialisisert den Spielermanager indem eine gegebene Anzahl an Spielern erstellt wird
+     * Initialisiert den Spielermanager, indem eine gegebene Anzahl an Spielern erstellt wird
+     *
      * @param numberOfPlayers Anzahl an Spielern
-     * @throws NotSupportedNumberOfPlayersException Wird geworfen wenn zuviele Spieler übergeben werden
+     * @throws NotSupportedNumberOfPlayersException Wird geworfen, wenn zu viele Spieler übergeben werden
      */
     public void init(byte numberOfPlayers){
         playerCount = numberOfPlayers;
-        switch (numberOfPlayers){
+        switch (numberOfPlayers) {
             //breaks are left out on purpose to avoid reoccurring code
             case 4:
                 players[3] = new Player();
@@ -57,64 +59,70 @@ public class PlayerManager {
     }
 
     /**
-     * Gibt den Aktuellen Spieler (Player) zurück
+     * Gibt den aktuellen Spieler (Player) zurück
+     *
      * @return Aktueller Player
      */
-    public Player getCurrentPlayer(){
+    public Player getCurrentPlayer() {
         return players[currentPlayerId];
     }
 
     /**
      * Gibt die aktuelle ID des Spielers zurück
+     *
      * @return ID des aktuellen Spielers
      */
-    public int getCurrentPlayerId(){
+    public int getCurrentPlayerId() {
         return currentPlayerId;
     }
 
     /**
      * Gibt die Spieler Nummer des aktuellen Spielers zurück
-     * @return Aktuelle Spieler Nummer
+     *
+     * @return Aktuelle Spielernummer
      */
-    private int getCurrentPlayerNumber(){
+    private int getCurrentPlayerNumber() {
         return currentPlayerId + 1;
     }
 
     /**
-     * Gibt die Spieler Nummer des aktuellen führenden Spielers zurück
-     * @return Spieler Nummer des aktuell führenden Spielers
+     * Gibt die Spielernummer des aktuell führenden Spielers zurück
+     *
+     * @return Spielernummer des aktuell führenden Spielers
      */
-    public int getWinningPlayerNumber(){
+    public int getWinningPlayerNumber() {
         int maxScore = -1;
         int winningPlayerID = -1;
         for (int i = 0; i < players.length; i++) {
-            if(players[i] != null){
-                if(players[i].getScore() > maxScore){
+            if (players[i] != null) {
+                if (players[i].getScore() > maxScore) {
                     maxScore = players[i].getScore();
                     winningPlayerID = i;
                 }
             }
         }
-        return  winningPlayerID+1;
+        return winningPlayerID + 1;
     }
 
     /**
      * Gibt den aktuellen Highscore zurück
+     *
      * @return
      */
-    public long getHighScore(){
+    public long getHighScore() {
         return new HighScoreManager().getHighScore();
     }
 
     /**
-     * Gibt den Score des Gewinners zurück und Speichert ihn wenn es sich um einen neuen HighScore handelt
+     * Gibt den Score des Gewinners zurück und speichert ihn, wenn es sich um einen neuen HighScore handelt
+     *
      * @return Score des Gewinners
      */
-    public int getWinningScore(Aui aui){
+    public int getWinningScore(Aui aui) {
 
         int winningPlayerId = getWinningPlayerNumber() - 1;
 
-        if(players[winningPlayerId].getScore() > new HighScoreManager().getHighScore()){
+        if (players[winningPlayerId].getScore() > new HighScoreManager().getHighScore()) {
             aui.playSound(4, true);
             new HighScoreManager().setHighScore(players[winningPlayerId], "");
         }
@@ -123,13 +131,14 @@ public class PlayerManager {
 
     /**
      * Gibt alle Spieler zurück
+     *
      * @return alle Spieler
      */
-    public Player[] getAllPlayer(){
+    public Player[] getAllPlayer() {
 
         Player[] returnPlayers = new Player[playerCount];
 
-        for(int i = 0; i < playerCount; i++){
+        for (int i = 0; i < playerCount; i++) {
             returnPlayers[i] = players[i];
         }
 
@@ -139,28 +148,29 @@ public class PlayerManager {
     /**
      * Zieht dem aktuellen Spieler ein Leben/Ball ab
      */
-    public void currentPlayerLoseRound(){
+    public void currentPlayerLoseRound() {
         players[currentPlayerId].loseBall();
     }
 
     /**
      * Wechselt zum nächsten Spieler
      */
-    public void nextPlayer(){
+    public void nextPlayer() {
         currentPlayerId++;
-        if(currentPlayerId >= playerCount){
+        if (currentPlayerId >= playerCount) {
             currentPlayerId = 0;
         }
     }
 
     /**
-     * Gibt zurück ob ein Spieler noch Bälle übrig hat
+     * Gibt zurück, ob ein Spieler noch Bälle übrig hat
+     *
      * @return Bälle noch übrig?
      */
-    public boolean isBallLeft(){
+    public boolean isBallLeft() {
         boolean isBallLeft = false;
         for (Player player : players) {
-            if(player != null && !isBallLeft){
+            if (player != null && !isBallLeft) {
                 isBallLeft = player.getBallLifes() >= 0;
             }
         }
@@ -168,10 +178,11 @@ public class PlayerManager {
     }
 
     /**
-     * Gibt einen Status string über den aktuellen Spieler zurück
+     * Gibt einen Status String über den aktuellen Spieler zurück
+     *
      * @return String über den Status des aktuellen Spielers
      */
-    public String getCurrentPlayerScoreString(){
+    public String getCurrentPlayerScoreString() {
 
         return "player " + getCurrentPlayerNumber() + "\n " + getCurrentPlayer().getScore();
     }

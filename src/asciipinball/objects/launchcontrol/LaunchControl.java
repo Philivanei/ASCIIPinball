@@ -112,7 +112,7 @@ public class LaunchControl extends PolygonEntity implements Drawable {
     //calculating the animation for moving the launcher up
     private float calculateHeightUp(long timeSinceStart) {
 
-        float result = (maxHeight - minHeight) / Settings.TIME_FOR_JUMP * timeSinceStart + minHeight;
+        float result = (maxHeight - minHeight) / Settings.TIME_FOR_LAUNCH * timeSinceStart + minHeight;
         if (result > (maxHeight + tiltOffset)) {
 
             result = maxHeight + tiltOffset;

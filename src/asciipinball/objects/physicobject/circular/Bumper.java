@@ -6,7 +6,7 @@ import asciipinball.objects.Ball;
 import asciipinball.shapes.Circle;
 
 /**
- * Ein Bumper der den Ball von sich abstößt
+ * Ein Bumper, der den Ball von sich abstößt
  */
 public class Bumper extends CircleEntity {
 

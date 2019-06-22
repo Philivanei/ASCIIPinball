@@ -43,13 +43,14 @@ public class PinballGame {
     private Aui aui;
 
     /**
-     * Erstellt ein neuess Spiel
+     * Erstellt ein neues Spiel
      */
     public PinballGame() {
 
         /* Init GameView */
         gameView = new GameView(Settings.HEIGHT, Settings.GAME_VIEW_WIDTH, "ASCII Pinball");
         gameView.setWindowsSize(GameView.WINDOWSIZE_LARGE);
+        gameView.setWindowIcon("icon.png");
         gameView.show();
         gui = new Gui(gameView);
         aui = new Aui(gameView);
@@ -61,7 +62,7 @@ public class PinballGame {
     }
 
     /**
-     * Initilizes/Resets the Game variables
+     * Initialisiert/Resettet die Spielvariablen
      */
     public void init(){
         /*Init Arrays and Values*/
@@ -84,7 +85,7 @@ public class PinballGame {
     }
 
     /**
-     * Simulates a Tick
+     * Simuliert einen Spiel-Tick
      */
     public void simulateTick() {
 
@@ -122,38 +123,6 @@ public class PinballGame {
         }
     }
 
-
-
-    private void checkBallOutOfGame() {
-        if (ball.getY() < -10) {
-            playerManager.currentPlayerLoseRound();
-            playerManager.nextPlayer();
-            resetBall();
-        }
-
-        boolean isGameOver = !playerManager.isBallLeft();
-
-        if(isGameOver && isGameOver != gameOver){
-            aui.playSound(3, true);
-            gameOver = isGameOver;
-        }
-
-    }
-
-    /**
-     * Teleportiert den Ball ins aus um so ein verlust der Runde (=> Ball reset & Spieler wechsel) zu erzwingen
-     */
-    public void skipRound(){
-        if(playerManager.isInitialized()){
-            ball = new Ball(10, -10, Settings.BALL_RADIUS, -90, 0.05f);
-        }
-    }
-
-    private void resetBall() {
-        ball = new Ball(95f, 5f, Settings.BALL_RADIUS);
-        launchControl.reset();
-    }
-
     private Ball updateAll() {
 
         for(NonPhysicEntity entity : noPhysicEntities){
@@ -161,7 +130,6 @@ public class PinballGame {
                 entity.updateEntity(ball, aui);
             }
         }
-
 
         ArrayList<Ball> collisionBalls = new ArrayList<>();
 
@@ -197,8 +165,38 @@ public class PinballGame {
 
     }
 
+    private void checkBallOutOfGame() {
+        if (ball.getY() < -10) {
+            playerManager.currentPlayerLoseRound();
+            playerManager.nextPlayer();
+            resetBall();
+        }
+
+        boolean isGameOver = !playerManager.isBallLeft();
+
+        if(isGameOver && isGameOver != gameOver){
+            aui.playSound(3, false);
+            gameOver = !playerManager.isBallLeft();
+        }
+
+    }
+
+    private void resetBall() {
+        ball = new Ball(95f, 5f, Settings.BALL_RADIUS);
+        launchControl.reset();
+    }
+
     /**
-     * Gibt alle Objekte auf der GameView aus
+     * Teleportiert den Ball ins aus, um so einen Verlust der Runde (=> Ball reset & Spielerwechsel) zu erzwingen
+     */
+    public void skipRound(){
+        if(playerManager.isInitialized()){
+            ball = new Ball(10, -10, Settings.BALL_RADIUS, -90, 0.05f);
+        }
+    }
+
+    /**
+     * Gibt alle Objekte mit der GameView aus
      */
     public void printAll() {
 

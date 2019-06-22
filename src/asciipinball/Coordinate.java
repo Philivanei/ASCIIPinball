@@ -8,7 +8,7 @@ public class Coordinate {
     private float y;
 
     /**
-     * Erzeugt eine Koordinate.
+     * Erzeugt eine Koordinate
      *
      * @param x x-Koordinate
      * @param y y-Koordinate
@@ -19,7 +19,7 @@ public class Coordinate {
     }
 
     /**
-     * Gibt die x-Koordinate zurück.
+     * Gibt die x-Koordinate zurück
      *
      * @return x-Koordinate
      */

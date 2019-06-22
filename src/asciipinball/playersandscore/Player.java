@@ -18,6 +18,7 @@ public class Player {
 
     /**
      * Gibt den Score des Spielers zurück
+     *
      * @return Score des Spielers
      */
     public int getScore() {
@@ -25,15 +26,17 @@ public class Player {
     }
 
     /**
-     * Addiert auf den Score des spielers eine übergebene anzahl an Punkten
-     * @param score Punkte die Aufadiert werden sollen
+     * Addiert auf den Score des Spielers eine übergebene Anzahl an Punkten
+     *
+     * @param score Punkte, die aufaddiert werden sollen
      */
-    public void addToScore(int score){
+    public void addToScore(int score) {
         this.score += score;
     }
 
     /**
      * Gibt die verbleibenden Bälle des Spielers zurück
+     *
      * @return verbleibende Bälle des Spielers
      */
     public int getBallLifes() {
@@ -44,9 +47,9 @@ public class Player {
     /**
      * Zieht dem Spieler ein Leben ab
      */
-    public void loseBall(){
+    public void loseBall() {
         ballLifes -= 1;
-        if(ballLifes < -1){
+        if (ballLifes < -1) {
             ballLifes = -1;
         }
     }
