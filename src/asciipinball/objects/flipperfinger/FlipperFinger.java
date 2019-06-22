@@ -96,7 +96,7 @@ public abstract class FlipperFinger extends PolygonEntity {
             if (moveStatus == MoveStatus.UP) {
                 unmodifiedBall.addVelocity(0.03f);
             } else if (moveStatus == MoveStatus.DOWN) {
-                unmodifiedBall.addVelocity(-0.006f);
+                unmodifiedBall.addVelocity(0.005f);
             }
             unmodifiedBall.jumpToFuture(75);
 
