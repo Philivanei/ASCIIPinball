@@ -38,6 +38,9 @@ public class Aui {
                 case 5:
                     gameView.playSound("pointDoorSwitch.wav",0);
                     break;
+                case 6:
+                    gameView.playSound("teleport.wav", 0);
+                    break;
                 default:
                     break;
             }
