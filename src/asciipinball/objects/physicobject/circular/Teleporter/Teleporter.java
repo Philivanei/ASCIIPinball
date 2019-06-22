@@ -38,7 +38,7 @@ public class Teleporter extends CircleEntity {
 
     @Override
     protected Ball interactWithBall(Ball ball) {
-        if((System.currentTimeMillis() - deadTimeStart) > Settings.TELEPORTER_DEAD_TIME){
+        if((System.currentTimeMillis() - deadTimeStart) > Settings.TELEPORTER_COOL_DOWN){
             deadTimeStart = System.currentTimeMillis();
             playerManager.getCurrentPlayer().addToScore(1);
             return new Ball(destinationTeleporter.getX(), destinationTeleporter.getY(), ball.getRadius(), ball.getDirection(), ball.getVelocity());

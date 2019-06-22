@@ -9,12 +9,19 @@ import java.util.HashMap;
  * Einstellungen nach Immutable Designpattern
  */
 public final class Settings {
+
+
+    private Settings(){
+
+    }
+
+
     /**
      * Gravitation die pro Tick wirken soll
      */
     public static final float GRAVITATION = 0.00001f;
     /**
-     * Abstand in Spalten zwischen linken Bildschirmrand und Anfang des Spielbereiches
+     * Abstand in Spalten zwischen linken Bildschirmrand und Anfang des Spielbereiches (Flippertisch)
      */
     public static final int OFFSET = 70;
     /**
@@ -38,11 +45,11 @@ public final class Settings {
      */
     public static final float FRICTION = 0.003f;
     /**
-     * Mindest Geschwindigkeit des Balls
+     * Mindestgeschwindigkeit des Balls
      */
     public static final float MIN_SPEED = 0.001f;
     /**
-     * Maximal Geschwindigkeit des Balls
+     * Maximalgeschwindigkeit des Balls
      */
     public static final float MAX_SPEED = 0.25f;
     /**
@@ -50,19 +57,19 @@ public final class Settings {
      */
     public static final float MUTE_SPEED = 0.002f;
     /**
-     * Zeit während welcher nach einem Teleport nicht noch ein Teleport durgeführt werden kann
+     * Zeitraum nach Teleport, in dem keine weiteren Teleports möglich sind
      */
-    public static final long TELEPORTER_DEAD_TIME = 200;
+    public static final long TELEPORTER_COOL_DOWN = 200;
     /**
      * Zeit die die Abschussrampe benötigt, um nach oben zu Fahren
      */
-    public static final float TIME_FOR_JUMP = 200;
+    public static final float TIME_FOR_LAUNCH = 200;
     /**
      * Radius des Balls
      */
     public static final float BALL_RADIUS = 2.5f;
     /**
-     * Zeit in Millisekunden, die vergehen muss bis ein neue Sound abgespielt werden kann
+     * Zeit in Millisekunden, die vergehen muss bis ein neuer Sound abgespielt werden kann
      */
     public static final float DEAF_TIME = 75;
     /**
@@ -80,9 +87,9 @@ public final class Settings {
 
 
     /**
-     * Initialisiert die ColorMap der gameView mit Custom color Codes
+     * Initialisiert die ColorMap der GameView mit eigenen Farbkodierungen
      *
-     * @param gameView
+     * @param gameView Gameview des Spiels
      */
     public static void initColorMap(GameView gameView) {
         HashMap<Character, Color> colormap = new HashMap<>();
