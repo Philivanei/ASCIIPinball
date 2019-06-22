@@ -1,7 +1,7 @@
 package asciipinball.corelogic;
 
 /**
- * Ein Pinball Spiel im Ascii Artstyle
+ * Ein Pinball-Spiel im Ascii-Art-Style
  */
 public class Program {
 

@@ -49,6 +49,7 @@ public class PinballGame {
         /* Init GameView */
         gameView = new GameView(Settings.HEIGHT, Settings.GAME_VIEW_WIDTH, "ASCII Pinball");
         gameView.setWindowsSize(GameView.WINDOWSIZE_LARGE);
+        gameView.setWindowIcon("icon.png");
         gameView.show();
         gui = new Gui(gameView);
         aui = new Aui(gameView);
