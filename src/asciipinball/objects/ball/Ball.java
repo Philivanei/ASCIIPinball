@@ -1,8 +1,6 @@
-package asciipinball.objects;
+package asciipinball.objects.ball;
 
 import asciipinball.Settings;
-
-import java.util.ArrayList;
 
 /**
  * Ein Ball

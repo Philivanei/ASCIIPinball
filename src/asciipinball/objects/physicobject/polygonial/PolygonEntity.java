@@ -1,10 +1,10 @@
 package asciipinball.objects.physicobject.polygonial;
 
 import asciipinball.CollisionData;
-import asciipinball.objects.BallHelper;
+import asciipinball.objects.ball.BallHelper;
 import asciipinball.playersandscore.PlayerManager;
 import asciipinball.interfaces.Drawable;
-import asciipinball.objects.Ball;
+import asciipinball.objects.ball.Ball;
 import asciipinball.objects.physicobject.PhysicEntity;
 import asciipinball.shapes.Line;
 

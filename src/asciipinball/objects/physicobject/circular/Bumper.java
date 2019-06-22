@@ -2,7 +2,7 @@ package asciipinball.objects.physicobject.circular;
 
 import asciipinball.Coordinate;
 import asciipinball.playersandscore.PlayerManager;
-import asciipinball.objects.Ball;
+import asciipinball.objects.ball.Ball;
 import asciipinball.shapes.Circle;
 
 /**

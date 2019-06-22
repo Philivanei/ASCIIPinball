@@ -2,9 +2,9 @@ package asciipinball.objects.physicobject;
 
 import asciipinball.CollisionData;
 import asciipinball.Settings;
-import asciipinball.objects.BallHelper;
+import asciipinball.objects.ball.BallHelper;
 import asciipinball.playersandscore.PlayerManager;
-import asciipinball.objects.Ball;
+import asciipinball.objects.ball.Ball;
 import asciipinball.sounds.Aui;
 
 import java.util.ArrayList;

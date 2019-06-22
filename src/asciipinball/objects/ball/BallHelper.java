@@ -1,4 +1,6 @@
-package asciipinball.objects;
+package asciipinball.objects.ball;
+
+import asciipinball.objects.ball.Ball;
 
 import java.util.ArrayList;
 

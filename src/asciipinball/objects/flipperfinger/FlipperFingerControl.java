@@ -1,9 +1,9 @@
 package asciipinball.objects.flipperfinger;
 
-import asciipinball.objects.BallHelper;
+import asciipinball.objects.ball.BallHelper;
 import asciipinball.playersandscore.PlayerManager;
 import asciipinball.interfaces.Drawable;
-import asciipinball.objects.Ball;
+import asciipinball.objects.ball.Ball;
 import asciipinball.sounds.Aui;
 
 import java.util.ArrayList;

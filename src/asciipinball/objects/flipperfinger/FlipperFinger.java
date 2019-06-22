@@ -1,7 +1,7 @@
 package asciipinball.objects.flipperfinger;
 
 import asciipinball.playersandscore.PlayerManager;
-import asciipinball.objects.Ball;
+import asciipinball.objects.ball.Ball;
 import asciipinball.objects.physicobject.polygonial.PolygonEntity;
 import asciipinball.shapes.Line;
 import asciipinball.sounds.Aui;

@@ -2,7 +2,7 @@ package asciipinball.objects.physicobject.polygonial;
 
 import asciipinball.Coordinate;
 import asciipinball.playersandscore.PlayerManager;
-import asciipinball.objects.Ball;
+import asciipinball.objects.ball.Ball;
 import asciipinball.shapes.Line;
 import asciipinball.sounds.Aui;
 

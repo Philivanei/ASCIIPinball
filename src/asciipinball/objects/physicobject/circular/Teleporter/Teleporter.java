@@ -2,7 +2,7 @@ package asciipinball.objects.physicobject.circular.Teleporter;
 
 import asciipinball.Coordinate;
 import asciipinball.Settings;
-import asciipinball.objects.Ball;
+import asciipinball.objects.ball.Ball;
 import asciipinball.objects.physicobject.circular.CircleEntity;
 import asciipinball.playersandscore.PlayerManager;
 import asciipinball.shapes.Circle;

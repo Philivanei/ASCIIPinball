@@ -3,7 +3,7 @@ package asciipinball.objects.launchcontrol;
 import asciipinball.Settings;
 import asciipinball.playersandscore.PlayerManager;
 import asciipinball.interfaces.Drawable;
-import asciipinball.objects.Ball;
+import asciipinball.objects.ball.Ball;
 import asciipinball.objects.flipperfinger.MoveStatus;
 import asciipinball.objects.physicobject.polygonial.PolygonEntity;
 import asciipinball.shapes.Line;

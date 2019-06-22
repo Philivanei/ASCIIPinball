@@ -3,7 +3,7 @@ package asciipinball.objects.nophysicsobject.pointdoor;
 import asciipinball.Coordinate;
 import asciipinball.playersandscore.PlayerManager;
 import asciipinball.interfaces.Drawable;
-import asciipinball.objects.Ball;
+import asciipinball.objects.ball.Ball;
 import asciipinball.objects.nophysicsobject.NonPhysicEntity;
 import asciipinball.shapes.Circle;
 import asciipinball.sounds.Aui;

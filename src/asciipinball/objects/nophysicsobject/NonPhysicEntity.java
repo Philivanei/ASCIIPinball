@@ -1,7 +1,7 @@
 package asciipinball.objects.nophysicsobject;
 
 import asciipinball.interfaces.Drawable;
-import asciipinball.objects.Ball;
+import asciipinball.objects.ball.Ball;
 import asciipinball.shapes.Circle;
 import asciipinball.sounds.Aui;
 

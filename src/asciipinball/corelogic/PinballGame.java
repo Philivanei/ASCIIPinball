@@ -2,7 +2,7 @@ package asciipinball.corelogic;
 
 import asciipinball.Coordinate;
 import asciipinball.graphics.*;
-import asciipinball.objects.BallHelper;
+import asciipinball.objects.ball.BallHelper;
 import asciipinball.sounds.Aui;
 import view.GameView;
 import asciipinball.objects.launchcontrol.LaunchControl;
@@ -11,7 +11,7 @@ import asciipinball.Settings;
 import asciipinball.fonts.FontStraight;
 import asciipinball.levels.Levels;
 import asciipinball.objects.flipperfinger.FlipperFingerControl;
-import asciipinball.objects.Ball;
+import asciipinball.objects.ball.Ball;
 import asciipinball.objects.nophysicsobject.NonPhysicEntity;
 import asciipinball.objects.physicobject.PhysicEntity;
 import asciipinball.objects.physicobject.polygonial.Table;

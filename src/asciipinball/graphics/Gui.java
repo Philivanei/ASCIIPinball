@@ -5,7 +5,7 @@ import view.GameView;
 import asciipinball.Settings;
 import asciipinball.corelogic.AsciiStringBuilder.AsciiStringBuilder;
 import asciipinball.exceptions.ClassNotSupportedException;
-import asciipinball.objects.Ball;
+import asciipinball.objects.ball.Ball;
 import asciipinball.objects.flipperfinger.FlipperFingerControl;
 import asciipinball.objects.nophysicsobject.NonPhysicEntity;
 import asciipinball.objects.physicobject.PhysicEntity;
