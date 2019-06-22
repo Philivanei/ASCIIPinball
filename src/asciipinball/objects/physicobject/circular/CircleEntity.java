@@ -60,6 +60,7 @@ public abstract class CircleEntity extends PhysicEntity implements Drawable {
         while(!collisionList.isEmpty()) {
 
             CollisionData collisionData = collisionList.get(0);
+            //collisionData is only filled by overwritten isColided Method so i can guarantee it is Circle
             Circle collisionCircle = (Circle) collisionData.getCollisionShape();
             collisionList.remove(0);
 

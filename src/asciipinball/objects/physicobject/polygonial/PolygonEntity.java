@@ -105,6 +105,7 @@ public abstract class PolygonEntity extends PhysicEntity implements Drawable {
         while (!collisionList.isEmpty()) {
 
             CollisionData collisionData = collisionList.get(0);
+            //collisionData is only filled by overwritten isColided Method so i can guarantee it is Line
             Line collisionLine = (Line) collisionData.getCollisionShape();
             collisionList.remove(0);
 
