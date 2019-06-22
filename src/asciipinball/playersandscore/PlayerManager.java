@@ -34,7 +34,7 @@ public class PlayerManager {
      * @param numberOfPlayers Anzahl an Spielern
      * @throws NotSupportedNumberOfPlayersException Wird geworfen wenn zuviele Spieler übergeben werden
      */
-    public void init(byte numberOfPlayers) throws Exception{
+    public void init(byte numberOfPlayers){
         playerCount = numberOfPlayers;
         switch (numberOfPlayers){
             //breaks are left out on purpose to avoid reoccurring code
