@@ -40,10 +40,13 @@ public class PlayerManager {
             //breaks are left out on purpose to avoid reoccurring code
             case 4:
                 players[3] = new Player();
+                /* falls through */
             case 3:
                 players[2] = new Player();
+                /* falls through */
             case 2:
                 players[1] = new Player();
+                /* falls through */
             case 1:
                 players[0] = new Player();
                 break;
