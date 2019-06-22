@@ -8,7 +8,7 @@ import asciipinball.sounds.Aui;
 import java.util.ArrayList;
 
 /**
- * Steuerung der Flipper Finger.
+ * Steuerung der Flipperfinger
  */
 public class FlipperFingerControl implements Drawable {
 
@@ -23,16 +23,16 @@ public class FlipperFingerControl implements Drawable {
 
 
     /**
-     * Erzeugt zwei Flipper Finger.
+     * Erzeugt zwei Flipperfinger
      *
      * @param playerManager       PlayerManager des Spiels
-     * @param xLeftFlipperFinger  x-Koordinate des linken Flipper Fingers
-     * @param yLeftFlipperFinger  y-Koordinate des linken Flipper Fingers
-     * @param xRightFlipperFinger x-Koordinate des rechten Flipper Fingers
-     * @param yRightFlipperFinger y-Koordinate des rechten Flipper Fingers
-     * @param length              Länge der Flipper Finger
-     * @param minAngle            Legt die MinimalHöhe der FlipperFinger fest.
-     * @param maxAngle            Legt die MaximalHöhe der FlipperFinger fest.
+     * @param xLeftFlipperFinger  x-Koordinate des linken Flipperfingers
+     * @param yLeftFlipperFinger  y-Koordinate des linken Flipperfingers
+     * @param xRightFlipperFinger x-Koordinate des rechten Flipperfingers
+     * @param yRightFlipperFinger y-Koordinate des rechten Flipperfingers
+     * @param length              Länge der Flipperfinger
+     * @param minAngle            Legt die MinimalHöhe der Flipperfinger fest
+     * @param maxAngle            Legt die MaximalHöhe der Flipperfinger fest
      */
     public FlipperFingerControl(PlayerManager playerManager, float xLeftFlipperFinger, float yLeftFlipperFinger, float xRightFlipperFinger,
                                 float yRightFlipperFinger, float length, float minAngle, float maxAngle) {
@@ -48,7 +48,7 @@ public class FlipperFingerControl implements Drawable {
     }
 
     /**
-     * Zeichnet die aktuellen Flipper Finger während Bewegungen ein.
+     * Zeichnet die aktuellen Flipperfinger während Bewegungen ein
      */
     public void updateFlipperFinger() {
 
@@ -72,7 +72,7 @@ public class FlipperFingerControl implements Drawable {
     }
 
     /**
-     * Bewegt den linken Flipper Finger nach oben.
+     * Bewegt den linken Flipperfinger nach oben
      */
     public void onLeftDown() {
         if (leftDirection == Direction.DOWN) {
@@ -82,7 +82,7 @@ public class FlipperFingerControl implements Drawable {
     }
 
     /**
-     * Bewegt den linken Flipper Finger nach unten.
+     * Bewegt den linken Flipperfinger nach unten
      */
     public void onLeftUp() {
         if (leftDirection == Direction.UP) {
@@ -92,7 +92,7 @@ public class FlipperFingerControl implements Drawable {
     }
 
     /**
-     * Bewegt den rechten Flipper Finger nach oben
+     * Bewegt den rechten Flipperfinger nach oben
      */
     public void onRightDown() {
         if (rightDirection == Direction.DOWN) {
@@ -102,7 +102,7 @@ public class FlipperFingerControl implements Drawable {
     }
 
     /**
-     * Bewegt den rechten Flipper Finger nach unten
+     * Bewegt den rechten Flipperfinger nach unten
      */
     public void onRightUp() {
         if (rightDirection == Direction.UP) {
@@ -112,9 +112,9 @@ public class FlipperFingerControl implements Drawable {
     }
 
     /**
-     * Ruft updateEntity der Flipper Finger auf.
+     * Ruft updateEntity der Flipperfinger auf
      *
-     * @param ball Ball, auf den die Kollisionsabfrage ausgeführt werden soll.
+     * @param ball Ball, auf den die Kollisionsabfrage ausgeführt werden soll
      * @return Ball nach Kollision
      */
     public Ball updateEntity(Ball ball, Aui aui) {
