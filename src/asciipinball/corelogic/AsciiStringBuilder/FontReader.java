@@ -7,10 +7,13 @@ import asciipinball.fonts.Font;
  */
 public class FontReader {
 
-    private FontReader(){
+    /**
+     * Erstellt einen Font
+     */
+    public FontReader(){
 
     }
-    
+
     /**
      * Ließt den richtigen Buchstaben aus den AsciiStringContainern ein und gibt Ihn als String zurück
      * @param letter Buchstabe, der gelesen werden soll

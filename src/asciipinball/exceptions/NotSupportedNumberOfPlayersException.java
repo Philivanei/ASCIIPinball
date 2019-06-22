@@ -1,7 +1,7 @@
 package asciipinball.exceptions;
 
 /**
- * Exception für eine nicht unterstützte Spieleranzahll
+ * Exception für eine nicht unterstützte Spieleranzahl
  */
 public class NotSupportedNumberOfPlayersException extends RuntimeException {
 
