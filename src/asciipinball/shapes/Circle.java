@@ -12,8 +12,9 @@ public class Circle {
 
     /**
      * Erstellt einen Kreis
-     * @param x x Koordinate
-     * @param y y Koordinate
+     *
+     * @param x      x-Koordinate
+     * @param y      y-Koordinate
      * @param radius Radius
      */
     public Circle(float x, float y, float radius) {
@@ -24,15 +25,17 @@ public class Circle {
 
     /**
      * Erstellt einen Kreis
-     * @param cor Koordinate
+     *
+     * @param cor    Koordinate
      * @param radius Radius
      */
-    public Circle(Coordinate cor, float radius){
-        this(cor.getX(),cor.getY(),radius);
+    public Circle(Coordinate cor, float radius) {
+        this(cor.getX(), cor.getY(), radius);
     }
 
     /**
      * Gibt den Radius des Kreises zurück
+     *
      * @return Radius des Kreises
      */
     public float getRadius() {
@@ -40,16 +43,18 @@ public class Circle {
     }
 
     /**
-     * Gibt die X Koordinate des Kreises zurück
-     * @return X Koordinate des Kreises
+     * Gibt die x-Koordinate des Kreises zurück
+     *
+     * @return x-Koordinate des Kreises
      */
     public float getX() {
         return x;
     }
 
     /**
-     * Gibt die Y Koordinate des Kreises zurück
-     * @return Y Koordinate des Kreises
+     * Gibt die y-Koordinate des Kreises zurück
+     *
+     * @return y-Koordinate des Kreises
      */
     public float getY() {
         return y;
