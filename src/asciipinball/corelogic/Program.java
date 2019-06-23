@@ -31,13 +31,18 @@ public class Program {
 
         while (true) {
 
+            //Limiting FPS to ~60 FPS (1 Frame every 17 ms)
             if ((System.currentTimeMillis() - startTime) > 17) {
                 startTime = System.currentTimeMillis();
                 pinballGame.printAll();
                 calculationIterator = 0;
             }
+            //Calculating max 75 ticks every Frame - when the computer can't keep up ticks start to drop instead of
+            //Frames (Game gets slower not laggier!)
             if(calculationIterator < maxCalculation){
-
+                pinballGame.simulateTick();
+                calculationIterator++;
+            }else{
                 long timeToWait = 16 - (System.currentTimeMillis() - startTime);
 
                 if(timeToWait > 0){
@@ -48,9 +53,6 @@ public class Program {
                     }
 
                 }
-
-                pinballGame.simulateTick();
-                calculationIterator++;
             }
         }
     }

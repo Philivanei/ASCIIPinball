@@ -119,11 +119,13 @@ public abstract class PolygonEntity extends PhysicEntity implements Drawable {
 
             float finalAngle;
 
-            //boolean bumpedIntoEdge = false;
             float collisionGradient = collisionLine.getM();
 
-            if (collisionPointDistanceA >= collisionLine.getLength()) { //If this statement is true the ball is bumping into the side of the Line
-                collisionGradient = -1 / ((ball.getY() - collisionLine.getY2()) / (ball.getX() - collisionLine.getX2())); //Has to be Y2 & X2 because y1 & x1 are FURTHER away than length
+            //If the following statement is true the ball is bumping into the side of the Line
+            if (collisionPointDistanceA >= collisionLine.getLength()) {
+
+                //Has to be Y2 & X2 because y1 & x1 are FURTHER away than length
+                collisionGradient = -1 / ((ball.getY() - collisionLine.getY2()) / (ball.getX() - collisionLine.getX2()));
                 ball.addVelocity(0.005f);
             } else if (collisionPointDistanceB >= collisionLine.getLength()) {
                 collisionGradient = -1 / ((ball.getY() - collisionLine.getY1()) / (ball.getX() - collisionLine.getX1()));
