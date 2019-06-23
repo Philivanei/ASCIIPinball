@@ -28,14 +28,17 @@ public class BallHelper {
         if (balls.isEmpty()) {
             return null;
         } else if (arrayLength == 1) {
+            //1 Collisions detected
             return balls.get(0);
         } else if (arrayLength == 2) {
+            //2 Collisions detected
             Ball ball1 = balls.get(0);
             Ball ball2 = balls.get(1);
             float newDirection = convertDirection((((ball1.getDirection() + 360) % 360) + ((ball2.getDirection() + 360) % 360)) / 2);
             return new Ball(ball1.getX(), ball1.getY(), ball1.getRadius(), newDirection, ball1.getVelocity());
 
         } else {
+            //3 or more Collisions detected
             Ball ball1 = balls.get(0);
             Ball ball2 = balls.get(1);
             Ball ball3 = balls.get(2);

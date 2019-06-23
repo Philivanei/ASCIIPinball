@@ -222,19 +222,17 @@ public class PinballGame {
             }
 
             gui.addToCanvas(lifeDisplay.getDisplay(), lifeDisplay.getColor());
-
             gui.addToCanvas(launchControl);
-
             gui.addToCanvas(flipperFinger);
-
             gui.addToCanvas(ball);
 
             gui.addAsciiStringToCanvas(playerManager.getCurrentPlayerScoreString(), (int) Settings.HEIGHT / 2, 35, new FontStraight(), true);
-
             gui.addAsciiStringToCanvas(new ControlsDisplay().getString(), Settings.HEIGHT/2, 206, new FontStraight() , true);
+
         } else {
             gameOverScreen.printGameOverScreen(gui);
         }
+
         gameView.printCanvas();
     }
 

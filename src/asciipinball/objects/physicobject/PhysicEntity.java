@@ -78,7 +78,6 @@ public abstract class PhysicEntity {
         }
 
         return new BallHelper().convertDirection(-(ball.getDirection() - angleToLine) + angleToLine);
-        //float finalAngle = ball.convertDirection((-ball.convertDirection((ball.getDirection() + 90 - angleToLine)))  - (90 - angleToLine)); //double conversion is necessary if -ball.convertDirection results in -180°
     }
 
     protected int getCollisionSoundId() {
