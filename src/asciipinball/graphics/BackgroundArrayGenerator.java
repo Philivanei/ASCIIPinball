@@ -49,7 +49,7 @@ public class BackgroundArrayGenerator {
 
         StringBuilder sb = new StringBuilder();
 
-        String line = null;
+        String line;
         try {
             while ((line = reader.readLine()) != null) {
                 sb.append(line + "\n");

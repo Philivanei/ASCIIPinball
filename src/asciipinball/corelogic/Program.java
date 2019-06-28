@@ -22,7 +22,7 @@ public class Program {
 
     /**
      * Unendlicher Loop der das Spiel am Laufen hält
-     * @param pinballGame Das spiel das Laufen soll
+     * @param pinballGame Das Spiel das Laufen soll
      */
     public static void loop(PinballGame pinballGame){
         long startTime = System.currentTimeMillis();
