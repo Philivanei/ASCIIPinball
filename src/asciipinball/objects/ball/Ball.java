@@ -7,7 +7,8 @@ import asciipinball.Settings;
  */
 public class Ball {
 
-    //This coordinate system has it's origin in the bottom left - it gets converted for the printing to canvas process in addToCanvas()
+    //This coordinate system has it's origin in the bottom left - it gets converted
+    // for the printing to canvas process in addToCanvas()
     private float x;
     private float y;
     private float futureX;
